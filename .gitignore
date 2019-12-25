@@ -1,0 +1,7 @@
+.DS_Store
+*.dSYM
+.idea
+CMakelists.txt
+cmake-build-debug/
+CMakeLists.txt
+*.o
