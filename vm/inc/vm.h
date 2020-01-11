@@ -4,14 +4,15 @@
 # include "libft.h"
 # include "op.h"
 # include <stdio.h>
+# include <fcntl.h>
 
 typedef	struct	s_player
 {
-	int 			id;
-	char			name[PROG_NAME_LENGTH];
-	char			comment[COMMENT_LENGTH];
-	struct s_player	*next;
-	struct s_player	*prev;
+	int 		id;
+	char		name[PROG_NAME_LENGTH];
+	char		comment[COMMENT_LENGTH];
+	int			exec_size;
+	char		*exec_code;
 }				t_player;
 
 typedef	struct	s_path

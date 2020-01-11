@@ -8,6 +8,6 @@ void	ft_error(int id)
 
 void	ft_perror()
 {
-	perror("lem-in: ");
+	perror("corewar: ");
 	exit (1);
 }

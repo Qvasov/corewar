@@ -26,7 +26,7 @@ static void	init_paths(t_path *player_paths)
 
 int main(int ac, char **av)
 {
-	t_path	player_paths;
+	t_path		player_paths;
 	int		nbr_cycles;
 
 	nbr_cycles = 0; //хз сколько по умолчанию (если -dump не прописан)
