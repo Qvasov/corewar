@@ -2,10 +2,14 @@
 
 int main(int ac, char **av)
 {
-	t_path	player_paths;
+	char	*player_paths[MAX_PLAYERS];
 
-	ft_corewar_args(ac, av, &player_paths);
+	if (ac <= 1)
+		ft_cw_usage();
+	ft_cw_args(ac, av, player_paths);
 	ft_valid();
 	ft_arena();
 	return (0);
 }
+
+//запись по индексу которые я получаю из -n, остальные заполняются по порядку.

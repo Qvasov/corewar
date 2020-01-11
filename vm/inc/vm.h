@@ -14,15 +14,15 @@ typedef	struct	s_player
 	struct s_player	*prev;
 }				t_player;
 
-typedef	struct	s_path
-{
-	int 		id[4];
-	char		*path[4];
-}				t_path;
+//typedef	struct	s_path
+//{
+//	int 		id[4];
+//	char		*path[4];
+//}				t_path;
 
-void	ft_corewar_args(int ac, char **av, t_path *player_paths);
+void	ft_cw_args(int ac, char **av, char **player_paths);
 
-void	ft_usage();
+void	ft_cw_usage();
 void	ft_error(int id);
 void	ft_perror();
 
