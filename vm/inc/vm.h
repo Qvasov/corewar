@@ -14,13 +14,13 @@ typedef	struct	s_player
 	struct s_player	*prev;
 }				t_player;
 
-//typedef	struct	s_path
-//{
-//	int 		id[4];
-//	char		*path[4];
-//}				t_path;
+typedef	struct	s_path
+{
+	int 		flag_n[MAX_PLAYERS];
+	char		*path[MAX_PLAYERS];
+}				t_path;
 
-void	ft_cw_args(int ac, char **av, char **player_paths);
+void	ft_cw_args(int ac, char **av, t_path *paths, int *nbr_cycles);
 
 void	ft_cw_usage();
 void	ft_error(int id);

@@ -41,6 +41,7 @@ char				*ft_strncat(char *s1, const char *s2, size_t n);
 size_t				ft_strlcat(char *dst, const char *src, size_t size);
 char				*ft_strchr(const char *s, int c);
 char				*ft_strrchr(const char *s, int c);
+int					ft_strchr_count(const char *s, int c);
 char				*ft_strstr(const char *haystack, const char *needle);
 char				*ft_strnstr(const char *haystack, const char *needle,\
 					size_t len);
@@ -97,5 +98,9 @@ int					ft_printf(const char *format, ...);
 int					ft_isnum(char *str, int c);
 char				*ft_lltoa(long long n);
 char				*ft_ulltoa(unsigned long long n);
+int					ft_bit_check(int flag, int position);
+void				ft_bit_on(int *flag, int position);
+void				ft_bit_off(int *flag, int position);
+int					ft_satoi(const char *str, int *i);
 
 #endif
