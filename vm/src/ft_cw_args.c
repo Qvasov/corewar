@@ -7,8 +7,8 @@ static void	dump(int *i, int ac, char **av, int *nbr_cycles)
 		ft_satoi(av[++(*i)], nbr_cycles); // проверка на число, на оишибку
 		++(*i);
 	}
-	else
-		ft_cw_usage();
+//	else
+//		ft_cw_usage();
 }
 
 static int	player_number(int *i, int ac, char **av)
