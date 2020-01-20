@@ -1,4 +1,5 @@
 #include "vm.h"
+#include <errno.h>
 
 void	ft_error(int id)
 {
@@ -8,6 +9,7 @@ void	ft_error(int id)
 
 void	ft_perror()
 {
-	perror("corewar: ");
+	ft_printf("%s\n", strerror(errno));
+	perror("corewar");
 	exit (1);
 }
