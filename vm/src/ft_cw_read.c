@@ -1,47 +1,45 @@
 #include "vm.h"
 
-static long long	revbytes(long long num)
+static int exec_size(char *str)
 {
-	unsigned char	byte;
-	long long		tmp;
-	size_t			i;
+	t_int exec;
+	int i;
 
-	tmp = 0;
-	i = sizeof(int);
+	i = 4;
 	while (i--)
-	{
-		byte = (char)num;
-		tmp = tmp << 8;
-		tmp += byte;
-		num = num >> 8;
-	}
-	return (tmp);
+		exec.byte[i] = str[3 - i];
+	return (exec.num);
+
 }
 
-void				ft_cw_read(t_path *paths, t_player **players, int number_of_players)
+static void	valid_magic(char *str)
 {
-	t_player		player[number_of_players];
-	union u_i
-	{
-		char b[4];
-		int  i;
-	} num;
-//	int				num;
-	int				fd;
-	int 			i;
+	t_int	magic;
+	int		i;
+
+	i = 4;
+	while (i--)
+		magic.byte[i] = str[3 - i];
+	(magic.num != COREWAR_EXEC_MAGIC) ? ft_error(1) : 0; //ошибка мэджика
+}
+
+void		ft_cw_read(t_path *paths, t_player **players, int number_of_players)
+{
+	t_player	player[number_of_players];
+	int 		i;
+	char		*str;
 
 	i = -1;
 	while (++i < number_of_players)
 	{
-		((fd = open(paths->path[i], O_RDONLY)) < 0) ? ft_perror() : 0;
-		(read(fd, &num, 4) < 0) ? ft_perror() : 0; //считывание мэджика
-		(revbytes(num.i) != COREWAR_EXEC_MAGIC) ? ft_error(1) : 0; //ошибка мэджика
-		(read(fd, &player[i].name, PROG_NAME_LENGTH + 4) < 0) ? ft_perror() : 0; //считывание имени игрока
-		(read(fd, &num.i, 4) < 0) ? ft_perror() : 0; //считывание размера исполняемого кода
-		player[i].exec_size = (int)revbytes(num.i);
+		str = ft_create_buf(paths->path[i]);
+		valid_magic(str); //проверка magic
+		ft_memcpy(player[i].name, &str[4], PROG_NAME_LENGTH); //считывание имени игрока
+		player[i].exec_size = exec_size(&str[PROG_NAME_LENGTH + 8]); //считывание размера исполняемого кода
 		(player[i].exec_size > CHAMP_MAX_SIZE) ? ft_error(1) : 0; //проверка на превышение размера чемпиона
-		(read(fd, &player[i].comment, COMMENT_LENGTH + 4) < 0) ? ft_perror() : 0;
-		(read(fd, &player[i].exec_code, player->exec_size) < 0) ? ft_perror() : 0;
+		ft_memcpy(player[i].comment, &str[PROG_NAME_LENGTH + 12], COMMENT_LENGTH); //считывание коммента игрока
+		ft_memcpy(player[i].exec_code, &str[PROG_NAME_LENGTH + COMMENT_LENGTH + 12], player[i].exec_size);
+		char tmp[player[i].exec_size];
+		ft_memcpy(tmp, player[i].exec_code, player[i].exec_size);
 	}
 }
-

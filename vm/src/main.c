@@ -28,13 +28,13 @@ int main(int ac, char **av)
 {
 	t_path		player_paths;
 	int			nbr_cycles;
-	t_player	*player;
+	t_player	*players;
 
 	nbr_cycles = 0; //хз сколько по умолчанию (если -dump не прописан)
 	(ac <= 1) ? ft_cw_usage() : 0;
 	init_paths(&player_paths);
 	ft_cw_args(ac, av, &player_paths, &nbr_cycles);
-	ft_cw_read(&player_paths, &player, 1/*number_of_players*/);
+	ft_cw_read(&player_paths, &players, 1/*number_of_players*/);
 //	ft_valid();
 //	ft_arena();
 	return (0);
