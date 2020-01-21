@@ -6,37 +6,49 @@
 /*   By: dbennie <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/11 16:02:31 by dbennie           #+#    #+#             */
-/*   Updated: 2020/01/11 16:02:36 by dbennie          ###   ########.fr       */
+/*   Updated: 2020/01/21 19:49:24 by dbennie          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vm.h"
 
-static void	init_paths(t_path *player_paths)
+static void	init_players(t_players *players)
 {
 	int i;
 
+	players->number_of_players = 0;
+	players->player = NULL;
 	i = -1;
 	while (++i < MAX_PLAYERS)
 	{
-		player_paths->flag_n[i] = 0;
-		player_paths->path[i] = NULL;
+		players->path[i] = NULL;
+		players->flag_n[i] = 0;
 	}
+}
+
+static void	init_players_number(t_players *players)
+{
+	int	i;
+
+	i = 0;
+	while (players->path[i])
+		++i;
+	players->number_of_players = i;
+	players->player = malloc(sizeof(t_player) * i);
 }
 
 int main(int ac, char **av)
 {
-	t_path		player_paths;
-	int			nbr_cycles;
-	t_player	*players;
+	t_players	players;
+	t_vm		vm;
 
-	nbr_cycles = 0; //хз сколько по умолчанию (если -dump не прописан)
+//	nbr_cycles = 0; //хз сколько по умолчанию (если -dump не прописан) и куда его записывать
 	(ac <= 1) ? ft_cw_usage() : 0;
-	init_paths(&player_paths);
-	ft_cw_args(ac, av, &player_paths, &nbr_cycles);
-	ft_cw_read(&player_paths, &players, 1/*number_of_players*/);
-//	ft_valid();
-//	ft_arena();
+	init_players(&players);
+	ft_cw_vm_handle(ac, av, &players, &vm.nbr_cycles);
+	init_players_number(&players);
+	ft_cw_vm_read(&players);
+	ft_vm_init_arena(&vm, &players);
 	return (0);
 }
 

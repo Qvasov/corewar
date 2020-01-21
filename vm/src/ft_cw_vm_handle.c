@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_cw_vm_handle.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dbennie <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/01/21 19:48:17 by dbennie           #+#    #+#             */
+/*   Updated: 2020/01/21 19:48:18 by dbennie          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "vm.h"
 
 static void	dump(int *i, int ac, char **av, int *nbr_cycles)
@@ -38,26 +50,26 @@ static char *player_file(char *arg)
 	return (arg);
 }
 
-static void	id_not_zero(char *arg, t_path *paths, int id)
+static void	id_not_zero(char *arg, t_players *players, int id)
 {
 	char *tmp1;
 	char *tmp2;
 
-	if (paths->flag_n[id - 1] == 0 && paths->path[id - 1] == NULL)
+	if (players->flag_n[id - 1] == 0 && players->path[id - 1] == NULL)
 	{
-		paths->path[id - 1] = player_file(arg);
-		paths->flag_n[id - 1] = 1;
+		players->path[id - 1] = player_file(arg);
+		players->flag_n[id - 1] = 1;
 	}
-	else if (paths->flag_n[id - 1] == 0 && paths->path[id - 1])
+	else if (players->flag_n[id - 1] == 0 && players->path[id - 1])
 	{
-		tmp1 = paths->path[id - 1];
-		paths->path[id - 1] = player_file(arg);
-		paths->flag_n[id - 1] = 1;
+		tmp1 = players->path[id - 1];
+		players->path[id - 1] = player_file(arg);
+		players->flag_n[id - 1] = 1;
 		while (++id <= MAX_PLAYERS)
-			if (paths->flag_n[id - 1] == 0)
+			if (players->flag_n[id - 1] == 0)
 			{
-				tmp2 = paths->path[id - 1];
-				paths->path[id - 1] = tmp1;
+				tmp2 = players->path[id - 1];
+				players->path[id - 1] = tmp1;
 				tmp1 = tmp2;
 			}
 	}
@@ -65,7 +77,7 @@ static void	id_not_zero(char *arg, t_path *paths, int id)
 		ft_error(1); //повторная запись игрока с тем же номером
 }
 
-void		ft_cw_args(int ac, char **av, t_path *paths, int *nbr_cycles)
+void		ft_cw_vm_handle(int ac, char **av, t_players *players, int *nbr_cycles)
 {
 	int		i;
 	int 	j;
@@ -82,15 +94,15 @@ void		ft_cw_args(int ac, char **av, t_path *paths, int *nbr_cycles)
 		if (id == 0)
 		{
 			while (++num <= MAX_PLAYERS)
-				if (paths->path[num - 1] == NULL)
+				if (players->path[num - 1] == NULL)
 				{
-					paths->path[num - 1] = player_file(av[i]);
+					players->path[num - 1] = player_file(av[i]);
 					break;
 				}
 			(num > MAX_PLAYERS) ? ft_error(1) : 0; //Превышение максимального кол-ва игроков
 		}
 		else if (id >= 1 && id <= MAX_PLAYERS)
-			id_not_zero(av[i], paths, id);
+			id_not_zero(av[i], players, id);
 		else if (id > MAX_PLAYERS)
 			ft_error(1); // превышение по номеру игрока
 	}
