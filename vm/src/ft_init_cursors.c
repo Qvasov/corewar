@@ -1,32 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_vm_arena.c                                      :+:      :+:    :+:   */
+/*   ft_init_cursors.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dbennie <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/21 19:48:48 by dbennie           #+#    #+#             */
-/*   Updated: 2020/01/21 19:48:50 by dbennie          ###   ########.fr       */
+/*   Created: 2020/01/22 21:34:30 by dbennie           #+#    #+#             */
+/*   Updated: 2020/01/22 21:34:33 by dbennie          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "vm.h"
+#include "vm.h"
 
-void	ft_vm_init_arena(t_vm *vm, t_players *players)
+void			ft_init_cursors(t_vm *vm, t_players *players)
 {
-	int8_t	i;
-	int16_t	delta;
+	t_cursor	*cursor;
+	int16_t		delta;
+	int8_t		i;
 
 	delta = 0;
 	i = -1;
 	while (++i < players->number_of_players)
 	{
-		ft_memcpy(&vm->arena[delta], players->player[i].exec_code, players->player[i].exec_size);
+		!(cursor = (t_cursor *)malloc(sizeof(t_cursor))) ? ft_perror() : 0;
+		cursor->id = ++vm->cursor_id;
+		cursor->carry = 0;
+		cursor->op_code = 0;
+		cursor->cycle_of_last_live = 0;
+		cursor->cycles_to_do_op = 0;
+		cursor->position = delta;
+		cursor->byte_step = vm->arena[delta + 1];
+		cursor->reg[0] = players->player[i].id;
+		ft_bzero(&cursor->reg[1], 60);
+		cursor->next = vm->cursor;
+		vm->cursor = cursor;
 		delta += ((MEM_SIZE) / players->number_of_players);
 	}
-	vm->cursor = NULL;
-	vm->cycles_from_start = 0;
-	vm->cycles_to_die = 1536;
-	vm->last_player_id = 0;
-	vm->number_of_live_operations = 0;
 }

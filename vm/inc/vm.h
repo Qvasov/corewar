@@ -11,7 +11,7 @@
 
 typedef union	u_int
 {
-	char		byte[4];
+	char		byte[sizeof(int)];
 	int			num;
 }				t_int;
 
@@ -34,13 +34,22 @@ typedef struct	s_players
 
 typedef struct	s_cursor
 {
-
+	int32_t			id;
+	int8_t			carry;
+	int				op_code;
+	int				cycle_of_last_live;
+	int16_t			cycles_to_do_op;
+	int16_t			position;
+	uint8_t			byte_step;
+	int				reg[REG_NUMBER];
+	struct s_cursor	*next;
 }				t_cursor;
 
 typedef struct	s_vm
 {
 	char 		arena[MEM_SIZE];
 	t_cursor	*cursor;
+	int			cursor_id;
 	int			nbr_cycles;
 	size_t		cycles_from_start;
 	size_t		cycles_to_die;
@@ -52,7 +61,8 @@ typedef struct	s_vm
 void	ft_cw_vm_handle(int ac, char **av, t_players *players, int *nbr_cycles);
 void	ft_cw_vm_read(t_players *players);
 char	*ft_create_buf(char *path);
-void	ft_vm_init_arena(t_vm *vm, t_players *players);
+void	ft_init_arena(t_vm *vm, t_players *players);
+void	ft_init_cursors(t_vm *vm, t_players *players);
 
 void	ft_cw_usage();
 void	ft_error(int8_t id);

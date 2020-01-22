@@ -44,11 +44,13 @@ int main(int ac, char **av)
 
 //	nbr_cycles = 0; //хз сколько по умолчанию (если -dump не прописан) и куда его записывать
 	(ac <= 1) ? ft_cw_usage() : 0;
-	init_players(&players);
-	ft_cw_vm_handle(ac, av, &players, &vm.nbr_cycles);
-	init_players_number(&players);
-	ft_cw_vm_read(&players);
-	ft_vm_init_arena(&vm, &players);
+	init_players(&players); // создание структуры players
+	ft_cw_vm_handle(ac, av, &players, &vm.nbr_cycles); //хендлинг аргументов ./corewar
+	init_players_number(&players); //инициализация кол-ва игроков
+	ft_cw_vm_read(&players); //считывание байт-кода и разбор на состоваляющие
+	ft_init_arena(&vm, &players); //создание и инициализация арены
+	ft_init_cursors(&vm, players.number_of_players); // создание и инициализация кареток
+//	ft_battle();
 	return (0);
 }
 

@@ -26,11 +26,13 @@ static int exec_size(char *str)
 static void	valid_magic(char *str)
 {
 	t_int	magic;
-	int		i;
+	int8_t	i;
+	int8_t	size;
 
-	i = 4;
+	size = sizeof(COREWAR_EXEC_MAGIC);
+	i = size;
 	while (i--)
-		magic.byte[i] = str[3 - i];
+		magic.byte[i] = str[size - (i + 1)];
 	(magic.num != COREWAR_EXEC_MAGIC) ? ft_error(1) : 0; //ошибка мэджика
 }
 
@@ -45,10 +47,10 @@ void ft_cw_vm_read(t_players *players)
 		str = ft_create_buf(players->path[i]);
 		valid_magic(str); //проверка magic
 		players->player[i].id = i + 1;
-		ft_memcpy(players->player[i].name, &str[4], PROG_NAME_LENGTH); //считывание имени игрока
-		players->player[i].exec_size = exec_size(&str[PROG_NAME_LENGTH + 8]); //считывание размера исполняемого кода
+		ft_memcpy(players->player[i].name, &str[sizeof(COREWAR_EXEC_MAGIC)], PROG_NAME_LENGTH); //считывание имени игрока
+		players->player[i].exec_size = exec_size(&str[PROG_NAME_LENGTH + sizeof(COREWAR_EXEC_MAGIC) + 4]); //считывание размера исполняемого кода
 		(players->player[i].exec_size > CHAMP_MAX_SIZE) ? ft_error(1) : 0; //проверка на превышение размера чемпиона
-		ft_memcpy(players->player[i].comment, &str[PROG_NAME_LENGTH + 12], COMMENT_LENGTH); //считывание коммента игрока
-		ft_memcpy(players->player[i].exec_code, &str[PROG_NAME_LENGTH + COMMENT_LENGTH + 16], players->player[i].exec_size); // сичтывание exec кода
+		ft_memcpy(players->player[i].comment, &str[PROG_NAME_LENGTH + sizeof(COREWAR_EXEC_MAGIC) + 4 + sizeof(CHAMP_MAX_SIZE)], COMMENT_LENGTH); //считывание коммента игрока
+		ft_memcpy(players->player[i].exec_code, &str[PROG_NAME_LENGTH + COMMENT_LENGTH + sizeof(COREWAR_EXEC_MAGIC) + 4 + sizeof(CHAMP_MAX_SIZE) + 4], players->player[i].exec_size); // сичтывание exec кода
 	}
 }
