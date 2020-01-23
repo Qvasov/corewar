@@ -36,11 +36,13 @@ static void	valid_magic(char *str)
 	(magic.num != COREWAR_EXEC_MAGIC) ? ft_error(1) : 0; //ошибка мэджика
 }
 
-void ft_cw_vm_read(t_players *players)
+void ft_cw_vm_read(t_vm *vm, t_players *players)
 {
 	int 	i;
 	char	*str;
+	int16_t	delta;
 
+	delta = 0;
 	i = -1;
 	while (++i < players->number_of_players)
 	{
@@ -51,6 +53,7 @@ void ft_cw_vm_read(t_players *players)
 		players->player[i].exec_size = exec_size(&str[PROG_NAME_LENGTH + sizeof(COREWAR_EXEC_MAGIC) + 4]); //считывание размера исполняемого кода
 		(players->player[i].exec_size > CHAMP_MAX_SIZE) ? ft_error(1) : 0; //проверка на превышение размера чемпиона
 		ft_memcpy(players->player[i].comment, &str[PROG_NAME_LENGTH + sizeof(COREWAR_EXEC_MAGIC) + 4 + sizeof(CHAMP_MAX_SIZE)], COMMENT_LENGTH); //считывание коммента игрока
-		ft_memcpy(players->player[i].exec_code, &str[PROG_NAME_LENGTH + COMMENT_LENGTH + sizeof(COREWAR_EXEC_MAGIC) + 4 + sizeof(CHAMP_MAX_SIZE) + 4], players->player[i].exec_size); // сичтывание exec кода
+		ft_memcpy(&vm->arena[delta], &str[PROG_NAME_LENGTH + COMMENT_LENGTH + sizeof(COREWAR_EXEC_MAGIC) + 4 + sizeof(CHAMP_MAX_SIZE) + 4], players->player[i].exec_size); // сичтывание exec кода
+		delta += ((MEM_SIZE) / players->number_of_players);
 	}
 }
