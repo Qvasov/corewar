@@ -8,12 +8,39 @@
 # include "op.h"
 
 # define BUFF_SIZE	4096
+# define INT_SIZE	4
+
+typedef union	s_bits
+{
+	struct
+	{
+		uint8_t 	bit1 : 1;
+		uint8_t 	bit2 : 1;
+		uint8_t 	bit3 : 1;
+		uint8_t 	bit4 : 1;
+	};
+	int8_t		num;
+}				t_bits;
+
+typedef union	u_types_code
+{
+	struct
+	{
+		uint8_t	arg1 : 2;
+		uint8_t	arg2 : 2;
+		uint8_t	arg3 : 2;
+		uint8_t	arg4 : 2;
+	};
+	char		num;
+}				t_types_code;
 
 typedef union	u_int
 {
-	char		byte[sizeof(int)];
+	char		byte[INT_SIZE];
 	int			num;
 }				t_int;
+
+
 
 typedef	struct	s_player
 {

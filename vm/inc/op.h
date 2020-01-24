@@ -80,20 +80,22 @@ typedef struct		header_s
   char				comment[COMMENT_LENGTH + 1];
 }					header_t;
 
-//typedef union		s_arg
-//{
-//	uint8_t			byte[4];
-//	uint32_t 		code;
-//}					t_arg;
+typedef struct		s_args_type
+{
+	uint8_t 		type1 : 4;
+	uint8_t 		type2 : 4;
+	uint8_t 		type3 : 4;
+	uint8_t 		type4 : 4;
+}					t_args_type;
 
 typedef struct		s_op
 {
 	char			*name;
 	int8_t			args_count;
-	union
+	union			u_args
 	{
-		uint8_t		byte[4];
-		uint32_t 	code;
+		t_args_type	code;
+		uint16_t 	num;
 	}				args;
 	int8_t			code;
 	int16_t			cycles;
