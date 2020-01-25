@@ -12,10 +12,8 @@
 
 #include "vm.h"
 
-void	st(t_cursor *cursor, )
-{
-
-}
+//void	st(t_cursor *cursor, )
+//{} //тут остановочка
 
 static int8_t	size_op(uint8_t op_code, t_types_code args_code, int8_t *size)
 {
@@ -50,7 +48,7 @@ void	do_op(t_vm *vm, t_cursor *cursor)
 {
 	t_types_code	args_code;
 
-	st(cursor, args_code);
+//	st(cursor, args_code);
 	args_code.num = vm->arena[(cursor->position + 1) % MEM_SIZE];
 	if (op_tab[cursor->op_code].args_type_code)
 		cursor->byte_to_next_op = size_op(cursor->op_code, args_code, vm->size);
