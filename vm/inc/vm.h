@@ -14,10 +14,10 @@ typedef union	s_bits
 {
 	struct
 	{
+		uint8_t 	bit0 : 1;
 		uint8_t 	bit1 : 1;
 		uint8_t 	bit2 : 1;
 		uint8_t 	bit3 : 1;
-		uint8_t 	bit4 : 1;
 	};
 	int8_t		num;
 }				t_bits;
@@ -31,7 +31,7 @@ typedef union	u_types_code
 		uint8_t	arg3 : 2;
 		uint8_t	arg4 : 2;
 	};
-	char		num;
+	uint8_t 	num;
 }				t_types_code;
 
 typedef union	u_int
@@ -39,6 +39,7 @@ typedef union	u_int
 	char		byte[INT_SIZE];
 	int			num;
 }				t_int;
+
 
 
 
@@ -67,21 +68,22 @@ typedef struct	s_cursor
 	int				cycle_of_last_live;
 	int16_t			cycles_to_do_op;
 	int16_t			position;
-	uint8_t			byte_to_next_op;
+	int8_t			byte_to_next_op;
 	int32_t			reg[REG_NUMBER];
 	struct s_cursor	*next;
 }				t_cursor;
 
 typedef struct	s_vm
 {
-	char 		arena[MEM_SIZE];
+	uint8_t 	arena[MEM_SIZE];
 	t_cursor	*cursor;
 	int			cursor_id;
 	int			nbr_cycles;
-	size_t		cycles_from_start;
-	size_t		cycles_to_die;
-	int8_t		last_player_id;
+	int64_t		cycles_from_start;
+	int64_t 	cycles_to_die;
+	char		last_player_id;
 	int			number_of_live_operations;
+	int8_t		size[4];
 }				t_vm;
 
 t_op			op_tab[17];
@@ -92,6 +94,8 @@ char	*ft_create_buf(char *path);
 void	ft_init_cursors(t_vm *vm, t_players *players);
 void	ft_introducing(t_players *players);
 void	ft_battle(t_vm *vm);
+void	ft_set_valid_func(int8_t (**type) (int8_t));
+int		ft_check_op(t_vm *vm, t_cursor *cursor, int8_t (**valid) (int8_t));
 
 void	ft_cw_usage();
 void	ft_error(int8_t id);

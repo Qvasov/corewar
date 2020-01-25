@@ -12,36 +12,54 @@
 
 #include "vm.h"
 
-static void	do_op(t_vm *vm, t_cursor *cursor, int8_t (**valid) (int8_t))
+void	st(t_cursor *cursor, )
 {
-	t_types_code	args_code;
-	int16_t 		types_pos;
-	int8_t			i;
 
-	if (op_tab[cursor->op_code].args_type_code)
-	{
-		types_pos = (cursor->position + 1 == MEM_SIZE) ? 0 : cursor->position + 1;
-		args_code.num = vm->arena[types_pos];
-//		valid[args_code.arg4 - 1](op_tab[cursor->op_code].args.code.type1);
-//		valid[args_code.arg3 - 1](op_tab[cursor->op_code].args.code.type2);
-		char arg_bits;
-		arg_bits = op_tab[cursor->op_code].args.code.type1;
-		arg_bits = arg_bits >> (args_code.arg4 - 1);
-		if (arg_bits)
-			;
-		arg_bits = op_tab[cursor->op_code].args.code.type2;
-		arg_bits = arg_bits >> (args_code.arg3 - 1);
-		if (arg_bits)
-			;
-
-//		if (args_code.arg4 == op_tab[cursor->op_code].args.code.type1)
-//		{}
-//		if (args_code.type3 == op_tab[cursor->op_code].args.code.type2)
-//		{}
-	}
 }
 
-void	cursors(t_vm *vm, int8_t (**type) (int8_t))
+static int8_t	size_op(uint8_t op_code, t_types_code args_code, int8_t *size)
+{
+	int8_t	args_size;
+
+	size[DIR_CODE] = (op_tab[op_code].t_dir_size) ? 2 : DIR_SIZE;
+	args_size = 2;
+	if (1 <= op_tab[op_code].args_count)
+		args_size += size[args_code.arg4];
+	if (2 <= op_tab[op_code].args_count)
+		args_size += size[args_code.arg3];
+	if (3 <= op_tab[op_code].args_count)
+		args_size += size[args_code.arg2];
+	if (4 <= op_tab[op_code].args_count)
+		args_size += size[args_code.arg1];
+	return (args_size);
+}
+
+void	next_op(t_vm *vm, t_cursor *cursor)
+{
+	t_types_code	args_code;
+
+	args_code.num = vm->arena[(cursor->position + 1) % MEM_SIZE];
+	if (op_tab[cursor->op_code].args_type_code)
+		cursor->byte_to_next_op = size_op(cursor->op_code, args_code, vm->size);
+	else
+		cursor->byte_to_next_op = 2;
+	cursor->position = (cursor->position + cursor->byte_to_next_op) % MEM_SIZE;
+}
+
+void	do_op(t_vm *vm, t_cursor *cursor)
+{
+	t_types_code	args_code;
+
+	st(cursor, args_code);
+	args_code.num = vm->arena[(cursor->position + 1) % MEM_SIZE];
+	if (op_tab[cursor->op_code].args_type_code)
+		cursor->byte_to_next_op = size_op(cursor->op_code, args_code, vm->size);
+	else
+		cursor->byte_to_next_op = 2;
+	cursor->position = (cursor->position + cursor->byte_to_next_op) % MEM_SIZE;
+}
+
+void	cycle(t_vm *vm, int8_t (**type) (int8_t))
 {
 	t_cursor	*cursor;
 
@@ -51,84 +69,36 @@ void	cursors(t_vm *vm, int8_t (**type) (int8_t))
 		if (cursor->cycles_to_do_op == 0) // не то условие флаг передвижения должен быть
 		{
 			cursor->op_code = vm->arena[cursor->position];
-			cursor->cycles_to_do_op = (cursor->op_code >= 0x01 &&
-				cursor->op_code <= 0x10) ? op_tab[cursor->op_code].cycles : 0;
+			if (cursor->op_code >= 0x01 && cursor->op_code <= 0x10)
+				cursor->cycles_to_do_op = op_tab[cursor->op_code].cycles;
 		}
 		if (cursor->cycles_to_do_op > 0)
 			--cursor->cycles_to_do_op;
 		if (cursor->cycles_to_do_op == 0) //строго if не else if коммменты в кукбуке
-			if (cursor->op_code >= 0x01 && cursor->op_code <= 0x10) // можно убрать условие
-				do_op(vm, cursor, type);
+		{
+			if (cursor->op_code >= 0x01 && cursor->op_code <= 0x10)
+			{
+				if (ft_check_op(vm, cursor, type))
+					next_op(vm, cursor);
+				else
+					do_op(vm, cursor);
+			}
+			else
+				cursor->position = (cursor->position + 1) % MEM_SIZE;
+		}
 		cursor = cursor->next;
 	}
-}
-
-static int8_t	valid_arg1(int8_t arg_types /*в таблице*/)
-{
-	t_bits	arg_bits;
-//	int		i;
-//	int 	num;
-//
-//	num = T_REG;
-//	i = 0;
-//	while (num != 1)
-//	{
-//		num = num >> 1;
-//		++i;
-//	}
-	arg_bits.num = arg_types;
-	if (arg_bits.bit1)
-		return (0);
-	return (1);
-}
-
-static int8_t	valid_arg2(int8_t arg_types)
-{
-	t_bits	arg_bits;
-
-	arg_bits.num = arg_types;
-	if (arg_bits.bit2)
-		return (0);
-	return (1);
-}
-
-static int8_t	valid_arg3(int8_t arg_types)
-{
-	t_bits	arg_bits;
-
-	arg_bits.num = arg_types;
-	if (arg_bits.bit3)
-		return (0);
-	return (1);
-}
-
-static int8_t	valid_arg4(int8_t arg_types)
-{
-	t_bits	arg_bits;
-
-	arg_bits.num = arg_types;
-	if (!arg_bits.bit4)
-		return (0);
-	return (1);
-}
-
-static void	set_valid_func(int8_t (**type) (int8_t))
-{
-	type[0] = valid_arg1;
-	type[1] = valid_arg2;
-	type[2] = valid_arg3;
-	type[3] = valid_arg4;
 }
 
 void	ft_battle(t_vm *vm)
 {
 	int8_t		(*type[4])(int8_t);
-	uint64_t	cycle;
+	uint64_t	cycles;
 
-	set_valid_func(type);
-	cycle = 0;
-	while (++cycle)
+	ft_set_valid_func(type);
+	cycles = 0;
+	while (++cycles)
 	{
-		cursors(vm, type);
+		cycle(vm, type);
 	}
 }

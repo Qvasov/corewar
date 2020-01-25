@@ -82,10 +82,10 @@ typedef struct		header_s
 
 typedef struct		s_args_type
 {
-	uint8_t 		type1 : 4;
-	uint8_t 		type2 : 4;
-	uint8_t 		type3 : 4;
-	uint8_t 		type4 : 4;
+	uint8_t 		types1 : 4;
+	uint8_t 		types2 : 4;
+	uint8_t 		types3 : 4;
+	uint8_t 		types4 : 4;
 }					t_args_type;
 
 typedef struct		s_op
