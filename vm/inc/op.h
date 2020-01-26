@@ -101,7 +101,7 @@ typedef struct		s_op
 	int16_t			cycles;
 	char			*comment;
 	int8_t			args_type_code;
-	int8_t			t_dir_size;
+	int8_t			dir_size;
 }					t_op;
 
 #endif

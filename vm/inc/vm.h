@@ -26,10 +26,10 @@ typedef union	u_types_code
 {
 	struct
 	{
-		uint8_t	arg1 : 2;
-		uint8_t	arg2 : 2;
-		uint8_t	arg3 : 2;
 		uint8_t	arg4 : 2;
+		uint8_t	arg3 : 2;
+		uint8_t	arg2 : 2;
+		uint8_t	arg1 : 2;
 	};
 	uint8_t 	num;
 }				t_types_code;
@@ -49,7 +49,6 @@ typedef	struct	s_player
 	char		name[PROG_NAME_LENGTH];
 	char		comment[COMMENT_LENGTH];
 	int16_t		exec_size;
-	char		exec_code[CHAMP_MAX_SIZE];
 }				t_player;
 
 typedef struct	s_players
@@ -95,12 +94,11 @@ void	ft_init_cursors(t_vm *vm, t_players *players);
 void	ft_introducing(t_players *players);
 void	ft_battle(t_vm *vm);
 void	ft_set_valid_func(int8_t (**type) (int8_t));
-int		ft_check_op(t_vm *vm, t_cursor *cursor, int8_t (**valid) (int8_t));
+int		ft_valid_op_code_and_reg(t_vm *vm, t_cursor *cursor, int8_t (**valid) (int8_t));
+void	ft_init_op(void (**op) (t_types_code, t_vm *, t_cursor *pCursor));
 
 void	ft_cw_usage();
 void	ft_error(int8_t id);
 void	ft_perror();
-
-
 
 #endif
