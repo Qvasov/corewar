@@ -1,49 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_revbytes.c                                      :+:      :+:    :+:   */
+/*   ft_putstr_buf.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dbennie <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/20 19:20:19 by dbennie           #+#    #+#             */
-/*   Updated: 2020/01/20 19:20:21 by dbennie          ###   ########.fr       */
+/*   Created: 2020/01/15 19:44:48 by dbennie           #+#    #+#             */
+/*   Updated: 2020/01/15 19:44:49 by dbennie          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int			revbytes_int(int num)
+void	ft_putstr_buf(char *buf, size_t *i, size_t buff_size, char *str)
 {
-	unsigned char	byte;
-	int				tmp;
-	size_t			i;
+	size_t	j;
 
-	tmp = 0;
-	i = sizeof(int);
-	while (i--)
+	j = 0;
+	while (str[j])
 	{
-		byte = (char)num;
-		tmp = tmp << 8;
-		tmp += byte;
-		num = num >> 8;
+		ft_putchar_buf(buf, i, buff_size, str[j]);
+		++j;
 	}
-	return (tmp);
-}
-
-long long	revbytes_long(long long num)
-{
-	unsigned char	byte;
-	long long		tmp;
-	size_t			i;
-
-	tmp = 0;
-	i = sizeof(long long);
-	while (i--)
-	{
-		byte = (char)num;
-		tmp = tmp << 8;
-		tmp += byte;
-		num = num >> 8;
-	}
-	return (tmp);
 }

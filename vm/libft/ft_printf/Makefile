@@ -2,8 +2,6 @@ NAME = ft_printf.a
 
 FLAGS = -Wall -Wextra -Werror
 
-LIBFT = inc/libft
-
 DIR_S = src/
 DIR_O = obj/
 
@@ -56,8 +54,8 @@ $(NAME): $(OBJS)
 	ar rc $(NAME) $(OBJS)
 	ranlib $(NAME)
 
-$(DIR_O)%.o: $(DIR_S)%.c
-	mkdir -p $(DIR_O)
+$(DIR_O)%.o: %.c
+	@mkdir -p $(DIR_O)
 	gcc $(FLAGS) -I . -o $@ -c $<
 
 clean:
