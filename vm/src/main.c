@@ -16,7 +16,7 @@ static void	init_arena(t_vm *vm)
 {
 	vm->cursor = NULL;
 	vm->cursor_id = 0;
-	vm->cycles_from_start = 0;
+	vm->cycle = 0;
 	vm->cycles_to_die = 1536;
 	vm->last_player_id = 0;
 	vm->number_of_live_operations = 0;
@@ -50,8 +50,6 @@ static void	init_players(t_players *players)
 		players->flag_n[i] = 0;
 	}
 }
-
-int8_t			g_size[4];
 
 int main(int ac, char **av)
 {

@@ -59,26 +59,28 @@ typedef struct	s_players
 	int8_t		flag_n[MAX_PLAYERS];
 }				t_players;
 
-typedef struct	s_cursor
+typedef struct	s_cur
 {
 	int32_t			id;
 	int8_t			carry;
 	uint8_t			op_code;
 	int				cycle_of_last_live;
 	int16_t			cycles_to_do_op;
-	int16_t			position;
+	int16_t			pc;					//position
 	int8_t			byte_to_next_op;
 	int32_t			reg[REG_NUMBER];
-	struct s_cursor	*next;
-}				t_cursor;
+	struct s_cur	*prev;
+	struct s_cur	*next;
+
+}				t_cur;
 
 typedef struct	s_vm
 {
 	uint8_t 	arena[MEM_SIZE];
-	t_cursor	*cursor;
+	t_cur		*cursor;
 	int			cursor_id;
 	int			nbr_cycles;
-	int64_t		cycles_from_start;
+	int64_t		cycle;
 	int64_t 	cycles_to_die;
 	char		last_player_id;
 	int			number_of_live_operations;
@@ -94,8 +96,9 @@ void	ft_init_cursors(t_vm *vm, t_players *players);
 void	ft_introducing(t_players *players);
 void	ft_battle(t_vm *vm);
 void	ft_set_valid_func(int8_t (**type) (int8_t));
-int		ft_valid_op_code_and_reg(t_vm *vm, t_cursor *cursor, int8_t (**valid) (int8_t));
-void	ft_init_op(void (**op) (t_types_code, t_vm *, t_cursor *pCursor));
+int		ft_valid_op_code_and_reg(t_vm *vm, t_cur *cursor, int8_t (**valid) (int8_t));
+void	ft_init_op(void (**op) (t_types_code, t_vm *, t_cur *pCursor));
+t_cur	*ft_copy_cursor(t_vm *vm, t_cur *cursor);
 
 void	ft_cw_usage();
 void	ft_error(int8_t id);

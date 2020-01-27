@@ -117,5 +117,6 @@ int					ft_strchr_count(const char *s, int c);
 void				ft_strrev(char *str);
 void				ft_swapptr(void **a, void **b);
 char				*ft_ulltoa(unsigned long long n);
+int					ft_printf(const char *format, ...);
 
 #endif

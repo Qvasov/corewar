@@ -14,26 +14,28 @@
 
 void	ft_init_cursors(t_vm *vm, t_players *players)
 {
-	t_cursor	*cursor;
-	int16_t		delta;
-	int8_t		i;
+	t_cur	*cur;
+	int16_t	delta;
+	int8_t	i;
 
 	delta = 0;
 	i = -1;
 	while (++i < players->number_of_players)
 	{
-		!(cursor = (t_cursor *)malloc(sizeof(t_cursor))) ? ft_perror() : 0;
-		cursor->id = ++vm->cursor_id;
-		cursor->carry = 0;
-		cursor->op_code = 0;
-		cursor->cycle_of_last_live = 0;
-		cursor->cycles_to_do_op = 0;
-		cursor->position = delta;
-		cursor->byte_to_next_op = 0;
-		cursor->reg[0] = players->player[i].id * -1;
-		ft_bzero(&cursor->reg[1], 60);
-		cursor->next = vm->cursor;
-		vm->cursor = cursor;
+		!(cur = (t_cur *)malloc(sizeof(t_cur))) ? ft_perror() : 0;
+		cur->id = ++vm->cursor_id;
+		cur->carry = 0;
+		cur->op_code = 0;
+		cur->cycle_of_last_live = 0;
+		cur->cycles_to_do_op = 0;
+		cur->pc = delta;
+		cur->byte_to_next_op = 0;
+		cur->reg[0] = players->player[i].id * -1;
+		ft_bzero(&cur->reg[1], 60);
+		cur->prev = NULL;
+		cur->next = vm->cursor;
+		(vm->cursor) ? vm->cursor->prev = cur : 0;
+		vm->cursor = cur;
 		delta += ((MEM_SIZE) / players->number_of_players);
 	}
 }
