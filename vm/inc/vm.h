@@ -81,10 +81,14 @@ typedef struct	s_vm
 	int			cursor_id;
 	int			nbr_cycles;
 	int64_t		cycle;
+	int64_t		cycle_from_start;
 	int64_t 	cycles_to_die;
 	char		last_player_id;
-	int			number_of_live_operations;
+	int			number_of_live;
+	int			number_of_check;
 	int8_t		size[4];
+	int32_t		min_player_id;
+	int32_t		max_player_id;
 }				t_vm;
 
 t_op			op_tab[17];
@@ -94,12 +98,12 @@ void	ft_cw_vm_read(t_vm *vm, t_players *players);
 char	*ft_create_buf(char *path);
 void	ft_init_cursors(t_vm *vm, t_players *players);
 void	ft_introducing(t_players *players);
-void	ft_battle(t_vm *vm);
+void 	ft_battle(t_vm *vm, t_player *player);
 void	ft_set_valid_func(int8_t (**type) (int8_t));
 int		ft_valid_op_code_and_reg(t_vm *vm, t_cur *cursor, int8_t (**valid) (int8_t));
 void	ft_init_op(void (**op) (t_types_code, t_vm *, t_cur *pCursor));
 t_cur	*ft_copy_cursor(t_vm *vm, t_cur *cursor);
-
+void	ft_endgame(t_vm *vm, t_player *player);
 void	ft_cw_usage();
 void	ft_error(int8_t id);
 void	ft_perror();

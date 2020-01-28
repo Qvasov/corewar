@@ -12,18 +12,21 @@
 
 #include "vm.h"
 
-static void	init_arena(t_vm *vm)
+static void	init_arena(t_vm *vm, int8_t num)
 {
 	vm->cursor = NULL;
 	vm->cursor_id = 0;
 	vm->cycle = 0;
+	vm->cycle_from_start = 0;
 	vm->cycles_to_die = 1536;
-	vm->last_player_id = 0;
-	vm->number_of_live_operations = 0;
+	vm->last_player_id = num;
+	vm->number_of_live = 0;
 	vm->size[0] = 0;
 	vm->size[REG_CODE] = 1;
 	vm->size[DIR_CODE] = DIR_SIZE;
 	vm->size[IND_CODE] = IND_SIZE;
+	vm->min_player_id = 1;
+	vm->max_player_id = num;
 }
 
 static void	init_players_number(t_players *players)
@@ -61,12 +64,12 @@ int main(int ac, char **av)
 	init_players(&players); // создание структуры players
 	ft_cw_vm_handle(ac, av, &players, &vm.nbr_cycles); //хендлинг аргументов ./corewar
 	init_players_number(&players); //инициализация кол-ва игроков
-	init_arena(&vm); //создание и инициализация арены
+	init_arena(&vm, players.number_of_players); //создание и инициализация арены
 	ft_cw_vm_read(&vm, &players); //считывание байт-кода и разбор на состоваляющие
 	ft_init_cursors(&vm, &players); // создание и инициализация кареток
 	ft_introducing(&players);
-	//free players
-	ft_battle(&vm);
+	ft_battle(&vm, players.player);
+//	free(); //всё остальное //free players
 	return (0);
 }
 

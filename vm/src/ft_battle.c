@@ -98,6 +98,7 @@ void	check(t_vm *vm)
 {
 	t_cur	*cursor;
 
+	++vm->number_of_check;
 	cursor = vm->cursor;
 	while (cursor)
 	{
@@ -105,20 +106,35 @@ void	check(t_vm *vm)
 			del_cursor(vm, cursor);
 		cursor = cursor->next;
 	}
-	//tut ostanovochka
+	if (vm->number_of_live >= NBR_LIVE || vm->number_of_check >= MAX_CHECKS)
+	{
+		vm->cycles_to_die -= CYCLE_DELTA;
+		vm->number_of_check = 0;
+	}
+	else
+		++vm->number_of_check;
+	vm->number_of_live = 0;
+	vm->cycle_from_start += vm->cycle;
+	vm->cycle = 0;
 }
 
-void	ft_battle(t_vm *vm)
+void ft_battle(t_vm *vm, t_player *player)
 {
 	int8_t		(*type[4])(int8_t);
 	void		(*op[17])(t_types_code, t_vm *, t_cur *);
 
 	ft_set_valid_func(type);
 	ft_init_op(op);
-	while (++vm->cycle)
+	while (++vm->cycle && vm->cursor && vm->cursor->next)
 	{
 		cycle(vm, type, op);
 		if (vm->cycle == vm->cycles_to_die || vm->cycles_to_die <= 0)
 			check(vm);
+		if (vm->nbr_cycles >= 0 && vm->cycle_from_start + vm->cycle == vm->nbr_cycles)
+		{
+//			вывод дампа
+			return ;
+		}
 	}
+	ft_endgame(vm, player);
 }

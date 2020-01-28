@@ -60,8 +60,10 @@ static void	live(t_types_code args_code, t_vm *vm, t_cur *cursor)
 	arg.num = get_arg(args_code.arg1, args_size, vm->arena, cursor);
 	args_size += vm->size[args_code.arg1];
 	cursor->byte_to_next_op = args_size;
+	++vm->number_of_live;
 	cursor->cycle_of_last_live = vm->cycle;
-
+	if (arg.num >= vm->min_player_id && arg.num <= vm->max_player_id)
+		vm->last_player_id = arg.num;
 }
 
 static void	ld(t_types_code args_code, t_vm *vm, t_cur *cursor)

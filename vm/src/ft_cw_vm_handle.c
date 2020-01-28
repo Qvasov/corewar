@@ -14,13 +14,19 @@
 
 static void	dump(int *i, int ac, char **av, int *nbr_cycles)
 {
-	if (ac >= 3 && ft_strequ(av[*i], "-dump"))
+	if (ft_strequ(av[*i], "-dump"))
 	{
-		ft_satoi(av[++(*i)], nbr_cycles); // проверка на число, на оишибку
-		++(*i);
+		if (ac >= 3)
+		{
+			ft_satoi(av[++(*i)], nbr_cycles); // проверка на число, на оишибку
+			++(*i);
+		}
+		else
+			ft_cw_usage();
 	}
-//	else
-//		ft_cw_usage();
+	else
+		*nbr_cycles = -1;
+
 }
 
 static int	player_number(int *i, int ac, char **av)
