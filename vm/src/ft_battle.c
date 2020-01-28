@@ -118,6 +118,22 @@ void	check(t_vm *vm)
 	vm->cycle = 0;
 }
 
+void	print_arena(t_vm *vm)
+{
+	int i;
+	int j;
+	j = 0;
+	while (j < MEM_SIZE)
+	{
+		i = -1;
+		while (++i < 64)
+			printf("%.2x ", vm->arena[j + i]);
+		printf("\n");
+		j += i;
+	}
+	exit(1);
+}
+
 void ft_battle(t_vm *vm, t_player *player)
 {
 	int8_t		(*type[4])(int8_t);
@@ -125,6 +141,8 @@ void ft_battle(t_vm *vm, t_player *player)
 
 	ft_set_valid_func(type);
 	ft_init_op(op);
+//	if (vm->cycle_from_start + vm->cycle == 0)
+//		print_arena(vm);
 	while (++vm->cycle && vm->cursor && vm->cursor->next)
 	{
 		cycle(vm, type, op);

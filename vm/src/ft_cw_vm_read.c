@@ -53,6 +53,7 @@ void ft_cw_vm_read(t_vm *vm, t_players *players)
 		players->player[i].exec_size = exec_size(&str[PROG_NAME_LENGTH + INT_SIZE + 4]); //считывание размера исполняемого кода
 		(players->player[i].exec_size > CHAMP_MAX_SIZE) ? ft_error(1) : 0; //проверка на превышение размера чемпиона
 		ft_memcpy(players->player[i].comment, &str[PROG_NAME_LENGTH + INT_SIZE + 4 + INT_SIZE], COMMENT_LENGTH); //считывание коммента игрока
+		//проверка на по весу
 		ft_memcpy(&vm->arena[delta], &str[PROG_NAME_LENGTH + COMMENT_LENGTH + INT_SIZE + 4 + INT_SIZE + 4], players->player[i].exec_size); // сичтывание exec кода
 		delta += ((MEM_SIZE) / players->number_of_players);
 	}

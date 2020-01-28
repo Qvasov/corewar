@@ -14,6 +14,7 @@
 
 static void	init_arena(t_vm *vm, int8_t num)
 {
+	ft_bzero(vm->arena, MEM_SIZE);
 	vm->cursor = NULL;
 	vm->cursor_id = 0;
 	vm->cycle = 0;
@@ -59,7 +60,6 @@ int main(int ac, char **av)
 	t_players	players;
 	t_vm		vm;
 
-//	vm.nbr_cycles = 0; //хз сколько по умолчанию (если -dump не прописан) и куда его записывать
 	(ac <= 1) ? ft_cw_usage() : 0;
 	init_players(&players); // создание структуры players
 	ft_cw_vm_handle(ac, av, &players, &vm.nbr_cycles); //хендлинг аргументов ./corewar

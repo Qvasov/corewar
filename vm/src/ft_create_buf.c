@@ -63,7 +63,7 @@ char		*ft_create_buf(char *path)
 	{
 		tmp = str;
 		str = (tmp) ? bufjoin(tmp, buf, BUFF_SIZE, ret) : bufdup(buf, ret);
-		(tmp) ? free(tmp) : 0;
+		(tmp) ? free(tmp) : 0; //realloc
 	}
 	(ret < 0) ? ft_perror() : 0;
 	(close(fd) < 0) ? ft_perror() : 0;
