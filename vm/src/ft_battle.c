@@ -102,7 +102,7 @@ void	check(t_vm *vm)
 	cursor = vm->cursor;
 	while (cursor)
 	{
-		if (vm->cycle - cursor->cycle_of_last_live >= vm->cycles_to_die || vm->cycles_to_die <= 0)
+		if ((vm->cycle + vm->cycle_from_start) - cursor->cycle_of_last_live >= vm->cycles_to_die || vm->cycles_to_die <= 0)
 			del_cursor(vm, cursor);
 		cursor = cursor->next;
 	}
