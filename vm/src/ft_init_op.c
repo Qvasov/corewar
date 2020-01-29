@@ -5,6 +5,8 @@ static int32_t	get_value(t_int arg, t_cur *cursor, uint8_t *arena)
 	int32_t	addr;
 
 	addr = cursor->pc + arg.num;
+	if (addr < 0)
+		addr = MEM_SIZE + (addr % MEM_SIZE);
 	arg.byte[3]= arena[addr % MEM_SIZE];
 	arg.byte[2]= arena[(addr + 1) % MEM_SIZE];
 	arg.byte[1]= arena[(addr + 2) % MEM_SIZE];
@@ -27,27 +29,9 @@ static int32_t	get_arg(uint8_t arg_code, int8_t arg_pos, uint8_t *arena, t_cur *
 		j = (arg_code == DIR_CODE && !op_tab[cursor->op_code].dir_size) ? 3 : 1;
 		while (++i <= j)
 			ret.byte[j - i] = arena[(cursor->pc + arg_pos + i) % MEM_SIZE];
+		if (j == 1)
+			ret.num = (int16_t)ret.num;
 	}
-	/*else if (arg_code == DIR_CODE)
-	{
-		if (op_tab[cursor->op_code].dir_size)
-		{
-			ret.byte[1] = arena[(cursor->pc + arg_pos) % MEM_SIZE];
-			ret.byte[0] = arena[(cursor->pc + arg_pos + 1) % MEM_SIZE];
-		}
-		else
-		{
-			ret.byte[3] = arena[(cursor->pc + arg_pos) % MEM_SIZE];
-			ret.byte[2] = arena[(cursor->pc + arg_pos + 1) % MEM_SIZE];
-			ret.byte[1] = arena[(cursor->pc + arg_pos + 2) % MEM_SIZE];
-			ret.byte[0] = arena[(cursor->pc + arg_pos + 3) % MEM_SIZE];
-		}
-	}
-	else if (arg_code == IND_CODE)
-	{
-		ret.byte[1] = arena[(cursor->pc + arg_pos) % MEM_SIZE];
-		ret.byte[0] = arena[(cursor->pc + arg_pos + 1) % MEM_SIZE];
-	}*/
 	return (ret.num);
 }
 
@@ -102,6 +86,8 @@ static void	st(t_types_code args_code, t_vm *vm, t_cur *cursor)
 		arg[0].num = cursor->reg[arg[0].num - 1]; //конвертация номера регистра в значение, которое находтся в регистре
 		arg[1].num = arg[1].num % IDX_MOD;
 		addr = cursor->pc + arg[1].num;
+		if (addr < 0)
+			addr = MEM_SIZE + (addr % MEM_SIZE);
 		vm->arena[addr % MEM_SIZE] = arg[0].byte[3];
 		vm->arena[(addr + 1) % MEM_SIZE] = arg[0].byte[2];
 		vm->arena[(addr + 2) % MEM_SIZE] = arg[0].byte[1];

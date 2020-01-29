@@ -16,7 +16,6 @@ int8_t	size_op(uint8_t op_code, t_types_code args_code, int8_t *size)
 {
 	int8_t	args_size;
 
-	size[DIR_CODE] = (op_tab[op_code].dir_size) ? 2 : DIR_SIZE;
 	args_size = 2;
 	if (1 <= op_tab[op_code].args_count)
 		args_size += size[args_code.arg1];
@@ -71,6 +70,7 @@ void	cycle(t_vm *vm, int8_t (**type) (int8_t), void (**op) (t_types_code, t_vm *
 		{
 			if (cursor->op_code >= 0x01 && cursor->op_code <= 0x10)
 			{
+				vm->size[DIR_CODE] = (op_tab[cursor->op_code].dir_size) ? 2 : DIR_SIZE; //устанавливаем размер T_DIR
 				if (ft_valid_op_code_and_reg(vm, cursor, type))
 					skip_op(vm, cursor);
 				else
@@ -141,11 +141,10 @@ void ft_battle(t_vm *vm, t_player *player)
 
 	ft_set_valid_func(type);
 	ft_init_op(op);
-//	if (vm->cycle_from_start + vm->cycle == 0)
-//		print_arena(vm);
-	while (++vm->cycle && vm->cursor && vm->cursor->next)
+	while (++vm->cycle && vm->cursor)
 	{
 		cycle(vm, type, op);
+//		vm->cycle_from_start + vm->cycle == 10 ? print_arena(vm) : 0;
 		if (vm->cycle == vm->cycles_to_die || vm->cycles_to_die <= 0)
 			check(vm);
 		if (vm->nbr_cycles >= 0 && vm->cycle_from_start + vm->cycle == vm->nbr_cycles)

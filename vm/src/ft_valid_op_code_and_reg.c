@@ -4,21 +4,22 @@ static int	valid_number_reg(t_types_code args_code, t_cur *cursor, t_vm *vm)
 {
 	int16_t	reg_pos;
 
-	if (args_code.arg1 == 1)
+	if (args_code.arg1 == REG_CODE)
 	{
 		reg_pos = (cursor->pc + 2) % MEM_SIZE;
 		if (!(vm->arena[reg_pos] >= 1 && vm->arena[reg_pos] <= 16))
 			return (1);
 	}
-	if (args_code.arg2 == 1)
+	if (args_code.arg2 == REG_CODE)
 	{
-		reg_pos = (cursor->pc + 3) % MEM_SIZE;
+		reg_pos = (cursor->pc + 2 + vm->size[args_code.arg1]) % MEM_SIZE;
 		if (!(vm->arena[reg_pos] >= 1 && vm->arena[reg_pos] <= 16))
 			return (1);
 	}
-	if (args_code.arg3 == 1)
+	if (args_code.arg3 == REG_CODE)
 	{
-		reg_pos = (cursor->pc + 4) % MEM_SIZE;
+		reg_pos = (cursor->pc + 2 + vm->size[args_code.arg1] +
+				vm->size[args_code.arg2]) % MEM_SIZE;
 		if (!(vm->arena[reg_pos] >= 1 && vm->arena[reg_pos] <= 16))
 			return (1);
 	}

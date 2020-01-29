@@ -61,14 +61,14 @@ typedef struct	s_players
 
 typedef struct	s_cur
 {
-	int32_t			id;
+	int				id;
 	int8_t			carry;
 	uint8_t			op_code;
 	int				cycle_of_last_live;
 	int16_t			cycles_to_do_op;
 	int16_t			pc;					//position
-	int8_t			byte_to_next_op;
-	int32_t			reg[REG_NUMBER];
+	int				byte_to_next_op;
+	int				reg[REG_NUMBER];
 	struct s_cur	*prev;
 	struct s_cur	*next;
 
@@ -87,8 +87,8 @@ typedef struct	s_vm
 	int			number_of_live;
 	int			number_of_check;
 	int8_t		size[4];
-	int32_t		min_player_id;
-	int32_t		max_player_id;
+	int			min_player_id;
+	int			max_player_id;
 }				t_vm;
 
 t_op			op_tab[17];
