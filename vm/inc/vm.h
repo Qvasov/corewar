@@ -10,6 +10,12 @@
 # define BUFF_SIZE	4096
 # define INT_SIZE	4
 
+typedef struct		s_buf
+{
+	char			str[BUFF_SIZE];
+	size_t 			i;
+}					t_buf;
+
 typedef union	s_bits
 {
 	struct
@@ -99,9 +105,29 @@ char	*ft_create_buf(char *path);
 void	ft_init_cursors(t_vm *vm, t_players *players);
 void	ft_introducing(t_players *players);
 void 	ft_battle(t_vm *vm, t_player *player);
-void	ft_set_valid_func(int8_t (**type) (int8_t));
+void	ft_init_valid_func(int8_t (**type) (int8_t));
 int		ft_valid_op_code_and_reg(t_vm *vm, t_cur *cursor, int8_t (**valid) (int8_t));
 void	ft_init_op(void (**op) (t_types_code, t_vm *, t_cur *pCursor));
+void	live(t_types_code args_code, t_vm *vm, t_cur *cursor);
+void	ld(t_types_code args_code, t_vm *vm, t_cur *cursor);
+void	st(t_types_code args_code, t_vm *vm, t_cur *cursor);
+void	add(t_types_code args_code, t_vm *vm, t_cur *cursor);
+void	sub(t_types_code args_code, t_vm *vm, t_cur *cursor);
+void	and(t_types_code args_code, t_vm *vm, t_cur *cursor);
+void	or(t_types_code args_code, t_vm *vm, t_cur *cursor);
+void	xor(t_types_code args_code, t_vm *vm, t_cur *cursor);
+void	zjmp(t_types_code args_code, t_vm *vm, t_cur *cursor);
+void	ldi(t_types_code args_code, t_vm *vm, t_cur *cursor);
+void	sti(t_types_code args_code, t_vm *vm, t_cur *cursor);
+void	fork_cw(t_types_code args_code, t_vm *vm, t_cur *cursor);
+void	lld(t_types_code args_code, t_vm *vm, t_cur *cursor);
+void	lldi(t_types_code args_code, t_vm *vm, t_cur *cursor);
+void	lfork_cw(t_types_code args_code, t_vm *vm, t_cur *cursor);
+void	aff(t_types_code args_code, t_vm *vm, t_cur *cursor);
+void	ft_cycle(t_vm *vm, int8_t (**type) (int8_t), void (**op) (t_types_code, t_vm *, t_cur *));
+void	ft_check(t_vm *vm);
+int		get_arg(uint8_t arg_code, int8_t arg_pos, uint8_t *arena, t_cur *cursor);
+int		get_value(t_int arg, t_cur *cursor, uint8_t *arena);
 t_cur	*ft_copy_cursor(t_vm *vm, t_cur *cursor);
 void	ft_endgame(t_vm *vm, t_player *player);
 void	ft_cw_usage();

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_set_valid_func.c                                :+:      :+:    :+:   */
+/*   ft_init_valid_func.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dbennie <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -52,7 +52,7 @@ static int8_t	valid_ind(int8_t arg_types)
 	return (1);
 }
 
-void			ft_set_valid_func(int8_t (**type) (int8_t))
+void			ft_init_valid_func(int8_t (**type) (int8_t))
 {
 	type[0] = valid_zero;
 	type[REG_CODE] = valid_reg;

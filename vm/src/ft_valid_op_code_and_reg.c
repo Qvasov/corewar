@@ -37,7 +37,7 @@ int			ft_valid_op_code_and_reg(t_vm *vm, t_cur *cursor, int8_t (**valid) (int8_t
 			valid[args_code.arg2](op_tab[cursor->op_code].args.code.types2) ||
 			valid[args_code.arg3](op_tab[cursor->op_code].args.code.types3) ||
 			valid[args_code.arg4](op_tab[cursor->op_code].args.code.types4) ||
-			valid_number_reg(args_code, cursor, vm))
+			valid_number_reg(args_code, cursor, vm)) //отдельно рега без кода типов нету
 			return (1); //если не корректен код типов аргументов или номер регистра
 	}
 	return (0);
