@@ -1,6 +1,6 @@
 #include "vm.h"
 
-int		get_value(t_int arg, t_cur *cursor, uint8_t *arena)
+int		get_ind_value(t_int arg, t_cur *cursor, uint8_t *arena)
 {
 	int32_t	addr;
 

@@ -12,6 +12,46 @@
 
 #include "vm.h"
 
+static void	print_values()
+{}
+
+static void	print_command(t_types_code args_code, t_vm *vm, t_cur *cursor)
+{
+	t_int	arg[3];
+	int8_t	args_size;
+
+	ft_printf("P    %d | %s ", cursor->reg[0] * -1, op_tab[cursor->op_code].name);
+	args_size = 1;
+	(op_tab[cursor->op_code].args_type_code) ? ++args_size : 0;
+	arg[0].num = get_arg(args_code.arg1, args_size, vm->arena, cursor);
+	if (args_code.arg1 == REG_CODE)
+		ft_printf("r%d ", arg[0].num);
+	else if (args_code.arg1 == DIR_CODE)
+	{
+		if (cursor->op_code == 0x02) // усичение
+		{}
+		ft_printf("%d ", arg[0].num);
+	}
+	else if (args_code.arg1 == IND_CODE)
+	{
+		arg[0].num %= IDX_MOD;
+		arg[0].num = get_ind_value(arg[0], cursor, vm->arena);
+		//условие усечения
+		ft_printf("%d ", arg[0].num);
+	}
+
+	if (op_tab[cursor->op_code].args_count >= 2)
+	{
+		args_size += vm->size[args_code.arg1];
+		arg[1].num = get_arg(args_code.arg2, args_size, vm->arena, cursor);
+	}
+	if (op_tab[cursor->op_code].args_count >= 3)
+	{
+		args_size += vm->size[args_code.arg2];
+		arg[2].num = get_arg(args_code.arg3, args_size, vm->arena, cursor);
+	}
+}
+
 static void	skip_op(t_vm *vm, t_cur *cursor)
 {
 	t_types_code	args_code;
@@ -40,11 +80,8 @@ static void	do_op(t_vm *vm, t_cur *cursor, void (**op) (t_types_code, t_vm *, t_
 
 	args_code.num = vm->arena[(cursor->pc + 1) % MEM_SIZE];
 	op[cursor->op_code](args_code, vm, cursor);
-
-//	printf("P   %d | %s %s\n", cursor->reg[0] * -1, op_tab[cursor->op_code].name, vm->buf.str);
-
+	print_command(args_code, vm, cursor);
 	cursor->pc = (cursor->pc + cursor->byte_to_next_op) % MEM_SIZE;
-
 }
 
 void		ft_cycle(t_vm *vm, int8_t (**type) (int8_t), void (**op) (t_types_code, t_vm *, t_cur *))

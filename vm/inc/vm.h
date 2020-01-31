@@ -127,7 +127,7 @@ void	aff(t_types_code args_code, t_vm *vm, t_cur *cursor);
 void	ft_cycle(t_vm *vm, int8_t (**type) (int8_t), void (**op) (t_types_code, t_vm *, t_cur *));
 void	ft_check(t_vm *vm);
 int		get_arg(uint8_t arg_code, int8_t arg_pos, uint8_t *arena, t_cur *cursor);
-int		get_value(t_int arg, t_cur *cursor, uint8_t *arena);
+int		get_ind_value(t_int arg, t_cur *cursor, uint8_t *arena);
 t_cur	*ft_copy_cursor(t_vm *vm, t_cur *cursor);
 void	ft_endgame(t_vm *vm, t_player *player);
 void	ft_cw_usage();

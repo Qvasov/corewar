@@ -57,7 +57,7 @@ void	sti(t_types_code args_code, t_vm *vm, t_cur *cursor)
 	if (args_code.arg2 == REG_CODE)
 		arg[1].num = cursor->reg[arg[1].num - 1];
 	else if (args_code.arg2 == IND_CODE)
-		arg[1].num = get_value(arg[1], cursor, vm->arena);
+		arg[1].num = get_ind_value(arg[1], cursor, vm->arena);
 	if (args_code.arg3 == REG_CODE)
 		arg[2].num = cursor->reg[arg[2].num - 1];
 	arg[0].num = cursor->reg[arg[0].num - 1];
