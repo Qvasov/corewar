@@ -12,47 +12,47 @@
 
 #include "vm.h"
 
-static int8_t	valid_zero(int8_t arg_types)
+static uint8_t	valid_zero(uint8_t arg_type)
 {
 	t_bits	arg_bits;
 
-	arg_bits.num = arg_types;
+	arg_bits.num = arg_type;
 	if (!arg_bits.bit3)
 		return (0);
 	return (1);
 }
 
-static int8_t	valid_reg(int8_t arg_types /*в таблице*/)
+static uint8_t	valid_reg(uint8_t arg_type /*в таблице*/)
 {
 	t_bits	arg_bits;
 
-	arg_bits.num = arg_types;
+	arg_bits.num = arg_type;
 	if (arg_bits.bit0)
 		return (0);
 	return (1);
 }
 
-static int8_t	valid_dir(int8_t arg_types)
+static uint8_t	valid_dir(uint8_t arg_type)
 {
 	t_bits	arg_bits;
 
-	arg_bits.num = arg_types;
+	arg_bits.num = arg_type;
 	if (arg_bits.bit1)
 		return (0);
 	return (1);
 }
 
-static int8_t	valid_ind(int8_t arg_types)
+static uint8_t	valid_ind(uint8_t arg_type)
 {
 	t_bits	arg_bits;
 
-	arg_bits.num = arg_types;
+	arg_bits.num = arg_type;
 	if (arg_bits.bit2)
 		return (0);
 	return (1);
 }
 
-void			ft_init_valid_func(int8_t (**type) (int8_t))
+void			ft_init_valid_func(uint8_t (**type) (uint8_t))
 {
 	type[0] = valid_zero;
 	type[REG_CODE] = valid_reg;

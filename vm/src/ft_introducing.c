@@ -16,7 +16,7 @@ void	ft_introducing(t_players *players)
 {
 	int8_t	i;
 
-	ft_printf("Introducing contestant...\n");
+	ft_printf("Introducing contestants...\n");
 	i = -1;
 	while (++i < players->number_of_players)
 	{

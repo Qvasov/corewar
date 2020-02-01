@@ -25,7 +25,7 @@ typedef union	s_bits
 		uint8_t 	bit2 : 1;
 		uint8_t 	bit3 : 1;
 	};
-	int8_t		num;
+	uint8_t		num;
 }				t_bits;
 
 typedef union	u_types_code
@@ -105,8 +105,8 @@ char	*ft_create_buf(char *path);
 void	ft_init_cursors(t_vm *vm, t_players *players);
 void	ft_introducing(t_players *players);
 void 	ft_battle(t_vm *vm, t_player *player);
-void	ft_init_valid_func(int8_t (**type) (int8_t));
-int		ft_valid_op_code_and_reg(t_vm *vm, t_cur *cursor, int8_t (**valid) (int8_t));
+void	ft_init_valid_func(uint8_t (**type) (uint8_t));
+int		ft_valid_op_code_and_reg(t_vm *vm, t_cur *cursor, uint8_t (**valid) (uint8_t));
 void	ft_init_op(void (**op) (t_types_code, t_vm *, t_cur *pCursor));
 void	live(t_types_code args_code, t_vm *vm, t_cur *cursor);
 void	ld(t_types_code args_code, t_vm *vm, t_cur *cursor);
@@ -124,13 +124,14 @@ void	lld(t_types_code args_code, t_vm *vm, t_cur *cursor);
 void	lldi(t_types_code args_code, t_vm *vm, t_cur *cursor);
 void	lfork_cw(t_types_code args_code, t_vm *vm, t_cur *cursor);
 void	aff(t_types_code args_code, t_vm *vm, t_cur *cursor);
-void	ft_cycle(t_vm *vm, int8_t (**type) (int8_t), void (**op) (t_types_code, t_vm *, t_cur *));
+void	ft_cycle(t_vm *vm, uint8_t (**type) (uint8_t), void (**op) (t_types_code, t_vm *, t_cur *));
 void	ft_check(t_vm *vm);
 int		get_arg(uint8_t arg_code, int8_t arg_pos, uint8_t *arena, t_cur *cursor);
 int		get_ind_value(t_int arg, t_cur *cursor, uint8_t *arena);
 t_cur	*ft_copy_cursor(t_vm *vm, t_cur *cursor);
 void	ft_endgame(t_vm *vm, t_player *player);
 void	ft_cw_usage();
+void	ft_print_commands(t_types_code args_code, t_vm *vm, t_cur *cursor);
 void	ft_error(int8_t id);
 void	ft_perror();
 
