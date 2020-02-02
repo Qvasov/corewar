@@ -4,7 +4,7 @@ int		get_ind_value(t_int arg, t_cur *cursor, uint8_t *arena)
 {
 	int32_t	addr;
 
-	addr = cursor->pc + arg.num;
+	addr = (cursor->pc + arg.num) % MEM_SIZE;
 	if (addr < 0)
 		addr = MEM_SIZE + (addr % MEM_SIZE);
 	arg.byte[3]= arena[addr % MEM_SIZE];

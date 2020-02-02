@@ -62,6 +62,7 @@ void	sti(t_types_code args_code, t_vm *vm, t_cur *cursor)
 		arg[2].num = cursor->reg[arg[2].num - 1];
 	arg[0].num = cursor->reg[arg[0].num - 1];
 	addr = cursor->pc + ((arg[1].num + arg[2].num) % IDX_MOD);
+	(addr < 0) ? addr = MEM_SIZE + addr : 0;
 	vm->arena[addr % MEM_SIZE] = arg[0].byte[3];
 	vm->arena[(addr + 1) % MEM_SIZE] = arg[0].byte[2];
 	vm->arena[(addr + 2) % MEM_SIZE] = arg[0].byte[1];

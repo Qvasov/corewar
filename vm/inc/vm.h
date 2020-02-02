@@ -75,6 +75,7 @@ typedef struct	s_cur
 	int16_t			pc;					//position
 	int				byte_to_next_op;
 	int				reg[REG_NUMBER];
+//	int				*reg;
 	struct s_cur	*prev;
 	struct s_cur	*next;
 
@@ -93,6 +94,7 @@ typedef struct	s_vm
 	int			number_of_live;
 	int			number_of_check;
 	int8_t		size[4];
+	uint8_t		(*valid[4])(uint8_t); //
 	int			min_player_id;
 	int			max_player_id;
 }				t_vm;
@@ -131,7 +133,7 @@ int		get_ind_value(t_int arg, t_cur *cursor, uint8_t *arena);
 t_cur	*ft_copy_cursor(t_vm *vm, t_cur *cursor);
 void	ft_endgame(t_vm *vm, t_player *player);
 void	ft_cw_usage();
-void	ft_print_commands(t_types_code args_code, t_vm *vm, t_cur *cursor);
+void ft_print_commands(t_vm *vm, t_cur *cursor);
 void	ft_error(int8_t id);
 void	ft_perror();
 

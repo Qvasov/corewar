@@ -41,7 +41,13 @@ static void	print_value(uint8_t arg_code, t_int arg, t_vm *vm, t_cur *cursor)
 
 static void print_additional_info(t_int *arg, t_cur *cursor)
 {
-	if (cursor->op_code == 0x0b)
+	if (cursor->op_code == 0x0a)
+	{
+		ft_printf("\n %5s | -> load from %d + %d = %d (with pc and mod %d)\n",
+				  "", arg[0].num, arg[1].num, arg[0].num + arg[1].num,
+				  (cursor->pc + arg[0].num + arg[1].num) % IDX_MOD);
+	}
+	else if (cursor->op_code == 0x0b)
 	{
 		ft_printf("\n %5s | -> store to %d + %d = %d (with pc and mod %d)\n",
 				  "", arg[1].num, arg[2].num, arg[1].num + arg[2].num,
@@ -58,11 +64,13 @@ static void print_additional_info(t_int *arg, t_cur *cursor)
 		ft_printf("\n");
 }
 
-void	ft_print_commands(t_types_code args_code, t_vm *vm, t_cur *cursor)
+void ft_print_commands(t_vm *vm, t_cur *cursor)
 {
-	t_int	arg[3];
-	int8_t	args_size;
+	t_int			arg[3];
+	int8_t			args_size;
+	t_types_code	args_code;
 
+	args_code.num = vm->arena[(cursor->pc + 1) % MEM_SIZE];
 	ft_printf("P%5d | %s", cursor->id, op_tab[cursor->op_code].name);
 	args_size = 1;
 	(op_tab[cursor->op_code].args_type_code) ? ++args_size : 0;
@@ -81,9 +89,9 @@ void	ft_print_commands(t_types_code args_code, t_vm *vm, t_cur *cursor)
 	{
 		args_size += vm->size[args_code.arg1];
 		arg[1].num = get_arg(args_code.arg2, args_size, vm->arena, cursor);
-		if (args_code.arg1 == REG_CODE &&
+		if (args_code.arg2 == REG_CODE &&
 			((cursor->op_code >= 0x06 && cursor->op_code <= 0x08) ||
-			 cursor->op_code == 0x0a))
+			 cursor->op_code == 0x0a || cursor->op_code == 0x0b))
 		{
 			arg[1].num = cursor->reg[arg[1].num - 1];
 			ft_printf(" %d", arg[1].num);
@@ -96,7 +104,14 @@ void	ft_print_commands(t_types_code args_code, t_vm *vm, t_cur *cursor)
 	{
 		args_size += vm->size[args_code.arg2];
 		arg[2].num = get_arg(args_code.arg3, args_size, vm->arena, cursor);
-		print_value(args_code.arg3, arg[2], vm, cursor);
+		if (args_code.arg3 == REG_CODE &&
+			(cursor->op_code == 0x0b))
+		{
+			arg[2].num = cursor->reg[arg[2].num - 1];
+			ft_printf(" %d", arg[2].num);
+		}
+		else
+			print_value(args_code.arg3, arg[2], vm, cursor);
 	}
 	print_additional_info(arg, cursor);
 }

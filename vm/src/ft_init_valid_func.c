@@ -52,10 +52,10 @@ static uint8_t	valid_ind(uint8_t arg_type)
 	return (1);
 }
 
-void			ft_init_valid_func(uint8_t (**type) (uint8_t))
+void			ft_init_valid_func(uint8_t (**valid) (uint8_t))
 {
-	type[0] = valid_zero;
-	type[REG_CODE] = valid_reg;
-	type[DIR_CODE] = valid_dir;
-	type[IND_CODE] = valid_ind;
+	valid[0] = valid_zero;
+	valid[REG_CODE] = valid_reg;
+	valid[DIR_CODE] = valid_dir;
+	valid[IND_CODE] = valid_ind;
 }

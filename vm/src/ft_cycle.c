@@ -38,8 +38,8 @@ static void	do_op(t_vm *vm, t_cur *cursor, void (**op) (t_types_code, t_vm *, t_
 {
 	t_types_code	args_code;
 
+	ft_print_commands(vm, cursor);
 	args_code.num = vm->arena[(cursor->pc + 1) % MEM_SIZE];
-	ft_print_commands(args_code, vm, cursor); // условие выполения
 	op[cursor->op_code](args_code, vm, cursor);
 	cursor->pc = (cursor->pc + cursor->byte_to_next_op) % MEM_SIZE;
 }
@@ -59,7 +59,7 @@ void		ft_cycle(t_vm *vm, uint8_t (**type) (uint8_t), void (**op) (t_types_code, 
 		}
 		if (cursor->cycles_to_do_op > 0)
 			--cursor->cycles_to_do_op;
-		if (cursor->cycles_to_do_op == 0) //строго if не else if коммменты в кукбуке
+		if (cursor->cycles_to_do_op == 0)
 		{
 			if (cursor->op_code >= 0x01 && cursor->op_code <= 0x10)
 			{

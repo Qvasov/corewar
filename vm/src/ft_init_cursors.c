@@ -30,6 +30,7 @@ void	ft_init_cursors(t_vm *vm, t_players *players)
 		cur->cycles_to_do_op = 0;
 		cur->pc = delta;
 		cur->byte_to_next_op = 0;
+//		cur->reg = (int *)malloc(sizeof(int) * 12);//
 		cur->reg[0] = players->player[i].id * -1;
 		ft_bzero(&cur->reg[1], 60);
 		cur->prev = NULL;

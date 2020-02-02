@@ -21,10 +21,11 @@ t_cur	*ft_copy_cursor(t_vm *vm, t_cur *cursor)
 	!(cur = (t_cur *)malloc(sizeof(t_cur))) ? ft_perror() : 0;
 	cur->id = ++vm->cursor_id;
 	cur->carry = cursor->carry;
-	cur->op_code = 0; 			//
+	cur->op_code = 0;
 	cur->cycle_of_last_live = cursor->cycle_of_last_live;
-	cur->cycles_to_do_op = 0; 	//
-	cur->byte_to_next_op = 0; 	//
+	cur->cycles_to_do_op = 0;
+	cur->byte_to_next_op = 0;
+//	cur->reg = (int *)malloc(sizeof(int) * 12);//
 	while (++i < REG_NUMBER)
 		cur->reg[i] = cursor->reg[i];
 	cur->prev = NULL;

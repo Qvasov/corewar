@@ -19,7 +19,7 @@ void	live(t_types_code args_code, t_vm *vm, t_cur *cursor)
 
 	args_size = 1;
 	arg.num = get_arg(args_code.arg1, args_size, vm->arena, cursor);
-	args_size += vm->size[args_code.arg1];
+	args_size += vm->size[DIR_CODE];
 	cursor->byte_to_next_op = args_size;
 	++vm->number_of_live;
 	cursor->cycle_of_last_live = vm->cycle;
@@ -34,7 +34,7 @@ void	zjmp(t_types_code args_code, t_vm *vm, t_cur *cursor)
 
 	args_size = 1;
 	arg.num = get_arg(args_code.arg1, args_size, vm->arena, cursor);
-	args_size += vm->size[args_code.arg1];
+	args_size += vm->size[DIR_CODE];
 	if (cursor->carry == 1)
 		cursor->byte_to_next_op = arg.num % IDX_MOD;
 	else
@@ -49,7 +49,7 @@ void	fork_cw(t_types_code args_code, t_vm *vm, t_cur *cursor)
 
 	args_size = 1;
 	arg.num = get_arg(args_code.arg1, args_size, vm->arena, cursor);
-	args_size += vm->size[args_code.arg1]; //
+	args_size += vm->size[DIR_CODE];
 	cursor->byte_to_next_op = args_size;
 	new_cursor = ft_copy_cursor(vm, cursor);
 	new_cursor->pc = (cursor->pc + arg.num) % IDX_MOD;;
@@ -65,7 +65,7 @@ void	lfork_cw(t_types_code args_code, t_vm *vm, t_cur *cursor)
 
 	args_size = 1;
 	arg.num = get_arg(args_code.arg1, args_size, vm->arena, cursor);
-	args_size += vm->size[args_code.arg1];
+	args_size += vm->size[DIR_CODE];
 	cursor->byte_to_next_op = args_size;
 	new_cursor = ft_copy_cursor(vm, cursor);
 	new_cursor->pc = cursor->pc + arg.num;
