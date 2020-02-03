@@ -70,7 +70,7 @@ typedef struct	s_cur
 	int				id;
 	int8_t			carry;
 	uint8_t			op_code;
-	int				cycle_of_last_live;
+	int32_t			cycle_of_last_live;
 	int16_t			cycles_to_do_op;
 	int16_t			pc;					//position
 	int				byte_to_next_op;
@@ -94,7 +94,7 @@ typedef struct	s_vm
 	int			number_of_live;
 	int			number_of_check;
 	int8_t		size[4];
-	uint8_t		(*valid[4])(uint8_t); //
+//	uint8_t		(*valid[4])(uint8_t); //
 	int			min_player_id;
 	int			max_player_id;
 }				t_vm;
@@ -126,7 +126,7 @@ void	lld(t_types_code args_code, t_vm *vm, t_cur *cursor);
 void	lldi(t_types_code args_code, t_vm *vm, t_cur *cursor);
 void	lfork_cw(t_types_code args_code, t_vm *vm, t_cur *cursor);
 void	aff(t_types_code args_code, t_vm *vm, t_cur *cursor);
-void	ft_cycle(t_vm *vm, uint8_t (**type) (uint8_t), void (**op) (t_types_code, t_vm *, t_cur *));
+void	ft_cycle(t_vm *vm, uint8_t (**valid) (uint8_t), void (**op) (t_types_code, t_vm *, t_cur *));
 void	ft_check(t_vm *vm);
 int		get_arg(uint8_t arg_code, int8_t arg_pos, uint8_t *arena, t_cur *cursor);
 int		get_ind_value(t_int arg, t_cur *cursor, uint8_t *arena);

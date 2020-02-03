@@ -44,7 +44,7 @@ static void	do_op(t_vm *vm, t_cur *cursor, void (**op) (t_types_code, t_vm *, t_
 	cursor->pc = (cursor->pc + cursor->byte_to_next_op) % MEM_SIZE;
 }
 
-void		ft_cycle(t_vm *vm, uint8_t (**type) (uint8_t), void (**op) (t_types_code, t_vm *, t_cur *))
+void		ft_cycle(t_vm *vm, uint8_t (**valid) (uint8_t), void (**op) (t_types_code, t_vm *, t_cur *))
 {
 	t_cur	*cursor;
 
@@ -64,7 +64,7 @@ void		ft_cycle(t_vm *vm, uint8_t (**type) (uint8_t), void (**op) (t_types_code, 
 			if (cursor->op_code >= 0x01 && cursor->op_code <= 0x10)
 			{
 				vm->size[DIR_CODE] = (op_tab[cursor->op_code].dir_size) ? 2 : DIR_SIZE; //устанавливаем размер T_DIR
-				if (ft_valid_op_code_and_reg(vm, cursor, type))
+				if (ft_valid_op_code_and_reg(vm, cursor, valid))
 					skip_op(vm, cursor);
 				else
 					do_op(vm, cursor, op);

@@ -23,7 +23,7 @@ int		get_arg(uint8_t arg_code, int8_t arg_pos, uint8_t *arena, t_cur *cursor)
 	ret.num = 0;
 	if (arg_code == REG_CODE)
 		ret.num = arena[(cursor->pc + arg_pos) % MEM_SIZE];
-	else
+	else if (arg_code == DIR_CODE || arg_code == IND_CODE)
 	{
 		i = -1;
 		j = (arg_code == DIR_CODE && !op_tab[cursor->op_code].dir_size) ? 3 : 1;

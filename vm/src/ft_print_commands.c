@@ -29,10 +29,6 @@ static void	print_value(uint8_t arg_code, t_int arg, t_vm *vm, t_cur *cursor)
 		ft_printf(" %d", arg.num);
 	else if (arg_code == IND_CODE)
 	{
-//		if ((cursor->op_code >= 0x02 && cursor->op_code <= 0x03) ||
-//			(cursor->op_code >= 0x06 && cursor->op_code <= 0x08) ||
-//			(cursor->op_code >= 0x10 && cursor->op_code <= 0x11))
-//			arg.num %= IDX_MOD;
 		if (cursor->op_code == 0x02)
 			arg.num = get_ind_value(arg, cursor, vm->arena);
 		ft_printf(" %d", arg.num);
@@ -45,18 +41,17 @@ static void print_additional_info(t_int *arg, t_cur *cursor)
 	{
 		ft_printf("\n %5s | -> load from %d + %d = %d (with pc and mod %d)\n",
 				  "", arg[0].num, arg[1].num, arg[0].num + arg[1].num,
-				  (cursor->pc + arg[0].num + arg[1].num) % IDX_MOD);
+				  (cursor->pc + (arg[0].num + arg[1].num) % IDX_MOD));
 	}
 	else if (cursor->op_code == 0x0b)
 	{
 		ft_printf("\n %5s | -> store to %d + %d = %d (with pc and mod %d)\n",
 				  "", arg[1].num, arg[2].num, arg[1].num + arg[2].num,
-				  (cursor->pc + arg[1].num + arg[2].num) % IDX_MOD);
+				  cursor->pc + (arg[1].num + arg[2].num) % IDX_MOD);
 	}
 	else if (cursor->op_code == 0x0c || cursor->op_code == 0x0f)
 	{
 		arg[0].num = arg[0].num + cursor->pc;
-		(cursor->op_code == 0x0c) ? arg[0].num %= IDX_MOD : 0;
 		(arg[0].num < 0) ? arg[0].num += MEM_SIZE : 0;
 		ft_printf(" (%d)\n", arg[0].num);
 	}
@@ -70,11 +65,20 @@ void ft_print_commands(t_vm *vm, t_cur *cursor)
 	int8_t			args_size;
 	t_types_code	args_code;
 
-	args_code.num = vm->arena[(cursor->pc + 1) % MEM_SIZE];
-	ft_printf("P%5d | %s", cursor->id, op_tab[cursor->op_code].name);
+	args_code.num = 0;
 	args_size = 1;
-	(op_tab[cursor->op_code].args_type_code) ? ++args_size : 0;
-	arg[0].num = get_arg(args_code.arg1, args_size, vm->arena, cursor);
+	if (op_tab[cursor->op_code].args_type_code)
+	{
+		args_code.num = vm->arena[(cursor->pc + 1) % MEM_SIZE];
+		++args_size;
+		arg[0].num = get_arg(args_code.arg1, args_size, vm->arena, cursor);
+	}
+	else
+		arg[0].num = get_arg(op_tab[cursor->op_code].arg_type[0], args_size, vm->arena, cursor);
+
+	if (op_tab[cursor->op_code].args_type_code && args_code.num == 0)
+		return ;
+	ft_printf("P%5d | %s", cursor->id, op_tab[cursor->op_code].name);
 	if (args_code.arg1 == REG_CODE &&
 		((cursor->op_code >= 0x06 && cursor->op_code <= 0x08) ||
 		cursor->op_code == 0x0a))
