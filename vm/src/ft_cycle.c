@@ -44,7 +44,7 @@ static void	do_op(t_vm *vm, t_cur *cursor, void (**op) (t_types_code, t_vm *, t_
 	cursor->pc = (cursor->pc + cursor->byte_to_next_op) % MEM_SIZE;
 }
 
-void		ft_cycle(t_vm *vm, uint8_t (**valid) (uint8_t), void (**op) (t_types_code, t_vm *, t_cur *))
+void		ft_cycle(t_vm *vm, uint8_t (**valid) (uint8_t, uint8_t), void (**op) (t_types_code, t_vm *, t_cur *))
 {
 	t_cur	*cursor;
 

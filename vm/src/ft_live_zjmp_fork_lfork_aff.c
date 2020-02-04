@@ -56,10 +56,10 @@ void	fork_cw(t_types_code args_code, t_vm *vm, t_cur *cursor)
 	args_size += vm->size[DIR_CODE];
 	cursor->byte_to_next_op = args_size;
 	new_cursor = ft_copy_cursor(vm, cursor);
-	new_cursor->pc = cursor->pc + (arg.num % IDX_MOD);
+	new_cursor->pc = (cursor->pc + (arg.num % IDX_MOD)) % MEM_SIZE;
 	if (new_cursor->pc < 0)
 		new_cursor->pc += MEM_SIZE;
-} //тут вопросы
+}
 
 void	lfork_cw(t_types_code args_code, t_vm *vm, t_cur *cursor)
 {
@@ -72,10 +72,10 @@ void	lfork_cw(t_types_code args_code, t_vm *vm, t_cur *cursor)
 	args_size += vm->size[DIR_CODE];
 	cursor->byte_to_next_op = args_size;
 	new_cursor = ft_copy_cursor(vm, cursor);
-	new_cursor->pc = cursor->pc + arg.num;
+	new_cursor->pc = (cursor->pc + arg.num) % MEM_SIZE;
 	if (new_cursor->pc < 0)
 		new_cursor->pc += MEM_SIZE;
-} //тут вопросы как и в fork обычном
+}
 
 void	aff(t_types_code args_code, t_vm *vm, t_cur *cursor)
 {

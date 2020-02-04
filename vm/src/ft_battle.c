@@ -31,12 +31,12 @@ void	print_arena(t_vm *vm)
 
 void	ft_battle(t_vm *vm, t_player *player)
 {
-	uint8_t	(*valid[4])(uint8_t);
+	uint8_t	(*valid[4])(uint8_t, uint8_t);
 	void	(*op[17])(t_types_code, t_vm *, t_cur *);
 
 	ft_init_valid_func(valid);
 	ft_init_op(op);
-	vm->nbr_cycles = 25400;
+	vm->nbr_cycles = 19198;
 	while (++vm->cycle && vm->cursor)
 	{
 		ft_printf("It is now cycle %d\n", vm->cycle_from_start + vm->cycle); // для фалга

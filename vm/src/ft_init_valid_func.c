@@ -12,47 +12,59 @@
 
 #include "vm.h"
 
-static uint8_t	valid_zero(uint8_t arg_type)
+static uint8_t	valid_zero(uint8_t i, uint8_t op)
 {
 	t_bits	arg_bits;
 
-	arg_bits.num = arg_type;
-	if (!arg_bits.bit3)
-		return (0);
+	if (!(op_tab[op].arg_type[i]))
+	{
+		arg_bits.num = op_tab[op].arg_type[i];
+		if (!(arg_bits.bit3))
+			return (0);
+	}
 	return (1);
 }
 
-static uint8_t	valid_reg(uint8_t arg_type /*в таблице*/)
+static uint8_t	valid_reg(uint8_t i, uint8_t op /*в таблице*/)
 {
 	t_bits	arg_bits;
 
-	arg_bits.num = arg_type;
-	if (arg_bits.bit0)
-		return (0);
+	if (op_tab[op].arg_type[i])
+	{
+		arg_bits.num = op_tab[op].arg_type[i];
+		if (arg_bits.bit0)
+			return (0);
+	}
 	return (1);
 }
 
-static uint8_t	valid_dir(uint8_t arg_type)
+static uint8_t	valid_dir(uint8_t i, uint8_t op)
 {
 	t_bits	arg_bits;
 
-	arg_bits.num = arg_type;
-	if (arg_bits.bit1)
-		return (0);
+	if (op_tab[op].arg_type[i])
+	{
+		arg_bits.num = op_tab[op].arg_type[i];
+		if (arg_bits.bit1)
+			return (0);
+	}
 	return (1);
 }
 
-static uint8_t	valid_ind(uint8_t arg_type)
+static uint8_t	valid_ind(uint8_t i, uint8_t op)
 {
 	t_bits	arg_bits;
 
-	arg_bits.num = arg_type;
-	if (arg_bits.bit2)
-		return (0);
+	if (op_tab[op].arg_type[i])
+	{
+		arg_bits.num = op_tab[op].arg_type[i];
+		if (arg_bits.bit2)
+			return (0);
+	}
 	return (1);
 }
 
-void			ft_init_valid_func(uint8_t (**valid) (uint8_t))
+void			ft_init_valid_func(uint8_t (**valid) (uint8_t, uint8_t))
 {
 	valid[0] = valid_zero;
 	valid[REG_CODE] = valid_reg;

@@ -72,10 +72,9 @@ typedef struct	s_cur
 	uint8_t			op_code;
 	int32_t			cycle_of_last_live;
 	int16_t			cycles_to_do_op;
-	int16_t			pc;					//position
+	int16_t			pc;
 	int				byte_to_next_op;
 	int				reg[REG_NUMBER];
-//	int				*reg;
 	struct s_cur	*prev;
 	struct s_cur	*next;
 
@@ -94,12 +93,11 @@ typedef struct	s_vm
 	int			number_of_live;
 	int			number_of_check;
 	int8_t		size[4];
-//	uint8_t		(*valid[4])(uint8_t); //
 	int			min_player_id;
 	int			max_player_id;
 }				t_vm;
 
-t_op			op_tab[17];
+extern	t_op			op_tab[17];
 
 void	ft_cw_vm_handle(int ac, char **av, t_players *players, int *nbr_cycles);
 void	ft_cw_vm_read(t_vm *vm, t_players *players);
@@ -107,8 +105,8 @@ char	*ft_create_buf(char *path);
 void	ft_init_cursors(t_vm *vm, t_players *players);
 void	ft_introducing(t_players *players);
 void 	ft_battle(t_vm *vm, t_player *player);
-void	ft_init_valid_func(uint8_t (**type) (uint8_t));
-int		ft_valid_op_code_and_reg(t_vm *vm, t_cur *cursor, uint8_t (**valid) (uint8_t));
+void	ft_init_valid_func(uint8_t (**type) (uint8_t, uint8_t));
+int		ft_valid_op_code_and_reg(t_vm *vm, t_cur *cursor, uint8_t (**valid) (uint8_t, uint8_t));
 void	ft_init_op(void (**op) (t_types_code, t_vm *, t_cur *pCursor));
 void	live(t_types_code args_code, t_vm *vm, t_cur *cursor);
 void	ld(t_types_code args_code, t_vm *vm, t_cur *cursor);
@@ -126,14 +124,14 @@ void	lld(t_types_code args_code, t_vm *vm, t_cur *cursor);
 void	lldi(t_types_code args_code, t_vm *vm, t_cur *cursor);
 void	lfork_cw(t_types_code args_code, t_vm *vm, t_cur *cursor);
 void	aff(t_types_code args_code, t_vm *vm, t_cur *cursor);
-void	ft_cycle(t_vm *vm, uint8_t (**valid) (uint8_t), void (**op) (t_types_code, t_vm *, t_cur *));
+void	ft_cycle(t_vm *vm, uint8_t (**valid) (uint8_t, uint8_t), void (**op) (t_types_code, t_vm *, t_cur *));
 void	ft_check(t_vm *vm);
 int		get_arg(uint8_t arg_code, int8_t arg_pos, uint8_t *arena, t_cur *cursor);
 int		get_ind_value(t_int arg, t_cur *cursor, uint8_t *arena);
 t_cur	*ft_copy_cursor(t_vm *vm, t_cur *cursor);
 void	ft_endgame(t_vm *vm, t_player *player);
 void	ft_cw_usage();
-void ft_print_commands(t_vm *vm, t_cur *cursor);
+void 	ft_print_commands(t_vm *vm, t_cur *cursor);
 void	ft_error(int8_t id);
 void	ft_perror();
 

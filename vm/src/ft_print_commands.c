@@ -17,8 +17,8 @@ static void	print_value(uint8_t arg_code, t_int arg, t_vm *vm, t_cur *cursor)
 	if (!(op_tab[cursor->op_code].args_type_code))
 	{
 		if (cursor->op_code == 0x09)
-			(cursor->carry) ? ft_printf(" %d OK", arg.num %= IDX_MOD) :
-			ft_printf(" %d FAILED", arg.num %= IDX_MOD);
+			(cursor->carry) ? ft_printf(" %d OK", arg.num) :
+			ft_printf(" %d FAILED", arg.num);
 		else
 			ft_printf(" %d", arg.num);
 		return ;
@@ -39,7 +39,7 @@ static void print_additional_info(t_int *arg, t_cur *cursor)
 {
 	if (cursor->op_code == 0x0a)
 	{
-		ft_printf("\n %5s | -> load from %d + %d = %d (with pc and mod %d)\n",
+		ft_printf("\n %s | -> load from %d + %d = %d (with pc and mod %d)\n",
 				  "", arg[0].num, arg[1].num, arg[0].num + arg[1].num,
 				  (cursor->pc + (arg[0].num + arg[1].num) % IDX_MOD));
 	}
@@ -49,10 +49,16 @@ static void print_additional_info(t_int *arg, t_cur *cursor)
 				  "", arg[1].num, arg[2].num, arg[1].num + arg[2].num,
 				  cursor->pc + (arg[1].num + arg[2].num) % IDX_MOD);
 	}
-	else if (cursor->op_code == 0x0c || cursor->op_code == 0x0f)
+	else if (cursor->op_code == 0x0c)
 	{
-		arg[0].num = arg[0].num + cursor->pc;
-		(arg[0].num < 0) ? arg[0].num += MEM_SIZE : 0;
+		arg[0].num = ((arg[0].num % IDX_MOD) + cursor->pc) % MEM_SIZE;
+//		(arg[0].num < 0) ? arg[0].num += MEM_SIZE : 0;
+		ft_printf(" (%d)\n", arg[0].num);
+	}
+	else if (cursor->op_code == 0x0f)
+	{
+		arg[0].num = (arg[0].num + cursor->pc);
+//		(arg[0].num < 0) ? arg[0].num += MEM_SIZE : 0;
 		ft_printf(" (%d)\n", arg[0].num);
 	}
 	else
@@ -78,7 +84,7 @@ void ft_print_commands(t_vm *vm, t_cur *cursor)
 
 	if (op_tab[cursor->op_code].args_type_code && args_code.num == 0)
 		return ;
-	ft_printf("P%5d | %s", cursor->id, op_tab[cursor->op_code].name);
+	ft_printf("P %4d | %s", cursor->id, op_tab[cursor->op_code].name);
 	if (args_code.arg1 == REG_CODE &&
 		((cursor->op_code >= 0x06 && cursor->op_code <= 0x08) ||
 		cursor->op_code == 0x0a))
