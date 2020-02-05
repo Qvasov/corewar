@@ -12,60 +12,37 @@
 
 #include "vm.h"
 
-static void	init_arena(t_vm *vm, int8_t num)
-{
-	ft_bzero(vm->arena, MEM_SIZE);
-	vm->cursor = NULL;
-	vm->cursor_id = 0;
-	vm->cycle = 0;
-	vm->cycle_from_start = 0;
-	vm->cycles_to_die = 1536;
-	vm->last_player_id = num;
-	vm->number_of_live = 0;
-	vm->size[0] = 0;
-	vm->size[REG_CODE] = 1;
-	vm->size[DIR_CODE] = DIR_SIZE;
-	vm->size[IND_CODE] = IND_SIZE;
-	vm->min_player_id = 1;
-	vm->max_player_id = num;
-}
-
-static void	init_players_number(t_players *players)
-{
-	int	i;
-
-	i = 0;
-	while (players->path[i])
-		++i;
-	players->number_of_players = i;
-	players->player = malloc(sizeof(t_player) * i);
-}
-
-static void	init_players(t_players *players)
+static void	init_data(t_data *data)
 {
 	int i;
 
-	players->number_of_players = 0;
-	players->player = NULL;
 	i = -1;
+	ft_bzero(data->vm->arena, MEM_SIZE);
+	data->vm->cursor = NULL;
+	data->vm->cursor_id = 0;
+	data->vm->cycle = 0;
+	data->vm->cycle_from_start = 0;
+	data->vm->cycles_to_die = 1536;
+	data->vm->number_of_live = 0;
+	data->vm->size[0] = 0;
+	data->vm->size[REG_CODE] = 1;
+	data->vm->size[DIR_CODE] = DIR_SIZE;
+	data->vm->size[IND_CODE] = IND_SIZE;
+	data->vm->min_player_id = 1; //
+	data->vm->num_of_players = 0;
 	while (++i < MAX_PLAYERS)
-	{
-		players->path[i] = NULL;
-		players->flag_n[i] = 0;
-	}
+		data->player[i]->path = NULL;
 }
 
 int main(int ac, char **av)
 {
-	t_players	players;
-	t_vm		vm;
+	t_data		data;
 
-	(ac <= 1) ? ft_cw_usage() : 0;
-	init_players(&players); // создание структуры players
-	ft_cw_vm_handle(ac, av, &players, &vm.nbr_cycles); //хендлинг аргументов ./corewar
-	init_players_number(&players); //инициализация кол-ва игроков
-	init_arena(&vm, players.number_of_players); //создание и инициализация арены
-	ft_cw_vm_read(&vm, &players); //считывание байт-кода и разбор на состоваляющие
+	if (ac <= 1)
+		ft_usage();
+	init_data(&data); // создание структуры players //создание и инициализация арены
+	ft_parse(ac, av, &data);
+	ft_read_players(data.vm, data.player); //считывание байт-кода и разбор на состоваляющие
 	ft_init_cursors(&vm, &players); // создание и инициализация кареток
 	ft_introducing(&players);
 	ft_battle(&vm, players.player);

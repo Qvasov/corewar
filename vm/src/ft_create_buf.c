@@ -53,17 +53,22 @@ char		*ft_create_buf(char *path)
 {
 	int		fd;
 	int		ret;
+	int		size;
 	char	buf[BUFF_SIZE];
 	char 	*str;
-	char	*tmp;
 
 	((fd = open(path, O_RDONLY)) < 0) ? ft_perror() : 0;
 	str = NULL;
+	size = 0;
 	while ((ret = read(fd, &buf, BUFF_SIZE)) > 0)
 	{
-		tmp = str;
-		str = (tmp) ? bufjoin(tmp, buf, BUFF_SIZE, ret) : bufdup(buf, ret);
-		(tmp) ? free(tmp) : 0; //realloc
+		str = (char *)realloc(str, size + ret);
+
+		size += ret;
+
+
+//		str = (tmp) ? bufjoin(tmp, buf, BUFF_SIZE, ret) : bufdup(buf, ret);
+//		(tmp) ? free(tmp) : 0; //realloc
 	}
 	(ret < 0) ? ft_perror() : 0;
 	(close(fd) < 0) ? ft_perror() : 0;

@@ -12,7 +12,7 @@
 
 #include "vm.h"
 
-void	ft_endgame(t_vm *vm, t_player *player)
+void	ft_endgame(t_vm *vm, t_champ *player)
 {
 	printf("Contestant %hhd, \"%s\", has won !\n",
 			vm->last_player_id, player[vm->last_player_id - 1].name);

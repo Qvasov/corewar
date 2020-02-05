@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_cw_usage.c                                      :+:      :+:    :+:   */
+/*   ft_usage.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dbennie <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,7 +12,7 @@
 
 #include "vm.h"
 
-void	ft_cw_usage()
+void	ft_usage()
 {
 	write(1, "./corewar [-dump nbr_cycles] [[-n number] champion1.cor] ...\n", 61);
 	exit(0);

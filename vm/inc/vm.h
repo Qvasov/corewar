@@ -49,21 +49,14 @@ typedef union	u_int
 
 
 
-typedef	struct	s_player
+typedef	struct	s_champ
 {
+	char		*path;
 	int8_t 		id;
 	char		name[PROG_NAME_LENGTH];
 	char		comment[COMMENT_LENGTH];
 	int16_t		exec_size;
-}				t_player;
-
-typedef struct	s_players
-{
-	int8_t		number_of_players;
-	t_player	*player;
-	char		*path[MAX_PLAYERS];
-	int8_t		flag_n[MAX_PLAYERS];
-}				t_players;
+}				t_champ;
 
 typedef struct	s_cur
 {
@@ -94,17 +87,25 @@ typedef struct	s_vm
 	int			number_of_check;
 	int8_t		size[4];
 	int			min_player_id;
-	int			max_player_id;
+	int			num_of_players;
 }				t_vm;
+
+typedef struct	s_data
+{
+	t_vm		*vm;
+	t_champ	*player[MAX_PLAYERS];
+}				t_data;
 
 extern	t_op			op_tab[17];
 
-void	ft_cw_vm_handle(int ac, char **av, t_players *players, int *nbr_cycles);
-void	ft_cw_vm_read(t_vm *vm, t_players *players);
-char	*ft_create_buf(char *path);
+void	ft_parse(int ac, char **av, t_data *data);
+void	ft_check_dump(char **av, t_vm *vm);
+void	ft_check_num_player(char **av, t_data *data);
+void	ft_read_players(t_vm *vm, t_champ *player);
+
 void	ft_init_cursors(t_vm *vm, t_players *players);
 void	ft_introducing(t_players *players);
-void 	ft_battle(t_vm *vm, t_player *player);
+void 	ft_battle(t_vm *vm, t_champ *player);
 void	ft_init_valid_func(uint8_t (**type) (uint8_t, uint8_t));
 int		ft_valid_op_code_and_reg(t_vm *vm, t_cur *cursor, uint8_t (**valid) (uint8_t, uint8_t));
 void	ft_init_op(void (**op) (t_types_code, t_vm *, t_cur *pCursor));
@@ -129,10 +130,10 @@ void	ft_check(t_vm *vm);
 int		get_arg(uint8_t arg_code, int8_t arg_pos, uint8_t *arena, t_cur *cursor);
 int		get_ind_value(t_int arg, t_cur *cursor, uint8_t *arena);
 t_cur	*ft_copy_cursor(t_vm *vm, t_cur *cursor);
-void	ft_endgame(t_vm *vm, t_player *player);
-void	ft_cw_usage();
+void	ft_endgame(t_vm *vm, t_champ *player);
+void	ft_usage();
 void 	ft_print_commands(t_vm *vm, t_cur *cursor);
-void	ft_error(int8_t id);
+void	ft_error(char *str);
 void	ft_perror();
 
 #endif

@@ -11,17 +11,17 @@
 /* ************************************************************************** */
 
 #include "vm.h"
-#include <errno.h>
+//#include <errno.h>
 
-void	ft_error(int8_t id)
+void	ft_error(char *str)
 {
-	write (2, "ERROR\n", 6);
-	exit(id);
+	ft_printf("./corewar: %s\n", str); //ft_fprintf
+	exit(1);
 }
 
 void	ft_perror()
 {
-	ft_printf("%s\n", strerror(errno));
+//	ft_printf("%s\n", strerror(errno));
 	perror("corewar");
-	exit (1);
+	exit(1);
 }
