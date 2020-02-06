@@ -12,40 +12,44 @@
 
 #include "vm.h"
 
-static void	init_data(t_data *data)
+static void	init_data(t_data *data, t_champ **player)
 {
 	int i;
 
 	i = -1;
-	ft_bzero(data->vm->arena, MEM_SIZE);
-	data->vm->cursor = NULL;
-	data->vm->cursor_id = 0;
-	data->vm->cycle = 0;
-	data->vm->cycle_from_start = 0;
-	data->vm->cycles_to_die = 1536;
-	data->vm->number_of_live = 0;
-	data->vm->size[0] = 0;
-	data->vm->size[REG_CODE] = 1;
-	data->vm->size[DIR_CODE] = DIR_SIZE;
-	data->vm->size[IND_CODE] = IND_SIZE;
-	data->vm->min_player_id = 1; //
-	data->vm->num_of_players = 0;
+	ft_bzero(data->vm.arena, MEM_SIZE);
+	data->vm.cursor = NULL;
+	data->vm.cursor_id = 0;
+	data->vm.cycle = 0;
+	data->vm.cycle_from_start = 0;
+	data->vm.cycles_to_die = 1536;
+	data->vm.number_of_live = 0;
+	data->vm.size[0] = 0;
+	data->vm.size[REG_CODE] = 1;
+	data->vm.size[DIR_CODE] = DIR_SIZE;
+	data->vm.size[IND_CODE] = IND_SIZE;
+	data->vm.min_player_id = 1; //
+	data->vm.num_of_players = 0;
 	while (++i < MAX_PLAYERS)
+	{
+		data->player[i] = player[i];
 		data->player[i]->path = NULL;
+	}
 }
 
 int main(int ac, char **av)
 {
-	t_data		data;
+	t_data	data;
+	t_champ	player[MAX_PLAYERS];
 
 	if (ac <= 1)
 		ft_usage();
-	init_data(&data); // создание структуры players //создание и инициализация арены
+	data.player = player;
+	init_data(&data, player); // создание структуры players //создание и инициализация арены
 	ft_parse(ac, av, &data);
-	ft_read_players(data.vm, data.player); //считывание байт-кода и разбор на состоваляющие
-	ft_init_cursors(&vm, &players); // создание и инициализация кареток
-	ft_introducing(&players);
-	ft_battle(&vm, players.player);
+	ft_read_valid_players(&data.vm, data.player); //считывание байт-кода и разбор на состоваляющие
+	ft_introducing(&data);
+	ft_battle(&data.vm, data.player);
 //	free(); //всё остальное //free players
 	return (0);
 }

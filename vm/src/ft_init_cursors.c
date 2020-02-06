@@ -12,7 +12,7 @@
 
 #include "vm.h"
 
-void	ft_init_cursors(t_vm *vm, t_players *players)
+void	ft_init_cursors(t_vm *vm, t_champ **player)
 {
 	t_cur	*cur;
 	int16_t	delta;
@@ -20,7 +20,7 @@ void	ft_init_cursors(t_vm *vm, t_players *players)
 
 	delta = 0;
 	i = -1;
-	while (++i < players->number_of_players)
+	while (++i < vm->num_of_players)
 	{
 		!(cur = (t_cur *)malloc(sizeof(t_cur))) ? ft_perror() : 0;
 		cur->id = ++vm->cursor_id;
@@ -30,13 +30,12 @@ void	ft_init_cursors(t_vm *vm, t_players *players)
 		cur->cycles_to_do_op = 0;
 		cur->pc = delta;
 		cur->byte_to_next_op = 0;
-//		cur->reg = (int *)malloc(sizeof(int) * 12);//
-		cur->reg[0] = players->player[i].id * -1;
+		cur->reg[0] = player[i]->id * -1;
 		ft_bzero(&cur->reg[1], 60);
 		cur->prev = NULL;
 		cur->next = vm->cursor;
 		(vm->cursor) ? vm->cursor->prev = cur : 0;
 		vm->cursor = cur;
-		delta += ((MEM_SIZE) / players->number_of_players);
+		delta += ((MEM_SIZE) / vm->num_of_players);
 	}
 }

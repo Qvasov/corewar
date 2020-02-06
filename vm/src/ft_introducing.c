@@ -12,16 +12,16 @@
 
 #include "vm.h"
 
-void	ft_introducing(t_players *players)
+void	ft_introducing(t_data *data)
 {
 	int8_t	i;
 
 	ft_printf("Introducing contestants...\n");
 	i = -1;
-	while (++i < players->number_of_players)
+	while (++i < data->vm.num_of_players)
 	{
 		ft_printf("* Player %d, weighing %d bytes, \"%s\" (\"%s\") !\n",
-		players->player[i].id, players->player[i].exec_size,
-		players->player[i].name, players->player[i].comment);
+				  data->player[i]->id, data->player[i]->exec_size,
+				  data->player[i]->name, data->player[i]->comment);
 	}
 }

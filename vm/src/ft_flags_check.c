@@ -17,8 +17,8 @@ void	ft_check_num_player(char **av, t_data *data)
 	int num;
 	int check;
 
-	data->vm->num_of_players += 1;
-	if (data->vm->num_of_players > MAX_PLAYERS)
+	data->vm.num_of_players += 1;
+	if (data->vm.num_of_players > MAX_PLAYERS)
 		ft_error("too much players");
 	num = ft_satoi(av[1], &check);
 	if (!(check && av[1][check] == 0 && num <= MAX_PLAYERS && num > 0 &&

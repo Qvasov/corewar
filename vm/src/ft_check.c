@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_check.c                                         :+:      :+:    :+:   */
+/*   ft_checkout.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dbennie <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -23,7 +23,7 @@ static void	del_cursor(t_vm *vm, t_cur *cursor)
 	free(cursor);
 }
 
-void		ft_check(t_vm *vm)
+void		ft_checkout(t_vm *vm)
 {
 	t_cur	*cursor;
 	t_cur	*tmp;

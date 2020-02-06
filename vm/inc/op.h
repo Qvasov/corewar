@@ -80,14 +80,6 @@ typedef struct		header_s
   char				comment[COMMENT_LENGTH + 1];
 }					header_t;
 
-/*typedef struct		s_args_type
-{
-	uint8_t 		types1 : 4;
-	uint8_t 		types2 : 4;
-	uint8_t 		types3 : 4;
-	uint8_t 		types4 : 4;
-}					t_args_type;*/
-
 typedef struct		s_op
 {
 	char			*name;
