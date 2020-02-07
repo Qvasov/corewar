@@ -22,12 +22,12 @@ void	ft_check_num_player(char **av, t_data *data)
 		ft_error("too much players");
 	num = ft_satoi(av[1], &check);
 	if (!(check && av[1][check] == 0 && num <= MAX_PLAYERS && num > 0 &&
-		data->player[num - 1]->path == NULL))
+		data->player[num - 1].path == NULL))
 		ft_error("-n - number error");
 	check = ft_strlen(av[2]);
 	if (check > 4)
 		(ft_strcmp(av[2] + check - 4, ".cor") == 0) ?
-		data->player[num - 1]->path = av[2] :
+		data->player[num - 1].path = av[2] :
 		ft_error("-n - champion name error");
 	else
 		ft_error("-n - champion name error");

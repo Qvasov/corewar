@@ -1,27 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_introducing.c                                   :+:      :+:    :+:   */
+/*   test.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dbennie <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/23 16:06:51 by dbennie           #+#    #+#             */
-/*   Updated: 2020/01/23 16:06:52 by dbennie          ###   ########.fr       */
+/*   Created: 2020/02/07 15:41:48 by dbennie           #+#    #+#             */
+/*   Updated: 2020/02/07 16:01:07 by dbennie          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "vm.h"
+#include <unistd.h>
 
-void	ft_introducing(t_data *data)
+void check(char *str)
 {
-	int8_t	i;
-
-	ft_printf("Introducing contestants...\n");
-	i = -1;
-	while (++i < data->vm.num_of_players)
-	{
-		ft_printf("* Player %d, weighing %d bytes, \"%s\" (\"%s\") !\n",
-				  data->player[i].id, data->player[i].exec_size,
-				  data->player[i].name, data->player[i].comment);
-	}
+	str[1] = '2';
+	write (1, str, 4);
 }
+
+int main()
+{
+	char str[4];
+	str[0] = 'a';
+	str[1] = 'b';
+	str[2] = 'c';
+	str[3] = '\n';
+	write (1, str, 4);
+	check(str);
+	write(1, str, 4);
+	return (1);
+}
+

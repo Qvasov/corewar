@@ -31,9 +31,9 @@ static void	valid_str(char *str, int maxlen)
 	t_int	null;
 	int		i;
 
-	i = 0;
-	while (++i <= INT_SIZE)
-		null.byte[INT_SIZE - i] = str[maxlen + i];
+	i = -1;
+	while (++i < INT_SIZE)
+		null.byte[INT_SIZE - 1 - i] = str[maxlen + i];
 	(null.num != 0) ? ft_error("no name nullbytes found") : 1;
 	len = (int)ft_strlen(str);
 	rest_nulls = maxlen - len;
@@ -81,7 +81,7 @@ static void	read_data(t_champ *player, char *str, int max)
 	(close(fd)) < 0 ? ft_perror() : 1;
 }
 
-void 		ft_read_valid_players(t_vm *vm, t_champ **player)
+void 		ft_read_valid_players(t_vm *vm, t_champ *player)
 {
 	int 	i;
 	char	*str;
@@ -94,16 +94,16 @@ void 		ft_read_valid_players(t_vm *vm, t_champ **player)
 	i = -1;
 	while (++i < vm->num_of_players)
 	{
-		read_data(player[i], str, max_size);
+		read_data(&player[i], str, max_size);
 		valid_magic(str); //проверка magic
-		ft_memcpy(player[i]->name, &str[INT_SIZE], PROG_NAME_LENGTH + 4); //считывание имени игрока
-		valid_str(player[i]->name, PROG_NAME_LENGTH);
-		valid_exec_size(&str[PROG_NAME_LENGTH + 4 * 2], player[i]->exec_size);
-		ft_memcpy(player[i]->comment, &str[PROG_NAME_LENGTH + 4 * 3], COMMENT_LENGTH + 4); //считывание коммента игрока
-		valid_str(player[i]->comment, COMMENT_LENGTH);
-		ft_memcpy(&vm->arena[delta], &str[PROG_NAME_LENGTH + COMMENT_LENGTH + 4 * 4], player[i]->exec_size); // сичтывание exec кода
+		ft_memcpy(player[i].name, &str[INT_SIZE], PROG_NAME_LENGTH + 4); //считывание имени игрока
+		valid_str(player[i].name, PROG_NAME_LENGTH);
+		valid_exec_size(&str[PROG_NAME_LENGTH + 4 * 2], player[i].exec_size);
+		ft_memcpy(player[i].comment, &str[PROG_NAME_LENGTH + 4 * 3], COMMENT_LENGTH + 4); //считывание коммента игрока
+		valid_str(player[i].comment, COMMENT_LENGTH);
+		ft_memcpy(&vm->arena[delta], &str[PROG_NAME_LENGTH + COMMENT_LENGTH + 4 * 4], player[i].exec_size); // сичтывание exec кода
 		delta += ((MEM_SIZE) / vm->num_of_players);
-		player[i]->id = i + 1;
+		player[i].id = i + 1;
 		ft_bzero(str, max_size);
 	}
 }

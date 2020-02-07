@@ -93,7 +93,7 @@ typedef struct	s_vm
 typedef struct	s_data
 {
 	t_vm		vm;
-	t_champ		**player;
+	t_champ		player[MAX_PLAYERS + 1];
 }				t_data;
 
 extern	t_op			op_tab[17];
@@ -101,10 +101,10 @@ extern	t_op			op_tab[17];
 void	ft_parse(int ac, char **av, t_data *data);
 void	ft_check_dump(char **av, t_vm *vm);
 void	ft_check_num_player(char **av, t_data *data);
-void	ft_read_valid_players(t_vm *vm, t_champ **player);
+void	ft_read_valid_players(t_vm *vm, t_champ *player);
 void	ft_introducing(t_data *data);
-void 	ft_battle(t_vm *vm, t_champ **player);
-void	ft_init_cursors(t_vm *vm, t_champ **player);
+void 	ft_battle(t_vm *vm, t_champ *player);
+void	ft_init_cursors(t_vm *vm, t_champ *player);
 void	ft_init_valid_func(uint8_t (**type) (uint8_t, uint8_t));
 void	ft_init_op(void (**op) (t_types_code, t_vm *, t_cur *cursor));
 void	ft_checkout(t_vm *vm);
@@ -129,7 +129,7 @@ void	aff(t_types_code args_code, t_vm *vm, t_cur *cursor);
 int		get_arg(uint8_t arg_code, int8_t arg_pos, uint8_t *arena, t_cur *cursor);
 int		get_ind_value(t_int arg, t_cur *cursor, uint8_t *arena);
 t_cur	*ft_copy_cursor(t_vm *vm, t_cur *cursor);
-void	ft_endgame(t_vm *vm, t_champ **player);
+void	ft_endgame(t_vm *vm, t_champ *player);
 void	ft_usage();
 void	ft_error(char *str);
 void	ft_perror();

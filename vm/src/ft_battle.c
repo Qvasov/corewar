@@ -29,7 +29,7 @@ void	print_arena(t_vm *vm)
 	exit(1);
 }
 
-void	ft_battle(t_vm *vm, t_champ **player)
+void	ft_battle(t_vm *vm, t_champ *player)
 {
 	uint8_t	(*valid[4])(uint8_t, uint8_t);
 	void	(*op[17])(t_types_code, t_vm *, t_cur *);

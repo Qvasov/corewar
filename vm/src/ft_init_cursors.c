@@ -12,7 +12,7 @@
 
 #include "vm.h"
 
-void	ft_init_cursors(t_vm *vm, t_champ **player)
+void	ft_init_cursors(t_vm *vm, t_champ *player)
 {
 	t_cur	*cur;
 	int16_t	delta;
@@ -30,7 +30,7 @@ void	ft_init_cursors(t_vm *vm, t_champ **player)
 		cur->cycles_to_do_op = 0;
 		cur->pc = delta;
 		cur->byte_to_next_op = 0;
-		cur->reg[0] = player[i]->id * -1;
+		cur->reg[0] = player[i].id * -1;
 		ft_bzero(&cur->reg[1], 60);
 		cur->prev = NULL;
 		cur->next = vm->cursor;

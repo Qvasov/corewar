@@ -25,10 +25,10 @@ static void	merge_champ_tabs(t_champ *player, char **tmp_champ, int num_of_champ
 		i++;
 		tmp_champ++;
 	}
-//	while (player[i].path)
-//		i++;
-//	if (i != num_of_champs)
-//		ft_error("-n - number is bigger than number of champs");
+	while (player[i].path)
+		i++;
+	if (i != num_of_champs)
+		ft_error("-n - number is bigger than number of champs");
 }
 
 static void	detect_champ(char **av, t_data *data, char **tmp_champ)
