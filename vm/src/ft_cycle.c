@@ -34,20 +34,23 @@ static void	skip_op(t_vm *vm, t_cur *cursor)
 	cursor->pc = (cursor->pc + cursor->byte_to_next_op) % MEM_SIZE;
 }
 
-static void	do_op(t_vm *vm, t_cur *cursor, void (**op) (t_types_code, t_vm *, t_cur *))
+static void	do_op(t_data *data, t_cur *cursor, void (**op) (t_types_code, t_vm *, t_cur *))
 {
 	t_types_code	args_code;
 
-	ft_print_commands(vm, cursor);
-	args_code.num = vm->arena[(cursor->pc + 1) % MEM_SIZE];
-	op[cursor->op_code](args_code, vm, cursor);
+	if (data->v_flag.bit2)
+		ft_print_commands(&data->vm, cursor);
+	args_code.num = data->vm.arena[(cursor->pc + 1) % MEM_SIZE];
+	op[cursor->op_code](args_code, &data->vm, cursor);
 	cursor->pc = (cursor->pc + cursor->byte_to_next_op) % MEM_SIZE;
 }
 
-void		ft_cycle(t_vm *vm, uint8_t (**valid) (uint8_t, uint8_t), void (**op) (t_types_code, t_vm *, t_cur *))
+void		ft_cycle(t_data *data, uint8_t (**valid) (uint8_t, uint8_t), void (**op) (t_types_code, t_vm *, t_cur *))
 {
 	t_cur	*cursor;
+	t_vm	*vm;
 
+	vm = &data->vm;
 	cursor = vm->cursor;
 	while (cursor)
 	{
@@ -67,7 +70,7 @@ void		ft_cycle(t_vm *vm, uint8_t (**valid) (uint8_t, uint8_t), void (**op) (t_ty
 				if (ft_valid_op_code_and_reg(vm, cursor, valid))
 					skip_op(vm, cursor);
 				else
-					do_op(vm, cursor, op);
+					do_op(data, cursor, op);
 			}
 			else
 				cursor->pc = (cursor->pc + 1) % MEM_SIZE;

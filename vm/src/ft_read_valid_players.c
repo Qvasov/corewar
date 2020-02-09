@@ -106,4 +106,5 @@ void 		ft_read_valid_players(t_vm *vm, t_champ *player)
 		player[i].id = i + 1;
 		ft_bzero(str, max_size);
 	}
+	free(str);
 }

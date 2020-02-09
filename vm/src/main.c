@@ -29,13 +29,12 @@ static void	init_data(t_data *data)
 	data->vm.size[REG_CODE] = 1;
 	data->vm.size[DIR_CODE] = DIR_SIZE;
 	data->vm.size[IND_CODE] = IND_SIZE;
-	data->vm.min_player_id = 1; //
+	data->vm.min_player_id = 1;
 	data->vm.num_of_players = 0;
 	while (++i < MAX_PLAYERS)
-	{
-//		data->player[i] = player + i;
 		data->player[i].path = NULL;
-	}
+	data->v_flag.num = 0;
+
 }
 
 int main(int ac, char **av)
@@ -48,10 +47,7 @@ int main(int ac, char **av)
 	ft_parse(ac, av, &data);
 	ft_read_valid_players(&data.vm, data.player); //считывание байт-кода и разбор на состоваляющие
 	ft_introducing(&data);
-	ft_battle(&data.vm, data.player);
-//	free(); //всё остальное //free players
+	ft_battle(&data);
+	ft_free(&data);
 	return (0);
 }
-
-// добавить инит курсорс в мейн под статиком
-//запись кода сразу в арену а не переменую причем замолоченную.

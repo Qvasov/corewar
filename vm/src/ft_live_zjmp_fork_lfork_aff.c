@@ -23,6 +23,7 @@ void	live(t_types_code args_code, t_vm *vm, t_cur *cursor)
 	cursor->byte_to_next_op = args_size;
 	++vm->number_of_live;
 	cursor->cycle_of_last_live = vm->cycle + vm->cycle_from_start;
+	arg.num *= -1;
 	if (arg.num >= vm->min_player_id && arg.num <= vm->num_of_players)
 		vm->last_player_id = (char)arg.num;
 }

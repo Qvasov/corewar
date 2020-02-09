@@ -23,13 +23,14 @@ static void	del_cursor(t_vm *vm, t_cur *cursor)
 	free(cursor);
 }
 
-void		ft_checkout(t_vm *vm)
+void		ft_checkout(t_data *data)
 {
 	t_cur	*cursor;
 	t_cur	*tmp;
-	int sum = vm->cycle + vm->cycle_from_start;
+	t_vm	*vm;
 
-
+	vm = &data->vm;
+	int sum = vm->cycle + vm->cycle_from_start;//
 	cursor = vm->cursor;
 	while (cursor)
 	{
@@ -46,7 +47,8 @@ void		ft_checkout(t_vm *vm)
 	if (vm->number_of_live >= NBR_LIVE || vm->number_of_check >= MAX_CHECKS)
 	{
 		vm->cycles_to_die -= CYCLE_DELTA;
-		ft_printf("Cycle to die is now %d\n", vm->cycles_to_die);
+		if (data->v_flag.bit1)
+			ft_printf("Cycle to die is now %d\n", vm->cycles_to_die);
 		vm->number_of_check = 0;
 	}
 	vm->number_of_live = 0;

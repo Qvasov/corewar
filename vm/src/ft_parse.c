@@ -58,6 +58,11 @@ static int	detect_flag(int ac, char **av, t_data *data)
 		ft_error("-n - no enough arguments");
 		return (3);
 	}
+	else if (ft_strcmp(*av, "-v") == 0)
+	{
+		(ac >= 2) ? ft_check_v(av, data) : ft_error("-v - no argument");
+		return (2);
+	}
 	ft_usage();
 	return (1); //
 }

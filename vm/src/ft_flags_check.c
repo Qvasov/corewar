@@ -12,6 +12,17 @@
 
 #include "vm.h"
 
+void	ft_check_v(char **av, t_data *data)
+{
+	int check;
+	int	num;
+
+	num = ft_satoi(av[1], &check);
+	if (!(check && av[1][check] == 0 && (num >= 0 && num <= 15)))
+		ft_error("-v - argument error");
+	data->v_flag.num = (uint8_t)num;
+}
+
 void	ft_check_num_player(char **av, t_data *data)
 {
 	int num;
@@ -39,5 +50,5 @@ void	ft_check_dump(char **av, t_vm *vm)
 
 	vm->nbr_cycles = ft_satoi(av[1], &check);
 	if (!(check && av[1][check] == 0)) //check -d behavior on orig corewar
-		ft_error("-dump - argument error");
+		ft_error("-dump - argument error"); //мб usage поставить
 }
