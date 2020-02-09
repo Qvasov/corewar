@@ -30,7 +30,6 @@ void		ft_checkout(t_data *data)
 	t_vm	*vm;
 
 	vm = &data->vm;
-	int sum = vm->cycle + vm->cycle_from_start;//
 	cursor = vm->cursor;
 	while (cursor)
 	{
