@@ -40,7 +40,7 @@ void	ft_battle(t_data *data)
 	ft_init_op(op);
 
 	if (data->v_flag.bit3)
-		ft_visu(data);
+		ft_init_visu(data);
 
 	vm = &data->vm;
 	if (vm->nbr_cycles == 0)
@@ -65,5 +65,5 @@ void	ft_battle(t_data *data)
 		if (vm->nbr_cycles >= 0 && vm->cycle_from_start + vm->cycle == vm->nbr_cycles)
 			print_arena(vm);
 	}
-	ft_endgame(&data->vm, data->player);
+	ft_endgame(data);
 }

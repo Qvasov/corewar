@@ -15,11 +15,41 @@
 void		ft_visu_cycle(t_data *data)
 {
 	int	i;
+	int n;
 
-	ft_fprintf(data->visu.fd, "[[%d, %d, %d], ", data->visu.same_cur[], );
+	if (data->vm.cycle + data->vm.cycle_from_start > 1)
+		ft_fprintf(data->visu.fd, ", [[");
+	else
+		ft_fprintf(data->visu.fd, "[[");
+	n = -1;
+	while (++n < data->vm.num_of_players)
+	{
+		i = -1;
+		while (++i < 16)
+		{
+			if (data->visu.curs[n][i] > 0)
+			{
+				ft_fprintf(data->visu.fd, "%d, %d, %d", data->visu.curs[n][i] - 1, i + 1, n + 1);
+
+				if (n + 1 == data->vm.num_of_players && i + 1 == 16)
+					ft_fprintf(data->visu.fd, "], [");
+				else
+					ft_fprintf(data->visu.fd, ", ");
+			}
+		}
+	}
 
 	i = -1;
-	while (++i)
+	while(++i < MEM_SIZE)
+	{
+		if (data->visu.arena[i] > 0)
+		{
+			if (i + 1 == MEM_SIZE)
+				ft_fprintf(data->visu.fd, "%d, %d], [%d]]", i, data->visu.arena[i], data->vm.cycles_to_die);
+			else
+				ft_fprintf(data->visu.fd, "%d, %d, ", i, data->visu.arena[i]);
+		}
+	}
 }
 
 static void	change_arena(t_data *data, int32_t addr, t_int arg)
@@ -89,13 +119,13 @@ void 		ft_visu_sti(t_types_code args_code, t_data *data, t_cur *cursor)
 	change_arena(data, addr, arg[0]);
 }
 
-void		ft_visu_var_cur(t_data *data, t_cur *cursor)
+void		ft_visu_cur(t_data *data, t_cur *cursor)
 {
 	int		num_player;
 
-	num_player = cursor->reg[0] + -1;
-	if (num_player > 0 && num_player < data->vm.num_of_players)
-		++data->visu.same_cur[cursor->op_code * num_player];
+	num_player = cursor->reg[0] * -1;
+	if (num_player > 0 && num_player <= data->vm.num_of_players)
+		++data->visu.curs[num_player - 1][cursor->op_code - 1];
 	data->visu.arena[cursor->pc] += 1000;
 }
 
@@ -142,12 +172,22 @@ static void	champions(t_data *data)
 	}
 }
 
-void		ft_visu(t_data *data)
+void		ft_init_visu(t_data *data)
 {
+	int	i;
+
+	i = -1;
 	if ((data->visu.fd = open("visual.js", O_WRONLY | O_CREAT | O_TRUNC,
 			S_IRWXU | S_IRWXG | S_IRWXO)) < 0)
 		ft_perror();
-	ft_bzero(data->visu.same_cur, MAX_PLAYERS * 16);
+	if (!(data->visu.curs = (int **)malloc(sizeof(int *) * data->vm.num_of_players)))
+		ft_perror();
+	while (++i < data->vm.num_of_players)
+	{
+		if (!(data->visu.curs[i] = (int *)malloc(sizeof(int) * 16)))
+			ft_perror();
+		ft_bzero(data->visu.curs[i], sizeof(int) * 16);
+	}
 	ft_bzero(data->visu.arena, MEM_SIZE);
 	champions(data);
 	memory(data);

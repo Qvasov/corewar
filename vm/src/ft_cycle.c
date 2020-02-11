@@ -86,7 +86,7 @@ void		ft_cycle(t_data *data, uint8_t (**valid) (uint8_t, uint8_t), void (**op) (
 		}
 
 		if (data->v_flag.bit3 && cursor->op_code > 0)
-			ft_visu_var_cur(data, cursor);
+			ft_visu_cur(data, cursor);
 
 		cursor = cursor->next;
 	}

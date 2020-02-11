@@ -19,7 +19,7 @@
 typedef struct	s_visu
 {
 	int			fd;
-	int			same_cur[MAX_PLAYERS * 16];
+	int			**curs;
 	uint64_t 	arena[MEM_SIZE];
 }				t_visu;
 
@@ -142,16 +142,17 @@ void	aff(t_types_code args_code, t_vm *vm, t_cur *cursor);
 int		get_arg(uint8_t arg_code, int8_t arg_pos, uint8_t *arena, t_cur *cursor);
 int		get_ind_value(t_int arg, t_cur *cursor, uint8_t *arena);
 t_cur	*ft_copy_cursor(t_vm *vm, t_cur *cursor);
-void	ft_endgame(t_vm *vm, t_champ *player);
+void	ft_endgame(t_data *data);
 void	ft_free(t_data *data);
 void	ft_usage();
 void	ft_error(char *str);
 void	ft_perror();
 
 void 	ft_print_command(t_vm *vm, t_cur *cursor);
-void	ft_visu(t_data *data);
-void	ft_visu_var_cur(t_data *data, t_cur *cursor);
+void	ft_init_visu(t_data *data);
 void 	ft_visu_st(t_types_code args_code, t_data *data, t_cur *cursor);
 void 	ft_visu_sti(t_types_code args_code, t_data *data, t_cur *cursor);
+void	ft_visu_cur(t_data *data, t_cur *cursor);
+void	ft_visu_cycle(t_data *data);
 
 #endif

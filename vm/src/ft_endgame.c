@@ -12,8 +12,10 @@
 
 #include "vm.h"
 
-void	ft_endgame(t_vm *vm, t_champ *player)
+void	ft_endgame(t_data *data)
 {
 	printf("Contestant %hhd, \"%s\", has won !\n",
-			vm->last_player_id, player[vm->last_player_id - 1].name);
+			data->vm.last_player_id, data->player[data->vm.last_player_id - 1].name);
+	if (data->v_flag.bit3)
+		ft_fprintf(data->visu.fd, "];\nconst winner = \"%s\";\n", data->player[data->vm.last_player_id - 1].name);
 }
