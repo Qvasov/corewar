@@ -46,8 +46,10 @@ void		ft_checkout(t_data *data)
 	if (vm->number_of_live >= NBR_LIVE || vm->number_of_check >= MAX_CHECKS)
 	{
 		vm->cycles_to_die -= CYCLE_DELTA;
+
 		if (data->v_flag.bit1)
 			ft_printf("Cycle to die is now %d\n", vm->cycles_to_die);
+
 		vm->number_of_check = 0;
 	}
 	vm->number_of_live = 0;

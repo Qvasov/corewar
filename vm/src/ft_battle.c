@@ -26,7 +26,7 @@ void	print_arena(t_vm *vm)
 		printf("\n");
 		j += i;
 	}
-	exit(1);
+	exit(1); // мб return лучше вставить
 }
 
 void	ft_battle(t_data *data)
@@ -38,12 +38,14 @@ void	ft_battle(t_data *data)
 	ft_init_cursors(&data->vm, data->player); // создание и инициализация кареток
 	ft_init_valid_func(valid);
 	ft_init_op(op);
+
+	if (data->v_flag.bit3)
+		ft_visu(data);
+
 	vm = &data->vm;
 	if (vm->nbr_cycles == 0)
-	{
+
 		print_arena(vm);
-		return ;
-	}
 	while (1)
 	{
 		if (vm->cycle == vm->cycles_to_die || vm->cycles_to_die <= 0)
@@ -51,14 +53,17 @@ void	ft_battle(t_data *data)
 		if (vm->cursor == NULL)
 			break;
 		++vm->cycle;
-		if (data->v_flag.bit1)
+
+		if (data->v_flag.bit1 && data->v_flag.bit3 == 0)
 			ft_printf("It is now cycle %d\n", vm->cycle_from_start + vm->cycle); // для фалга
+
 		ft_cycle(data, valid, op);
+
+		if (data->v_flag.bit3)
+			ft_visu_cycle(data);
+
 		if (vm->nbr_cycles >= 0 && vm->cycle_from_start + vm->cycle == vm->nbr_cycles)
-		{
 			print_arena(vm);
-			return ;
-		}
 	}
 	ft_endgame(&data->vm, data->player);
 }

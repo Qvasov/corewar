@@ -118,5 +118,6 @@ void				ft_strrev(char *str);
 void				ft_swapptr(void **a, void **b);
 char				*ft_ulltoa(unsigned long long n);
 int					ft_printf(const char *format, ...);
+int					ft_fprintf(int fd, const char *format, ...);
 
 #endif

@@ -38,9 +38,18 @@ static void	do_op(t_data *data, t_cur *cursor, void (**op) (t_types_code, t_vm *
 {
 	t_types_code	args_code;
 
-	if (data->v_flag.bit2)
-		ft_print_commands(&data->vm, cursor);
 	args_code.num = data->vm.arena[(cursor->pc + 1) % MEM_SIZE];
+
+	if (data->v_flag.bit2 && data->v_flag.bit3 == 0)
+		ft_print_command(&data->vm, cursor);
+	else if (data->v_flag.bit3)
+	{
+		if (cursor->op_code == 3)
+			ft_visu_st(args_code, data, cursor);
+		else if (cursor->op_code == 11)
+			ft_visu_sti(args_code, data, cursor);
+	}
+
 	op[cursor->op_code](args_code, &data->vm, cursor);
 	cursor->pc = (cursor->pc + cursor->byte_to_next_op) % MEM_SIZE;
 }
@@ -75,6 +84,10 @@ void		ft_cycle(t_data *data, uint8_t (**valid) (uint8_t, uint8_t), void (**op) (
 			else
 				cursor->pc = (cursor->pc + 1) % MEM_SIZE;
 		}
+
+		if (data->v_flag.bit3 && cursor->op_code > 0)
+			ft_visu_var_cur(data, cursor);
+
 		cursor = cursor->next;
 	}
 }

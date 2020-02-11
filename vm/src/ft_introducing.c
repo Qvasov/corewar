@@ -16,8 +16,8 @@ void	ft_introducing(t_data *data)
 {
 	int8_t	i;
 
-	ft_printf("Introducing contestants...\n");
 	i = -1;
+	ft_printf("Introducing contestants...\n");
 	while (++i < data->vm.num_of_players)
 	{
 		ft_printf("* Player %d, weighing %d bytes, \"%s\" (\"%s\") !\n",

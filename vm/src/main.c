@@ -34,7 +34,6 @@ static void	init_data(t_data *data)
 	while (++i < MAX_PLAYERS)
 		data->player[i].path = NULL;
 	data->v_flag.num = 0;
-
 }
 
 int main(int ac, char **av)

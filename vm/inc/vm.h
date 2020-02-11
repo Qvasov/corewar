@@ -10,20 +10,30 @@
 # define BUFF_SIZE	4096
 # define INT_SIZE	4
 
-typedef struct		s_buf
+/*typedef struct	s_buf
 {
-	char			str[BUFF_SIZE];
-	size_t 			i;
-}					t_buf;
+	char		str[BUFF_SIZE];
+	size_t 		i;
+}				t_buf;*/
+
+typedef struct	s_visu
+{
+	int			fd;
+	int			same_cur[MAX_PLAYERS * 16];
+	uint64_t 	arena[MEM_SIZE];
+}				t_visu;
+
+
+
 
 typedef union	s_bits
 {
 	struct
 	{
-		uint8_t 	bit0 : 1;
-		uint8_t 	bit1 : 1;
-		uint8_t 	bit2 : 1;
-		uint8_t 	bit3 : 1;
+		uint8_t bit0 : 1;
+		uint8_t bit1 : 1;
+		uint8_t bit2 : 1;
+		uint8_t bit3 : 1;
 	};
 	uint8_t		num;
 }				t_bits;
@@ -95,6 +105,7 @@ typedef struct	s_data
 	t_vm		vm;
 	t_champ		player[MAX_PLAYERS + 1];
 	t_bits		v_flag;
+	t_visu		visu;
 }				t_data;
 
 extern	t_op			op_tab[17];
@@ -137,6 +148,10 @@ void	ft_usage();
 void	ft_error(char *str);
 void	ft_perror();
 
-void 	ft_print_commands(t_vm *vm, t_cur *cursor);
+void 	ft_print_command(t_vm *vm, t_cur *cursor);
+void	ft_visu(t_data *data);
+void	ft_visu_var_cur(t_data *data, t_cur *cursor);
+void 	ft_visu_st(t_types_code args_code, t_data *data, t_cur *cursor);
+void 	ft_visu_sti(t_types_code args_code, t_data *data, t_cur *cursor);
 
 #endif

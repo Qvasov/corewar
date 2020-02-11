@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_print_commands.c                                :+:      :+:    :+:   */
+/*   ft_print_command.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dbennie <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -65,7 +65,7 @@ static void print_additional_info(t_int *arg, t_cur *cursor)
 		ft_printf("\n");
 }
 
-void ft_print_commands(t_vm *vm, t_cur *cursor)
+void ft_print_command(t_vm *vm, t_cur *cursor)
 {
 	t_int			arg[3];
 	int8_t			args_size;
