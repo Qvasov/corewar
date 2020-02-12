@@ -20,7 +20,9 @@ typedef struct	s_visu
 {
 	int			fd;
 	int			**curs;
-	uint64_t 	arena[MEM_SIZE];
+	uint64_t 	*arena;
+	int64_t 	*change;
+	int			f;
 }				t_visu;
 
 
@@ -152,7 +154,9 @@ void 	ft_print_command(t_vm *vm, t_cur *cursor);
 void	ft_init_visu(t_data *data);
 void 	ft_visu_st(t_types_code args_code, t_data *data, t_cur *cursor);
 void 	ft_visu_sti(t_types_code args_code, t_data *data, t_cur *cursor);
-void	ft_visu_cur(t_data *data, t_cur *cursor);
+void	ft_visu_cur_par(t_data *data, t_cur *cursor);
+void	ft_visu_cur_before_do(t_data *data, t_cur *cursor);
+void	ft_visu_cur_after_do(t_data *data, t_cur *cursor);
 void	ft_visu_cycle(t_data *data);
 
 #endif
