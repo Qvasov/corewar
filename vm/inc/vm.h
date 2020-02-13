@@ -107,6 +107,7 @@ typedef struct	s_data
 	t_vm		vm;
 	t_champ		player[MAX_PLAYERS + 1];
 	t_bits		v_flag;
+	int			visu_flag;
 	t_visu		visu;
 }				t_data;
 

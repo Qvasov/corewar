@@ -14,8 +14,8 @@
 
 void	ft_endgame(t_data *data)
 {
-	printf("Contestant %hhd, \"%s\", has won !\n",
+	ft_printf("Contestant %hhd, \"%s\", has won !\n",
 			data->vm.last_player_id, data->player[data->vm.last_player_id - 1].name);
-	if (data->v_flag.bit3)
+	if (data->visu_flag)
 		ft_fprintf(data->visu.fd, "];\nconst winner = \"%s\";\n", data->player[data->vm.last_player_id - 1].name);
 }

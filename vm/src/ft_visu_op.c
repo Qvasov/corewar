@@ -12,7 +12,7 @@
 
 #include "vm.h"
 
-static void	change_arena(t_data *data, int32_t addr, t_int arg)
+static void	change_arena(t_data *data, int32_t addr, t_int arg) //check
 {
 	int64_t	buf;
 	int		i;
@@ -20,10 +20,13 @@ static void	change_arena(t_data *data, int32_t addr, t_int arg)
 	i = -1;
 	while (++i < 4)
 	{
-		buf = (data->visu.change[addr % MEM_SIZE] / 1000) * 1000;
+		buf = data->visu.change[addr % MEM_SIZE] / 1000;
+		data->visu.arena[(addr + i) % MEM_SIZE] %= 1000;
 		data->visu.change[(addr + i) % MEM_SIZE] = arg.byte[3 - i] - data->visu.arena[(addr + i) % MEM_SIZE];
-		data->visu.change[(addr + i) % MEM_SIZE] = data->visu.change[(addr + i) % MEM_SIZE];
-		data->visu.change[addr % MEM_SIZE] += buf;
+		if (data->visu.change[i] < 0)
+			data->visu.change[addr % MEM_SIZE] -= (buf * 1000);
+		else
+			data->visu.change[addr % MEM_SIZE] += (buf * 1000);
 	}
 }
 

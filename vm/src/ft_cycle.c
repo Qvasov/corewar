@@ -41,9 +41,9 @@ static void	do_op(t_data *data, t_cur *cursor, void (**op) (t_types_code, t_vm *
 
 	args_code.num = data->vm.arena[(cursor->pc + 1) % MEM_SIZE];
 
-	if (data->v_flag.bit2 && data->v_flag.bit3 == 0)
+	if (data->v_flag.bit2 && data->visu_flag == 0)
 		ft_print_command(&data->vm, cursor);
-	else if (data->v_flag.bit3)
+	else if (data->visu_flag)
 	{
 		num_player = cursor->reg[0] * -1;
 		if (cursor->op_code == 3)
@@ -59,7 +59,7 @@ static void	do_op(t_data *data, t_cur *cursor, void (**op) (t_types_code, t_vm *
 	op[cursor->op_code](args_code, &data->vm, cursor);
 	cursor->pc = (cursor->pc + cursor->byte_to_next_op) % MEM_SIZE;
 
-	if (data->v_flag.bit3)
+	if (data->visu_flag)
 		cursor->op_code = 0;
 }
 
@@ -78,14 +78,14 @@ void		ft_cycle(t_data *data, uint8_t (**valid) (uint8_t, uint8_t), void (**op) (
 			if (cursor->op_code >= 0x01 && cursor->op_code <= 0x10)
 				cursor->cycles_to_do_op = op_tab[cursor->op_code].cycles;
 
-			if (data->v_flag.bit3 && cursor->op_code > 0)
+			if (data->visu_flag && cursor->op_code > 0)
 				ft_visu_cur_par(data, cursor);
 		}
 		if (cursor->cycles_to_do_op > 0)
 			--cursor->cycles_to_do_op;
 		if (cursor->cycles_to_do_op == 0)
 		{
-			if (data->v_flag.bit3 && cursor->op_code > 0)
+			if (data->visu_flag && cursor->op_code > 0)
 				ft_visu_cur_before_do(data, cursor);
 
 			if (cursor->op_code >= 0x01 && cursor->op_code <= 0x10)
@@ -99,7 +99,7 @@ void		ft_cycle(t_data *data, uint8_t (**valid) (uint8_t, uint8_t), void (**op) (
 			else
 				cursor->pc = (cursor->pc + 1) % MEM_SIZE;
 
-			if (data->v_flag.bit3)
+			if (data->visu_flag)
 				ft_visu_cur_after_do(data, cursor);
 		}
 		cursor = cursor->next;

@@ -63,6 +63,11 @@ static int	detect_flag(int ac, char **av, t_data *data)
 		(ac >= 2) ? ft_check_v(av, data) : ft_error("-v - no argument");
 		return (2);
 	}
+	else if (ft_strcmp(*av, "-visu") == 0)
+	{
+		(ac >= 1) ? 1 : ft_error("-visu - error");
+		return (1);
+	}
 	ft_usage();
 	return (1); //
 }

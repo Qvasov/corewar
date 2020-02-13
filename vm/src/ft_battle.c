@@ -20,7 +20,7 @@ void	print_arena(t_vm *vm)
 	while (j < MEM_SIZE)
 	{
 		i = -1;
-		(j == 0) ? printf("0x0000 : ") : printf("%#06x : ", j);
+		(j == 0) ? printf("0x0000 : ") : printf("%#06x : ", j); // 32 октета в ряд
 		while (++i < 64)
 			printf("%.2x ", vm->arena[j + i]);
 		printf("\n");
@@ -39,7 +39,7 @@ void	ft_battle(t_data *data)
 	ft_init_valid_func(valid);
 	ft_init_op(op);
 
-	if (data->v_flag.bit3)
+	if (data->visu_flag)
 		ft_init_visu(data);
 
 	vm = &data->vm;
@@ -54,12 +54,12 @@ void	ft_battle(t_data *data)
 			break;
 		++vm->cycle;
 
-		if (data->v_flag.bit1 && data->v_flag.bit3 == 0)
+		if (data->v_flag.bit1 && data->visu_flag == 0)
 			ft_printf("It is now cycle %d\n", vm->cycle_from_start + vm->cycle); // для фалга
 
-		ft_cycle(data, valid, op);
+		ft_cycle(data, valid, op); //zjmp fork lfork
 
-		if (data->v_flag.bit3)
+		if (data->visu_flag)
 			ft_visu_cycle(data);
 
 		if (vm->nbr_cycles >= 0 && vm->cycle_from_start + vm->cycle == vm->nbr_cycles)
