@@ -65,5 +65,8 @@ void	ft_battle(t_data *data)
 		if (vm->nbr_cycles >= 0 && vm->cycle_from_start + vm->cycle == vm->nbr_cycles)
 			print_arena(vm);
 	}
-	ft_endgame(data);
+	//--------------
+	render(vm, data->player);
+	//--------------
+//	ft_endgame(data);
 }

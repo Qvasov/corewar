@@ -90,7 +90,7 @@ void		ft_init_visu(t_data *data)
 
 	if (!(data->visu.change = (int64_t *)malloc(sizeof(int64_t) * MEM_SIZE)))
 		ft_perror();
-	ft_bzero(data->visu.change, 4 * (MEM_SIZE));
+	ft_memset(data->visu.change, -1, 8 * (MEM_SIZE));
 	champions(data);
 	memory(data);
 	ft_fprintf(data->visu.fd, "const cycle = [");

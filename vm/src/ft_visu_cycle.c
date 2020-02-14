@@ -12,23 +12,23 @@
 
 #include "vm.h"
 
-static uint64_t	change(uint64_t value, int64_t change)
-{
-	uint8_t		byte_v;
-	int8_t		byte_c;
-	uint64_t	count_cur_v;
-	int64_t		count_cur_c;
-
-	count_cur_v = value / 1000;
-	count_cur_c = change / 1000;
-	count_cur_v += count_cur_c;
-	byte_v = value % 1000;
-	byte_c = change % 1000;
-	byte_v += byte_c;
-	value = 0;
-	value = (value + byte_v) + (count_cur_v * 1000);
-	return (value);
-}
+//static uint64_t	change(uint64_t value, int64_t change)
+//{
+//	uint8_t		byte_v;
+//	int8_t		byte_c;
+//	uint64_t	count_cur_v;
+//	int64_t		count_cur_c;
+//
+//	count_cur_v = value / 1000;
+//	count_cur_c = change / 1000;
+//	count_cur_v += count_cur_c;
+//	byte_v = value % 1000;
+//	byte_c = change % 1000;
+//	byte_v += byte_c;
+//	value = 0;
+//	value = (value + byte_v) + (count_cur_v * 1000);
+//	return (value);
+//}
 
 void		ft_visu_cycle(t_data *data)
 {
@@ -58,11 +58,11 @@ void		ft_visu_cycle(t_data *data)
 	i = -1;
 	while(++i < MEM_SIZE)
 	{
-		if (data->visu.change[i] != 0)
+		if (data->visu.change[i] > -1)
 		{
 			data->visu.f ? ft_fprintf(data->visu.fd, ", ", i, data->visu.change[i], data->vm.cycles_to_die) : 1;
-			data->visu.arena[i] = change(data->visu.arena[i], data->visu.change[i]);
-			data->visu.change[i] = 0;
+			data->visu.arena[i] = data->visu.change[i]; /*change(data->visu.arena[i], data->visu.change[i]);*/
+			data->visu.change[i] = -1;
 			ft_fprintf(data->visu.fd, "%u, %u", i, data->visu.arena[i]);
 			data->visu.f = 1;
 		}

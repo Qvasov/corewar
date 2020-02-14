@@ -50,12 +50,17 @@ static void	do_op(t_data *data, t_cur *cursor, void (**op) (t_types_code, t_vm *
 			ft_visu_st(args_code, data, cursor);
 		else if (cursor->op_code == 11)
 			ft_visu_sti(args_code, data, cursor);
+		else if (cursor->op_code == 12)
+			ft_visu_fork(args_code, data, cursor);
+//		else if (cursor->op_code == 15)
+//			ft_visu_lfork();
 		if (num_player > 0 && num_player <= data->vm.num_of_players)
 		{
 			--data->visu.curs[num_player - 1][cursor->op_code];
 			++data->visu.curs[num_player - 1][0];
 		}
 	}
+
 	op[cursor->op_code](args_code, &data->vm, cursor);
 	cursor->pc = (cursor->pc + cursor->byte_to_next_op) % MEM_SIZE;
 
@@ -79,7 +84,7 @@ void		ft_cycle(t_data *data, uint8_t (**valid) (uint8_t, uint8_t), void (**op) (
 				cursor->cycles_to_do_op = op_tab[cursor->op_code].cycles;
 
 			if (data->visu_flag && cursor->op_code > 0)
-				ft_visu_cur_par(data, cursor);
+				ft_visu_cur_parse(data, cursor);
 		}
 		if (cursor->cycles_to_do_op > 0)
 			--cursor->cycles_to_do_op;

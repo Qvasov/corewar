@@ -4,6 +4,7 @@
 # include <stdio.h>
 # include <fcntl.h>
 # include <stdint.h>
+# include <ncurses.h>
 # include "libft.h"
 # include "op.h"
 
@@ -151,13 +152,19 @@ void	ft_usage();
 void	ft_error(char *str);
 void	ft_perror();
 
+//WEB
 void 	ft_print_command(t_vm *vm, t_cur *cursor);
 void	ft_init_visu(t_data *data);
 void 	ft_visu_st(t_types_code args_code, t_data *data, t_cur *cursor);
 void 	ft_visu_sti(t_types_code args_code, t_data *data, t_cur *cursor);
-void	ft_visu_cur_par(t_data *data, t_cur *cursor);
+void	ft_visu_fork(t_types_code args_code, t_data *data, t_cur *cursor);
+void	ft_visu_cur_parse(t_data *data, t_cur *cursor);
 void	ft_visu_cur_before_do(t_data *data, t_cur *cursor);
 void	ft_visu_cur_after_do(t_data *data, t_cur *cursor);
 void	ft_visu_cycle(t_data *data);
+
+//NCURSES
+void	render(t_vm *vm, t_champ *player);
+void	visu_init(void);
 
 #endif
