@@ -27,6 +27,10 @@ void	add(t_data *data, t_cur *cursor)
 	arg[2].num = get_arg(args_code.arg3, args_size, data->vm.arena, cursor);
 	args_size += data->vm.size[args_code.arg3];
 	cursor->byte_to_next_op = args_size;
+
+	if (data->v_flag.bit2 && data->web_flag == 0)
+		ft_print_command(arg, args_code, &data->vm, cursor);
+
 	cursor->reg[arg[2].num - 1] = cursor->reg[arg[0].num - 1] + cursor->reg[arg[1].num - 1];
 	cursor->carry = (cursor->reg[arg[2].num - 1] == 0) ? 1 : 0;
 }
@@ -46,6 +50,10 @@ void	sub(t_data *data, t_cur *cursor)
 	arg[2].num = get_arg(args_code.arg3, args_size, data->vm.arena, cursor);
 	args_size += data->vm.size[args_code.arg3];
 	cursor->byte_to_next_op = args_size;
+
+	if (data->v_flag.bit2 && data->web_flag == 0)
+		ft_print_command(arg, args_code, &data->vm, cursor);
+
 	cursor->reg[arg[2].num - 1] = cursor->reg[arg[0].num - 1] - cursor->reg[arg[1].num - 1];
 	cursor->carry = (cursor->reg[arg[2].num - 1] == 0) ? 1 : 0;
 }
@@ -65,6 +73,10 @@ void	and(t_data *data, t_cur *cursor)
 	arg[2].num = get_arg(args_code.arg3, args_size, data->vm.arena, cursor);
 	args_size += data->vm.size[args_code.arg3];
 	cursor->byte_to_next_op = args_size;
+
+	if (data->v_flag.bit2 && data->web_flag == 0)
+		ft_print_command(arg, args_code, &data->vm, cursor);
+
 	if (args_code.arg1 == REG_CODE)
 		arg[0].num = cursor->reg[arg[0].num - 1];
 	else if (args_code.arg1 == IND_CODE)
@@ -92,6 +104,10 @@ void	or(t_data *data, t_cur *cursor)
 	arg[2].num = get_arg(args_code.arg3, args_size, data->vm.arena, cursor);
 	args_size += data->vm.size[args_code.arg3];
 	cursor->byte_to_next_op = args_size;
+
+	if (data->v_flag.bit2 && data->web_flag == 0)
+		ft_print_command(arg, args_code, &data->vm, cursor);
+
 	if (args_code.arg1 == REG_CODE)
 		arg[0].num = cursor->reg[arg[0].num - 1];
 	else if (args_code.arg1 == IND_CODE)
@@ -119,6 +135,10 @@ void	xor(t_data *data, t_cur *cursor)
 	arg[2].num = get_arg(args_code.arg3, args_size, data->vm.arena, cursor);
 	args_size += data->vm.size[args_code.arg3];
 	cursor->byte_to_next_op = args_size;
+
+	if (data->v_flag.bit2 && data->web_flag == 0)
+		ft_print_command(arg, args_code, &data->vm, cursor);
+
 	if (args_code.arg1 == REG_CODE)
 		arg[0].num = cursor->reg[arg[0].num - 1];
 	else if (args_code.arg1 == IND_CODE)

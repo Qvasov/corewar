@@ -154,7 +154,8 @@ void	ft_error(char *str);
 void	ft_perror();
 
 //VERBOSITY
-void 	ft_print_command(t_vm *vm, t_cur *cursor);
+//void 	ft_print_command(t_vm *vm, t_cur *cursor);
+void	ft_print_command(t_int *arg, t_types_code args_code, t_vm *vm, t_cur *cursor);
 //WEB
 void	web_init(t_data *data);
 void	web_cur_parse(t_data *data, t_cur *cursor);

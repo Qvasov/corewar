@@ -38,9 +38,9 @@ static void	do_op(t_data *data, t_cur *cursor, void (**op) (t_data *, t_cur *))
 {
 	int				num_player;
 
-	if (data->v_flag.bit2 && data->web_flag == 0)
+	/*if (data->v_flag.bit2 && data->web_flag == 0)
 		ft_print_command(&data->vm, cursor);
-	else if (data->web_flag)
+	else*/ if (data->web_flag)
 	{
 		num_player = cursor->reg[0] * -1;
 		if (num_player > 0 && num_player <= data->vm.num_of_players)

@@ -65,7 +65,7 @@ static void print_additional_info(t_int *arg, t_cur *cursor)
 		ft_printf("\n");
 }
 
-void ft_print_command(t_vm *vm, t_cur *cursor)
+/*void ft_print_command(t_vm *vm, t_cur *cursor)
 {
 	t_int			arg[3];
 	int8_t			args_size;
@@ -81,6 +81,7 @@ void ft_print_command(t_vm *vm, t_cur *cursor)
 	}
 	else
 		arg[0].num = get_arg(op_tab[cursor->op_code].arg_type[0], args_size, vm->arena, cursor);
+
 
 	if (op_tab[cursor->op_code].args_type_code && args_code.num == 0)
 		return ;
@@ -116,6 +117,46 @@ void ft_print_command(t_vm *vm, t_cur *cursor)
 		arg[2].num = get_arg(args_code.arg3, args_size, vm->arena, cursor);
 		if (args_code.arg3 == REG_CODE &&
 			(cursor->op_code == 0x0b))
+		{
+			arg[2].num = cursor->reg[arg[2].num - 1];
+			ft_printf(" %d", arg[2].num);
+		}
+		else
+			print_value(args_code.arg3, arg[2], vm, cursor);
+	}
+	print_additional_info(arg, cursor);
+}*/
+
+void ft_print_command(t_int *arg, t_types_code args_code, t_vm *vm, t_cur *cursor)
+{
+	if (op_tab[cursor->op_code].args_type_code && args_code.num == 0)
+		return ;
+	ft_printf("P %4d | %s", cursor->id, op_tab[cursor->op_code].name);
+	if (args_code.arg1 == REG_CODE && (cursor->op_code == 0x0a ||
+		(cursor->op_code >= 0x06 && cursor->op_code <= 0x08)))
+	{
+		arg[0].num = cursor->reg[arg[0].num - 1];
+		ft_printf(" %d", arg[0].num);
+	}
+	else
+		print_value(args_code.arg1, arg[0], vm, cursor);
+
+	if (op_tab[cursor->op_code].args_count >= 2)
+	{
+		if (args_code.arg2 == REG_CODE &&
+			((cursor->op_code >= 0x06 && cursor->op_code <= 0x08) ||
+			 cursor->op_code == 0x0a || cursor->op_code == 0x0b))
+		{
+			arg[1].num = cursor->reg[arg[1].num - 1];
+			ft_printf(" %d", arg[1].num);
+		}
+		else
+			print_value(args_code.arg2, arg[1], vm, cursor);
+	}
+
+	if (op_tab[cursor->op_code].args_count >= 3)
+	{
+		if (args_code.arg3 == REG_CODE && (cursor->op_code == 0x0b))
 		{
 			arg[2].num = cursor->reg[arg[2].num - 1];
 			ft_printf(" %d", arg[2].num);

@@ -25,6 +25,10 @@ void	ld(t_data *data, t_cur *cursor)
 	arg[1].num = get_arg(args_code.arg2, args_size, data->vm.arena, cursor);
 	args_size += data->vm.size[args_code.arg2];
 	cursor->byte_to_next_op = args_size;
+
+	if (data->v_flag.bit2 && data->web_flag == 0)
+		ft_print_command(arg, args_code, &data->vm, cursor);
+
 	if (args_code.arg1 == IND_CODE)
 	{
 		arg[0].num %= IDX_MOD;
@@ -49,6 +53,10 @@ void	ldi(t_data *data, t_cur *cursor)
 	arg[2].num = get_arg(args_code.arg3, args_size, data->vm.arena, cursor);
 	args_size += data->vm.size[args_code.arg3];
 	cursor->byte_to_next_op = args_size;
+
+	if (data->v_flag.bit2 && data->web_flag == 0)
+		ft_print_command(arg, args_code, &data->vm, cursor);
+
 	if (args_code.arg1 == REG_CODE)
 		arg[0].num = cursor->reg[arg[0].num - 1];
 	else if (args_code.arg1 == IND_CODE)
@@ -75,10 +83,15 @@ void	lld(t_data *data, t_cur *cursor)
 	arg[1].num = get_arg(args_code.arg2, args_size, data->vm.arena, cursor);
 	args_size += data->vm.size[args_code.arg2];
 	cursor->byte_to_next_op = args_size;
+
+	if (data->v_flag.bit2 && data->web_flag == 0)
+		ft_print_command(arg, args_code, &data->vm, cursor);
+
 	if (args_code.arg1 == IND_CODE) //получение числа по адресу
 		arg[0].num = get_ind_value(arg[0], cursor, data->vm.arena);
 	cursor->reg[arg[1].num - 1] = arg[0].num;
 	cursor->carry = (cursor->reg[arg[1].num - 1] == 0) ? 1 : 0;
+
 }
 
 void	lldi(t_data *data, t_cur *cursor)
@@ -96,6 +109,10 @@ void	lldi(t_data *data, t_cur *cursor)
 	arg[2].num = get_arg(args_code.arg3, args_size, data->vm.arena, cursor);
 	args_size += data->vm.size[args_code.arg3];
 	cursor->byte_to_next_op = args_size;
+
+	if (data->v_flag.bit2 && data->web_flag == 0)
+		ft_print_command(arg, args_code, &data->vm, cursor);
+
 	if (args_code.arg1 == REG_CODE)
 		arg[0].num = cursor->reg[arg[0].num - 1];
 	else if (args_code.arg1 == IND_CODE)
