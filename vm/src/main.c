@@ -33,10 +33,12 @@ static void	init_data(t_data *data)
 	data->vm.num_of_players = 0;
 	while (++i < MAX_PLAYERS)
 		data->player[i].path = NULL;
+
 	data->v_flag.num = 0;
-	data->visu_flag = 0;
+	data->web_flag = 0;
+	data->n_flag = 0;
 	//VISU NCURSES
-	visu_init();
+
 	//--------------
 }
 
@@ -49,11 +51,10 @@ int main(int ac, char **av)
 	init_data(&data); // создание структуры players //создание и инициализация арены
 	ft_parse(ac, av, &data);
 	ft_read_valid_players(&data.vm, data.player); //считывание байт-кода и разбор на состоваляющие
-//	ft_introducing(&data);
+	ft_introducing(&data);
+
 	ft_battle(&data);
-	//VISU NCURSES
-	endwin();
-	//--------------
+	ft_endgame(&data);
 	ft_free(&data);
 	return (0);
 }

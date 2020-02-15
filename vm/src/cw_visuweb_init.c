@@ -68,7 +68,7 @@ static void	arena_dup(uint64_t **dst, uint8_t *src)
 		(*dst)[i] += src[i];
 }
 
-void		ft_init_visu(t_data *data)
+void		visuweb_init(t_data *data)
 {
 	int	i;
 

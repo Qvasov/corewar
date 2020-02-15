@@ -108,7 +108,8 @@ typedef struct	s_data
 	t_vm		vm;
 	t_champ		player[MAX_PLAYERS + 1];
 	t_bits		v_flag;
-	int			visu_flag;
+	int			web_flag;
+	int			n_flag;
 	t_visu		visu;
 }				t_data;
 
@@ -154,14 +155,14 @@ void	ft_perror();
 
 //WEB
 void 	ft_print_command(t_vm *vm, t_cur *cursor);
-void	ft_init_visu(t_data *data);
-void 	ft_visu_st(t_types_code args_code, t_data *data, t_cur *cursor);
-void 	ft_visu_sti(t_types_code args_code, t_data *data, t_cur *cursor);
-void	ft_visu_fork(t_types_code args_code, t_data *data, t_cur *cursor);
-void	ft_visu_cur_parse(t_data *data, t_cur *cursor);
-void	ft_visu_cur_before_do(t_data *data, t_cur *cursor);
-void	ft_visu_cur_after_do(t_data *data, t_cur *cursor);
-void	ft_visu_cycle(t_data *data);
+void	visuweb_init(t_data *data);
+void 	visuweb_st(t_types_code args_code, t_data *data, t_cur *cursor);
+void 	visuweb_sti(t_types_code args_code, t_data *data, t_cur *cursor);
+void	visuweb_fork(t_types_code args_code, t_data *data, t_cur *cursor);
+void	visuweb_cur_parse(t_data *data, t_cur *cursor);
+void	visuweb_cur_before_do(t_data *data, t_cur *cursor);
+void	visuweb_cur_after_do(t_data *data, t_cur *cursor);
+void	visuweb_cycle(t_data *data);
 
 //NCURSES
 void	render(t_vm *vm, t_champ *player);

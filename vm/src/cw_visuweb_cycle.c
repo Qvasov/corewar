@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_visu_cycle.c                                    :+:      :+:    :+:   */
+/*   visuweb_cycle.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dbennie <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -30,7 +30,7 @@
 //	return (value);
 //}
 
-void		ft_visu_cycle(t_data *data)
+void		visuweb_cycle(t_data *data)
 {
 	int	i;
 	int n;

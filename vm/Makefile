@@ -20,7 +20,7 @@ SOURCE = ft_add_sub_and_or_xor.c ft_battle.c ft_checkout.c ft_copy_cursor.c\
 		ft_parse.c ft_print_commands.c ft_read_valid_players.c ft_st_sti.c\
 		ft_usage.c ft_valid_op_code_and_reg.c main.c op.c\
 		cw_visual_main.c cw_visual_cursor.c cw_visual_info.c\
-		ft_free.c ft_visu_cursor.c ft_visu_cycle.c ft_visu_op.c ft_visu_init.c
+		ft_free.c ft_visu_cursor.c visuweb_cycle.c ft_visu_op.c ft_visu_init.c
 HEADER = op.h vm.h cw_visual.h
 
 INCLUDES = -Iinc -I$(LIBFT_DIR)

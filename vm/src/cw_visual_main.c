@@ -110,7 +110,7 @@ void	render(t_vm *vm, t_champ *player)
 {
 	uint8_t			render_loop;
 	uint8_t			pause;
-	static uint8_t	speed = 0;
+	static uint8_t	speed = 2;
 
 	pause = 0;
 	render_loop = 1;

@@ -14,20 +14,20 @@
 
 static void	change_arena(t_data *data, int32_t addr, t_int arg) //check
 {
-	int64_t	buf;
+	int64_t	curs;
 	int		i;
 
 	i = -1;
 	while (++i < 4)
 	{
-		buf = data->visu.arena[(addr + i) % MEM_SIZE] / 1000;
-//		data->visu.change[(addr + i) % MEM_SIZE] = data->visu.arena[(addr + i) % MEM_SIZE] % 1000;
+		curs = data->visu.arena[(addr + i) % MEM_SIZE] / 1000;
+		curs = curs + (data->visu.change[(addr + i) % MEM_SIZE] / 1000);
 		data->visu.change[(addr + i) % MEM_SIZE] = (uint8_t)arg.byte[3 - i];
-		data->visu.change[(addr + i) % MEM_SIZE] += (buf * 1000);
+		data->visu.change[(addr + i) % MEM_SIZE] += (curs * 1000);
 	}
 }
 
-void 		ft_visu_st(t_types_code args_code, t_data *data, t_cur *cursor)
+void 		visuweb_st(t_types_code args_code, t_data *data, t_cur *cursor)
 {
 	t_int	arg[op_tab[cursor->op_code].args_count];
 	int32_t	addr;
@@ -53,7 +53,7 @@ void 		ft_visu_st(t_types_code args_code, t_data *data, t_cur *cursor)
 	}
 }
 
-void 		ft_visu_sti(t_types_code args_code, t_data *data, t_cur *cursor)
+void 		visuweb_sti(t_types_code args_code, t_data *data, t_cur *cursor)
 {
 	t_int	arg[3];
 	int32_t	addr;
@@ -80,7 +80,7 @@ void 		ft_visu_sti(t_types_code args_code, t_data *data, t_cur *cursor)
 	change_arena(data, addr, arg[0]);
 }
 
-void		ft_visu_fork(t_types_code args_code, t_data *data, t_cur *cursor)
+void		visuweb_fork(t_types_code args_code, t_data *data, t_cur *cursor)
 {
 	t_int	arg;
 	int8_t	args_size;
@@ -91,7 +91,11 @@ void		ft_visu_fork(t_types_code args_code, t_data *data, t_cur *cursor)
 	arg.num = get_arg(DIR_CODE, args_size, data->vm.arena, cursor);
 //	args_size += data->vm.size[args_code.num];
 //	cursor->byte_to_next_op = args_size;
-	addr = (cursor->pc + (arg.num % IDX_MOD)) % MEM_SIZE;
+
+	if (cursor->op_code == 12)
+		addr = (cursor->pc + (arg.num % IDX_MOD)) % MEM_SIZE;
+	else if (cursor->op_code == 15)
+		addr = (cursor->pc + arg.num) % MEM_SIZE;
 	if (addr < 0)
 		addr += MEM_SIZE;
 
@@ -99,4 +103,23 @@ void		ft_visu_fork(t_types_code args_code, t_data *data, t_cur *cursor)
 	if (num_player > 0 && num_player <= data->vm.num_of_players)
 		++data->visu.curs[num_player - 1][0];
 	data->visu.change[addr] = data->visu.arena[addr] + 1000;
+}
+
+void	lfork_cw(t_types_code args_code, t_vm *vm, t_cur *cursor)
+{
+	t_int	arg;
+	int8_t	args_size;
+	int32_t	addr;
+	int		num_player;
+
+	args_size = 1;
+	arg.num = get_arg(DIR_CODE, args_size, vm->arena, cursor);
+//	args_size += vm->size[args_code.num];
+//	cursor->byte_to_next_op = args_size;
+	new_cursor = ft_copy_cursor(vm, cursor);
+	new_cursor->pc = (cursor->pc + arg.num) % MEM_SIZE;
+	if (new_cursor->pc < 0)
+		new_cursor->pc += MEM_SIZE;
+
+	addr = (cursor->pc + (arg.num % IDX_MOD)) % MEM_SIZE;
 }

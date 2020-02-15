@@ -12,7 +12,7 @@
 
 #include "vm.h"
 
-void		ft_visu_cur_parse(t_data *data, t_cur *cursor)
+void		visuweb_cur_parse(t_data *data, t_cur *cursor)
 {
 	int	num_player;
 
@@ -24,7 +24,7 @@ void		ft_visu_cur_parse(t_data *data, t_cur *cursor)
 	}
 }
 
-void		ft_visu_cur_before_do(t_data *data, t_cur *cursor)
+void		visuweb_cur_before_do(t_data *data, t_cur *cursor)
 {
 	int	num_player;
 
@@ -33,11 +33,11 @@ void		ft_visu_cur_before_do(t_data *data, t_cur *cursor)
 		data->visu.arena[cursor->pc] = data->visu.arena[cursor->pc] - 1000;
 }
 
-void		ft_visu_cur_after_do(t_data *data, t_cur *cursor)
+void		visuweb_cur_after_do(t_data *data, t_cur *cursor)
 {
 	int	num_player;
 
 	num_player = cursor->reg[0] * -1;
 	if (num_player > 0 && num_player <= data->vm.num_of_players)
-		data->visu.change[cursor->pc] = data->visu.arena[cursor->pc] + 1000;
+		data->visu.change[cursor->pc] = data->visu.change[cursor->pc] + 1000;
 }

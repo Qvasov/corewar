@@ -12,6 +12,8 @@
 
 #include "vm.h"
 
+
+
 void	st(t_types_code args_code, t_vm *vm, t_cur *cursor)
 {
 	t_int	arg[2];

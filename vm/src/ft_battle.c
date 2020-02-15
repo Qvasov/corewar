@@ -38,14 +38,10 @@ void	ft_battle(t_data *data)
 	ft_init_cursors(&data->vm, data->player); // создание и инициализация кареток
 	ft_init_valid_func(valid);
 	ft_init_op(op);
-
-	if (data->visu_flag)
-		ft_init_visu(data);
-
+	(data->web_flag) ? visuweb_init(data) : 0; //WEB
+	(data->n_flag) ? visu_init() : 0; //NCURSES
 	vm = &data->vm;
-	if (vm->nbr_cycles == 0)
-
-		print_arena(vm);
+	(vm->nbr_cycles == 0) ? print_arena(vm) : 0;
 	while (1)
 	{
 		if (vm->cycle == vm->cycles_to_die || vm->cycles_to_die <= 0)
@@ -54,19 +50,16 @@ void	ft_battle(t_data *data)
 			break;
 		++vm->cycle;
 
-		if (data->v_flag.bit1 && data->visu_flag == 0)
+		if (data->v_flag.bit1 && data->web_flag == 0)
 			ft_printf("It is now cycle %d\n", vm->cycle_from_start + vm->cycle); // для фалга
 
-		ft_cycle(data, valid, op); //zjmp fork lfork
+		ft_cycle(data, valid, op);
 
-		if (data->visu_flag)
-			ft_visu_cycle(data);
+		// что за чем ставить отследить
+		(data->web_flag) ? visuweb_cycle(data) : 0;
 
-		if (vm->nbr_cycles >= 0 && vm->cycle_from_start + vm->cycle == vm->nbr_cycles)
-			print_arena(vm);
+		(vm->nbr_cycles >= 0 && vm->cycle_from_start + vm->cycle == vm->nbr_cycles) ? print_arena(vm) : 0;
+
+		(data->n_flag) ? render(vm, data->player) : 0;
 	}
-	//--------------
-	render(vm, data->player);
-	//--------------
-//	ft_endgame(data);
 }
