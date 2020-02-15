@@ -1,6 +1,6 @@
 #include "vm.h"
 
-void	ft_init_op(void (**op) (t_types_code, t_vm *, t_cur *))
+void	ft_init_op(void (**op) (t_data *, t_cur *))
 {
 	op[0] = NULL;
 	op[1] = live;

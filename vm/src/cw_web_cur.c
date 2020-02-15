@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_visu_cursor.c                                   :+:      :+:    :+:   */
+/*   cw_web_cur.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dbennie <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/02/12 17:16:09 by dbennie           #+#    #+#             */
-/*   Updated: 2020/02/12 17:16:10 by dbennie          ###   ########.fr       */
+/*   Created: 2020/02/15 20:43:53 by dbennie           #+#    #+#             */
+/*   Updated: 2020/02/15 20:43:54 by dbennie          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vm.h"
 
-void		visuweb_cur_parse(t_data *data, t_cur *cursor)
+void		web_cur_parse(t_data *data, t_cur *cursor)
 {
 	int	num_player;
 
@@ -24,7 +24,7 @@ void		visuweb_cur_parse(t_data *data, t_cur *cursor)
 	}
 }
 
-void		visuweb_cur_before_do(t_data *data, t_cur *cursor)
+void		web_cur_before_do(t_data *data, t_cur *cursor)
 {
 	int	num_player;
 
@@ -33,7 +33,7 @@ void		visuweb_cur_before_do(t_data *data, t_cur *cursor)
 		data->visu.arena[cursor->pc] = data->visu.arena[cursor->pc] - 1000;
 }
 
-void		visuweb_cur_after_do(t_data *data, t_cur *cursor)
+void		web_cur_after_do(t_data *data, t_cur *cursor)
 {
 	int	num_player;
 

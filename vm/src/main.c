@@ -25,6 +25,7 @@ static void	init_data(t_data *data)
 	data->vm.cycle_from_start = 0;
 	data->vm.cycles_to_die = 1536;
 	data->vm.number_of_live = 0;
+	data->vm.number_of_check = 0;
 	data->vm.size[0] = 0;
 	data->vm.size[REG_CODE] = 1;
 	data->vm.size[DIR_CODE] = DIR_SIZE;
@@ -37,9 +38,6 @@ static void	init_data(t_data *data)
 	data->v_flag.num = 0;
 	data->web_flag = 0;
 	data->n_flag = 0;
-	//VISU NCURSES
-
-	//--------------
 }
 
 int main(int ac, char **av)

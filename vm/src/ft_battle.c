@@ -32,13 +32,13 @@ void	print_arena(t_vm *vm)
 void	ft_battle(t_data *data)
 {
 	uint8_t	(*valid[4])(uint8_t, uint8_t);
-	void	(*op[17])(t_types_code, t_vm *, t_cur *);
+	void	(*op[17])(t_data *, t_cur *);
 	t_vm	*vm;
 
 	ft_init_cursors(&data->vm, data->player); // создание и инициализация кареток
 	ft_init_valid_func(valid);
 	ft_init_op(op);
-	(data->web_flag) ? visuweb_init(data) : 0; //WEB
+	(data->web_flag) ? web_init(data) : 0; //WEB
 	(data->n_flag) ? visu_init() : 0; //NCURSES
 	vm = &data->vm;
 	(vm->nbr_cycles == 0) ? print_arena(vm) : 0;
@@ -56,7 +56,7 @@ void	ft_battle(t_data *data)
 		ft_cycle(data, valid, op);
 
 		// что за чем ставить отследить
-		(data->web_flag) ? visuweb_cycle(data) : 0;
+		(data->web_flag) ? web_cycle(data) : 0;
 
 		(vm->nbr_cycles >= 0 && vm->cycle_from_start + vm->cycle == vm->nbr_cycles) ? print_arena(vm) : 0;
 

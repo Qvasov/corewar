@@ -39,7 +39,7 @@ static void print_additional_info(t_int *arg, t_cur *cursor)
 {
 	if (cursor->op_code == 0x0a)
 	{
-		ft_printf("\n %s | -> load from %d + %d = %d (with pc and mod %d)\n",
+		ft_printf("\n %5s | -> load from %d + %d = %d (with pc and mod %d)\n",
 				  "", arg[0].num, arg[1].num, arg[0].num + arg[1].num,
 				  (cursor->pc + (arg[0].num + arg[1].num) % IDX_MOD));
 	}
