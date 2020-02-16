@@ -32,7 +32,7 @@ void	live(t_data *data, t_cur *cursor)
 	arg.num *= -1;
 	if (arg.num >= data->vm.min_player_id && arg.num <= data->vm.num_of_players)
 	{
-		data->vm.last_player_id = (char)arg.num;
+		data->vm.last_player_id = arg.num;
 		//VERBOSITY
 		if (data->v_flag.bit0)
 			ft_printf("Player %d (%s) is said to be alive\n",
@@ -88,8 +88,8 @@ void	fork_cw(t_data *data, t_cur *cursor)
 	{
 		num_player = cursor->reg[0] * -1;
 		if (num_player > 0 && num_player <= data->vm.num_of_players)
-			++data->visu.curs[num_player - 1][0];
-		data->visu.change[new_cursor->pc] = data->visu.arena[new_cursor->pc] + 1000;
+			++data->web.curs[num_player - 1][0];
+		data->web.change[new_cursor->pc] = data->web.arena[new_cursor->pc] + 1000;
 	}
 }
 
@@ -118,8 +118,8 @@ void	lfork_cw(t_data *data, t_cur *cursor)
 	{
 		num_player = cursor->reg[0] * -1;
 		if (num_player > 0 && num_player <= data->vm.num_of_players)
-			++data->visu.curs[num_player - 1][0];
-		data->visu.change[new_cursor->pc] = data->visu.arena[new_cursor->pc] + 1000;
+			++data->web.curs[num_player - 1][0];
+		data->web.change[new_cursor->pc] = data->web.arena[new_cursor->pc] + 1000;
 	}
 }
 

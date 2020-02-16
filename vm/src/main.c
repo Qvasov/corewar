@@ -50,9 +50,10 @@ int main(int ac, char **av)
 	ft_parse(ac, av, &data);
 	ft_read_valid_players(&data.vm, data.player); //считывание байт-кода и разбор на состоваляющие
 	ft_introducing(&data);
-
 	ft_battle(&data);
 	ft_endgame(&data);
 	ft_free(&data);
 	return (0);
 }
+
+//в web версии 2 операция соответсвует live а не ld rк Эле

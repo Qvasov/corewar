@@ -45,8 +45,8 @@ static void	do_op(t_data *data, t_cur *cursor, void (**op) (t_data *, t_cur *))
 		num_player = cursor->reg[0] * -1;
 		if (num_player > 0 && num_player <= data->vm.num_of_players)
 		{
-			--data->visu.curs[num_player - 1][cursor->op_code];
-			++data->visu.curs[num_player - 1][0];
+			--data->web.curs[num_player - 1][cursor->op_code];
+			++data->web.curs[num_player - 1][0];
 		}
 	}
 

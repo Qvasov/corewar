@@ -19,25 +19,33 @@ void		web_cur_parse(t_data *data, t_cur *cursor)
 	num_player = cursor->reg[0] * -1;
 	if (num_player > 0 && num_player <= data->vm.num_of_players)
 	{
-		--data->visu.curs[num_player - 1][0];
-		++data->visu.curs[num_player - 1][cursor->op_code];
+		--data->web.curs[num_player - 1][0];
+		++data->web.curs[num_player - 1][cursor->op_code];
 	}
 }
 
 void		web_cur_before_do(t_data *data, t_cur *cursor)
 {
-	int	num_player;
+//	int	num_player;
 
-	num_player = cursor->reg[0] * -1;
-	if (num_player > 0 && num_player <= data->vm.num_of_players)
-		data->visu.arena[cursor->pc] = data->visu.arena[cursor->pc] - 1000;
+//	if (num_player > 0 && num_player <= data->vm.num_of_players)
+//	{
+		data->web.arena[cursor->pc] -= 1000;
+		data->web.change[cursor->pc] = data->web.arena[cursor->pc];
+//	}
 }
 
 void		web_cur_after_do(t_data *data, t_cur *cursor)
 {
-	int	num_player;
+//	int		num_player;
+//	int64_t	curs;
 
-	num_player = cursor->reg[0] * -1;
-	if (num_player > 0 && num_player <= data->vm.num_of_players)
-		data->visu.change[cursor->pc] = data->visu.change[cursor->pc] + 1000;
+//	num_player = cursor->reg[0] * -1;
+//	if (num_player > 0 && num_player <= data->vm.num_of_players)
+//	{
+		if (data->web.change[cursor->pc] == -1)
+			data->web.change[cursor->pc] = data->web.arena[cursor->pc] + 1000;
+		else
+			data->web.change[cursor->pc] += 1000;
+//	}
 }

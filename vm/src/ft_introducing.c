@@ -24,4 +24,5 @@ void	ft_introducing(t_data *data)
 				  data->player[i].id, data->player[i].exec_size,
 				  data->player[i].name, data->player[i].comment);
 	}
+	data->vm.last_player_id = data->vm.num_of_players;
 }

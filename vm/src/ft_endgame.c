@@ -17,7 +17,7 @@ void	ft_endgame(t_data *data)
 	ft_printf("Contestant %hhd, \"%s\", has won !\n",
 			data->vm.last_player_id, data->player[data->vm.last_player_id - 1].name);
 	if (data->web_flag)
-		ft_fprintf(data->visu.fd, "];\nconst winner = \"%s\";\n", data->player[data->vm.last_player_id - 1].name);
+		ft_fprintf(data->web.fd, "];\nconst winner = \"%s\";\n", data->player[data->vm.last_player_id - 1].name);
 	if (data->n_flag)
 		endwin();
 }

@@ -12,7 +12,7 @@
 
 #include "vm.h"
 
-static void	change_arena(t_data *data, int32_t addr, t_int arg) //check
+static void	change_arena(t_data *data, int32_t addr, t_int arg, t_cur *cursor) //check
 {
 	int64_t			curs;
 	t_vm			*vm;
@@ -25,10 +25,12 @@ static void	change_arena(t_data *data, int32_t addr, t_int arg) //check
 		vm->arena[(addr + i) % MEM_SIZE] = arg.byte[3 - i];
 		if (data->web_flag)
 		{
-			curs = data->visu.arena[(addr + i) % MEM_SIZE] / 1000;
-			curs = curs + (data->visu.change[(addr + i) % MEM_SIZE] / 1000);
-			data->visu.change[(addr + i) % MEM_SIZE] = (uint8_t)arg.byte[3 - i];
-			data->visu.change[(addr + i) % MEM_SIZE] += (curs * 1000);
+			if (data->web.change[(addr + i) % MEM_SIZE] / 1000)
+				curs = data->web.change[(addr + i) % MEM_SIZE] / 1000;
+			else
+				curs = data->web.arena[(addr + i) % MEM_SIZE] / 1000;
+			data->web.change[(addr + i) % MEM_SIZE] = (uint8_t)arg.byte[3 - i];
+			data->web.change[(addr + i) % MEM_SIZE] += (curs * 1000);
 		}
 	}
 }
@@ -60,7 +62,7 @@ void	st(t_data *data, t_cur *cursor)
 		addr = cursor->pc + arg[1].num;
 		if (addr < 0)
 			addr = MEM_SIZE + (addr % MEM_SIZE);
-		change_arena(data, addr, arg[0]);
+		change_arena(data, addr, arg[0], cursor);
 	}
 }
 
@@ -94,5 +96,5 @@ void	sti(t_data *data, t_cur *cursor)
 	addr = cursor->pc + ((arg[1].num + arg[2].num) % IDX_MOD);
 	if (addr < 0)
 		addr = MEM_SIZE + (addr % MEM_SIZE);
-	change_arena(data, addr, arg[0]);
+	change_arena(data, addr, arg[0], cursor);
 }

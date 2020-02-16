@@ -19,23 +19,23 @@ static void	memory(t_data *data)
 
 	i = -1;
 	cur = data->vm.cursor;
-	ft_fprintf(data->visu.fd, "const memory_init = [");
+	ft_fprintf(data->web.fd, "const memory_init = [");
 	while (cur && cur->next)
 		cur = cur->next;
 	while (++i < MEM_SIZE)
 	{
 		if (cur && i == cur->pc)
 		{
-			data->visu.arena[i] += 1000;
-			ft_fprintf(data->visu.fd, "%d", data->visu.arena[i]);
+			data->web.arena[i] += 1000;
+			ft_fprintf(data->web.fd, "%d", data->web.arena[i]);
 			cur = cur->prev;
 		}
 		else
-			ft_fprintf(data->visu.fd, "%d", data->visu.arena[i]);
+			ft_fprintf(data->web.fd, "%d", data->web.arena[i]);
 		if (i + 1 == MEM_SIZE)
-			ft_fprintf(data->visu.fd, "];\n");
+			ft_fprintf(data->web.fd, "];\n");
 		else
-			ft_fprintf(data->visu.fd, ", ");
+			ft_fprintf(data->web.fd, ", ");
 	}
 }
 
@@ -43,16 +43,16 @@ static void	champions(t_data *data)
 {
 	int	i;
 
-	ft_fprintf(data->visu.fd, "const champion = [");
+	ft_fprintf(data->web.fd, "const champion = [");
 	i = -1;
 	while (++i < data->vm.num_of_players)
 	{
-		ft_fprintf(data->visu.fd, "[\"%s\", \"%s\", %d]",
-		data->player[i].name, data->player[i].comment, data->player[i].id);
+		ft_fprintf(data->web.fd, "[\"%s\", \"%s\", %d]",
+				   data->player[i].name, data->player[i].comment, data->player[i].id);
 		if (i + 1 == data->vm.num_of_players)
-			ft_fprintf(data->visu.fd, "];\n");
+			ft_fprintf(data->web.fd, "];\n");
 		else
-			ft_fprintf(data->visu.fd, ", ");
+			ft_fprintf(data->web.fd, ", ");
 	}
 }
 
@@ -73,25 +73,25 @@ void		web_init(t_data *data)
 	int	i;
 
 	i = -1;
-	if ((data->visu.fd = open("visual.js", O_WRONLY | O_CREAT | O_TRUNC,
+	if ((data->web.fd = open("CW_visual.js", O_WRONLY | O_CREAT | O_TRUNC,
 			S_IRWXU | S_IRWXG | S_IRWXO)) < 0)
 		ft_perror();
 
-	if (!(data->visu.curs = (int **)malloc(sizeof(int *) * data->vm.num_of_players)))
+	if (!(data->web.curs = (int **)malloc(sizeof(int *) * data->vm.num_of_players)))
 		ft_perror();
 	while (++i < data->vm.num_of_players)
 	{
-		if (!(data->visu.curs[i] = (int *)malloc(sizeof(int) * 17)))
+		if (!(data->web.curs[i] = (int *)malloc(sizeof(int) * 17)))
 			ft_perror();
-		ft_bzero(&data->visu.curs[i][1], sizeof(int) * 16);
-		data->visu.curs[i][0] = 1;
+		ft_bzero(&data->web.curs[i][1], sizeof(int) * 16);
+		data->web.curs[i][0] = 1;
 	}
-	arena_dup(&data->visu.arena, data->vm.arena);
+	arena_dup(&data->web.arena, data->vm.arena);
 
-	if (!(data->visu.change = (int64_t *)malloc(sizeof(int64_t) * MEM_SIZE)))
+	if (!(data->web.change = (int64_t *)malloc(sizeof(int64_t) * MEM_SIZE)))
 		ft_perror();
-	ft_memset(data->visu.change, -1, 8 * (MEM_SIZE));
+	ft_memset(data->web.change, -1, 8 * (MEM_SIZE));
 	champions(data);
 	memory(data);
-	ft_fprintf(data->visu.fd, "const cycle = [");
+	ft_fprintf(data->web.fd, "const cycle = [");
 }

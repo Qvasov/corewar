@@ -35,6 +35,7 @@ void		ft_checkout(t_data *data)
 	{
 		if ((vm->cycle + vm->cycle_from_start) - cursor->cycle_of_last_live >= vm->cycles_to_die || vm->cycles_to_die <= 0)
 		{
+			(data->web_flag) ? data->web.arena[cursor->pc] -= 1000 : 1;
 			tmp = cursor;
 			cursor = cursor->next;
 			del_cursor(vm, tmp);

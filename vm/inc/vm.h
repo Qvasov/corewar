@@ -95,7 +95,7 @@ typedef struct	s_vm
 	int64_t		cycle;
 	int64_t		cycle_from_start;
 	int64_t 	cycles_to_die;
-	char		last_player_id;
+	int			last_player_id;
 	int			number_of_live;
 	int			number_of_check;
 	int8_t		size[4];
@@ -110,7 +110,7 @@ typedef struct	s_data
 	t_bits		v_flag;
 	int			web_flag;
 	int			n_flag;
-	t_visu		visu;
+	t_visu		web;
 }				t_data;
 
 extern	t_op			op_tab[17];
@@ -155,7 +155,7 @@ void	ft_perror();
 
 //VERBOSITY
 //void 	ft_print_command(t_vm *vm, t_cur *cursor);
-void	ft_print_command(t_int *arg, t_types_code args_code, t_vm *vm, t_cur *cursor);
+void	ft_print_command(const t_int *args, t_types_code args_code, t_vm *vm, t_cur *cursor);
 //WEB
 void	web_init(t_data *data);
 void	web_cur_parse(t_data *data, t_cur *cursor);

@@ -68,9 +68,9 @@ static int	detect_flag(int ac, char **av, t_data *data)
 		(ac >= 1) ? data->web_flag = 1 : ft_error("-w - error");
 		return (1);
 	}
-	else if (ft_strcmp(*av, "-n") == 0)
+	else if (ft_strcmp(*av, "-nc") == 0)
 	{
-		(ac >= 1) ? data->n_flag = 1 : ft_error("-n - error");
+		(ac >= 1) ? data->n_flag = 1 : ft_error("-nc - error");
 		return (1);
 	}
 	ft_usage();
