@@ -28,7 +28,7 @@ void	add(t_data *data, t_cur *cursor)
 	args_size += data->vm.size[args_code.arg3];
 	cursor->byte_to_next_op = args_size;
 
-	if (data->v_flag.bit2 && data->web_flag == 0)
+	if (ft_bit_check(data->v_flag, 2) && data->web_flag == 0)
 		ft_print_command(arg, args_code, &data->vm, cursor);
 
 	cursor->reg[arg[2].num - 1] = cursor->reg[arg[0].num - 1] + cursor->reg[arg[1].num - 1];
@@ -51,7 +51,7 @@ void	sub(t_data *data, t_cur *cursor)
 	args_size += data->vm.size[args_code.arg3];
 	cursor->byte_to_next_op = args_size;
 
-	if (data->v_flag.bit2 && data->web_flag == 0)
+	if (ft_bit_check(data->v_flag, 2) && data->web_flag == 0)
 		ft_print_command(arg, args_code, &data->vm, cursor);
 
 	cursor->reg[arg[2].num - 1] = cursor->reg[arg[0].num - 1] - cursor->reg[arg[1].num - 1];
@@ -74,7 +74,7 @@ void	and(t_data *data, t_cur *cursor)
 	args_size += data->vm.size[args_code.arg3];
 	cursor->byte_to_next_op = args_size;
 
-	if (data->v_flag.bit2 && data->web_flag == 0)
+	if (ft_bit_check(data->v_flag, 2) && data->web_flag == 0)
 		ft_print_command(arg, args_code, &data->vm, cursor);
 
 	if (args_code.arg1 == REG_CODE)
@@ -105,7 +105,7 @@ void	or(t_data *data, t_cur *cursor)
 	args_size += data->vm.size[args_code.arg3];
 	cursor->byte_to_next_op = args_size;
 
-	if (data->v_flag.bit2 && data->web_flag == 0)
+	if (ft_bit_check(data->v_flag, 2) && data->web_flag == 0)
 		ft_print_command(arg, args_code, &data->vm, cursor);
 
 	if (args_code.arg1 == REG_CODE)
@@ -136,7 +136,7 @@ void	xor(t_data *data, t_cur *cursor)
 	args_size += data->vm.size[args_code.arg3];
 	cursor->byte_to_next_op = args_size;
 
-	if (data->v_flag.bit2 && data->web_flag == 0)
+	if (ft_bit_check(data->v_flag, 2) && data->web_flag == 0)
 		ft_print_command(arg, args_code, &data->vm, cursor);
 
 	if (args_code.arg1 == REG_CODE)

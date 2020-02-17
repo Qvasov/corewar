@@ -70,7 +70,7 @@ static int	detect_flag(int ac, char **av, t_data *data)
 	}
 	else if (ft_strcmp(*av, "-nc") == 0)
 	{
-		(ac >= 1) ? data->n_flag = 1 : ft_error("-nc - error");
+		(ac >= 1) ? data->nc_flag = 1 : ft_error("-nc - error");
 		return (1);
 	}
 	ft_usage();

@@ -18,6 +18,9 @@ void	ft_endgame(t_data *data)
 			data->vm.last_player_id, data->player[data->vm.last_player_id - 1].name);
 	if (data->web_flag)
 		ft_fprintf(data->web.fd, "];\nconst winner = \"%s\";\n", data->player[data->vm.last_player_id - 1].name);
-	if (data->n_flag)
+	if (data->nc_flag)
+	{
+		render(&data->vm, data->player);
 		endwin();
+	}
 }

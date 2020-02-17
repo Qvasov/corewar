@@ -90,13 +90,13 @@ typedef struct	s_vm
 {
 	uint8_t 	arena[MEM_SIZE];
 	t_cur		*cursor;
-	int			cursor_id;
+	uint64_t	cursor_id;
 	int			nbr_cycles;
 	int64_t		cycle;
 	int64_t		cycle_from_start;
 	int64_t 	cycles_to_die;
 	int			last_player_id;
-	int			number_of_live;
+	uint64_t	number_of_live;
 	int			number_of_check;
 	int8_t		size[4];
 	int			min_player_id;
@@ -107,9 +107,9 @@ typedef struct	s_data
 {
 	t_vm		vm;
 	t_champ		player[MAX_PLAYERS + 1];
-	t_bits		v_flag;
+	int			v_flag;
 	int			web_flag;
-	int			n_flag;
+	int			nc_flag;
 	t_visu		web;
 }				t_data;
 

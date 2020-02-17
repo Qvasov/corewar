@@ -24,7 +24,7 @@ void	live(t_data *data, t_cur *cursor)
 	args_size += data->vm.size[DIR_CODE];
 	cursor->byte_to_next_op = args_size;
 
-	if (data->v_flag.bit2 && data->web_flag == 0)
+	if (ft_bit_check(data->v_flag, 2) && data->web_flag == 0)
 		ft_print_command(&arg, args_code, &data->vm, cursor);
 
 	++data->vm.number_of_live;
@@ -34,7 +34,7 @@ void	live(t_data *data, t_cur *cursor)
 	{
 		data->vm.last_player_id = arg.num;
 		//VERBOSITY
-		if (data->v_flag.bit0)
+		if (ft_bit_check(data->v_flag, 0))
 			ft_printf("Player %d (%s) is said to be alive\n",
 					arg.num, data->player[arg.num - 1].name);
 	}
@@ -59,7 +59,7 @@ void	zjmp(t_data *data, t_cur *cursor)
 	else
 		cursor->byte_to_next_op = args_size;
 
-	if (data->v_flag.bit2 && data->web_flag == 0)
+	if (ft_bit_check(data->v_flag, 2) && data->web_flag == 0)
 		ft_print_command(&arg, args_code, &data->vm, cursor);
 }
 
@@ -77,7 +77,7 @@ void	fork_cw(t_data *data, t_cur *cursor)
 	args_size += data->vm.size[DIR_CODE];
 	cursor->byte_to_next_op = args_size;
 
-	if (data->v_flag.bit2 && data->web_flag == 0)
+	if (ft_bit_check(data->v_flag, 2) && data->web_flag == 0)
 		ft_print_command(&arg, args_code, &data->vm, cursor);
 
 	new_cursor = ft_copy_cursor(&data->vm, cursor);
@@ -107,7 +107,7 @@ void	lfork_cw(t_data *data, t_cur *cursor)
 	args_size += data->vm.size[DIR_CODE];
 	cursor->byte_to_next_op = args_size;
 
-	if (data->v_flag.bit2 && data->web_flag == 0)
+	if (ft_bit_check(data->v_flag, 2) && data->web_flag == 0)
 		ft_print_command(&arg, args_code, &data->vm, cursor);
 
 	new_cursor = ft_copy_cursor(&data->vm, cursor);
@@ -136,7 +136,7 @@ void	aff(t_data *data, t_cur *cursor)
 	args_size += data->vm.size[args_code.arg1];
 	cursor->byte_to_next_op = args_size;
 
-	if (data->v_flag.bit2 && data->web_flag == 0)
+	if (ft_bit_check(data->v_flag, 2) && data->web_flag == 0)
 		ft_print_command(&arg, args_code, &data->vm, cursor);
 
 	arg.num = cursor->reg[arg.num - 1];

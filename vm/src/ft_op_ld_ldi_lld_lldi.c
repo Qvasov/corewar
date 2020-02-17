@@ -26,7 +26,7 @@ void	ld(t_data *data, t_cur *cursor)
 	args_size += data->vm.size[args_code.arg2];
 	cursor->byte_to_next_op = args_size;
 
-	if (data->v_flag.bit2 && data->web_flag == 0)
+	if (ft_bit_check(data->v_flag, 2) && data->web_flag == 0)
 		ft_print_command(arg, args_code, &data->vm, cursor);
 
 	if (args_code.arg1 == IND_CODE)
@@ -54,7 +54,7 @@ void	ldi(t_data *data, t_cur *cursor)
 	args_size += data->vm.size[args_code.arg3];
 	cursor->byte_to_next_op = args_size;
 
-	if (data->v_flag.bit2 && data->web_flag == 0)
+	if (ft_bit_check(data->v_flag, 2) && data->web_flag == 0)
 		ft_print_command(arg, args_code, &data->vm, cursor);
 
 	if (args_code.arg1 == REG_CODE)
@@ -84,7 +84,7 @@ void	lld(t_data *data, t_cur *cursor)
 	args_size += data->vm.size[args_code.arg2];
 	cursor->byte_to_next_op = args_size;
 
-	if (data->v_flag.bit2 && data->web_flag == 0)
+	if (ft_bit_check(data->v_flag, 2) && data->web_flag == 0)
 		ft_print_command(arg, args_code, &data->vm, cursor);
 
 	if (args_code.arg1 == IND_CODE) //получение числа по адресу
@@ -110,7 +110,7 @@ void	lldi(t_data *data, t_cur *cursor)
 	args_size += data->vm.size[args_code.arg3];
 	cursor->byte_to_next_op = args_size;
 
-	if (data->v_flag.bit2 && data->web_flag == 0)
+	if (ft_bit_check(data->v_flag, 2) && data->web_flag == 0)
 		ft_print_command(arg, args_code, &data->vm, cursor);
 
 	if (args_code.arg1 == REG_CODE)

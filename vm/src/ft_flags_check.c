@@ -18,9 +18,9 @@ void	ft_check_v(char **av, t_data *data)
 	int	num;
 
 	num = ft_satoi(av[1], &check);
-	if (!(check && av[1][check] == 0 && (num >= 0 && num <= 15)))
+	if (!(check && av[1][check] == 0 && (num >= 0 && num <= 31)))
 		ft_error("-v_flag - argument error");
-	data->v_flag.num = (uint8_t)num;
+	data->v_flag = num;
 }
 
 void	ft_check_num_player(char **av, t_data *data)

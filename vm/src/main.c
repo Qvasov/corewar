@@ -35,9 +35,9 @@ static void	init_data(t_data *data)
 	while (++i < MAX_PLAYERS)
 		data->player[i].path = NULL;
 
-	data->v_flag.num = 0;
+	data->v_flag = 0;
 	data->web_flag = 0;
-	data->n_flag = 0;
+	data->nc_flag = 0;
 }
 
 int main(int ac, char **av)
@@ -56,4 +56,5 @@ int main(int ac, char **av)
 	return (0);
 }
 
-//в web версии 2 операция соответсвует live а не ld rк Эле
+//взаимодейтвие флагов
+//проверить printf заменить на ft_printf
