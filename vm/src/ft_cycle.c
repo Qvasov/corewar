@@ -12,8 +12,6 @@
 
 #include "vm.h"
 
-//static void act()
-
 static void	skip_op(t_data *data, t_cur *cursor)
 {
 	t_types_code	args_code;
@@ -23,16 +21,16 @@ static void	skip_op(t_data *data, t_cur *cursor)
 	{
 		cursor->byte_to_next_op = 2;
 		if (1 <= op_tab[cursor->op_code].args_count)
-			cursor->byte_to_next_op += data->vm.size[args_code.arg1];
+			cursor->byte_to_next_op += data->size[args_code.arg1];
 		if (2 <= op_tab[cursor->op_code].args_count)
-			cursor->byte_to_next_op += data->vm.size[args_code.arg2];
+			cursor->byte_to_next_op += data->size[args_code.arg2];
 		if (3 <= op_tab[cursor->op_code].args_count)
-			cursor->byte_to_next_op += data->vm.size[args_code.arg3];
+			cursor->byte_to_next_op += data->size[args_code.arg3];
 		if (4 <= op_tab[cursor->op_code].args_count)
-			cursor->byte_to_next_op += data->vm.size[args_code.arg4];
+			cursor->byte_to_next_op += data->size[args_code.arg4];
 	}
 	else
-		cursor->byte_to_next_op = 1 + data->vm.size[DIR_CODE];
+		cursor->byte_to_next_op = 1 + data->size[DIR_CODE];
 }
 
 static void	do_op(t_data *data, t_cur *cursor, void (**op) (t_data *, t_cur *))
@@ -53,7 +51,26 @@ static void	do_op(t_data *data, t_cur *cursor, void (**op) (t_data *, t_cur *))
 		cursor->op_code = 0;
 }
 
-void		ft_cycle(t_data *data, uint8_t (**valid) (uint8_t, uint8_t), void (**op) (t_data *, t_cur *))
+static void	action(t_data *data, t_cur *cursor)
+{
+	(data->web_flag) ? web_cur_before_do(data, cursor) : 0;
+	if (cursor->op_code >= 0x01 && cursor->op_code <= 0x10)
+	{
+		data->size[DIR_CODE] = (op_tab[cursor->op_code].dir_size) ? 2 : DIR_SIZE; //устанавливаем размер T_DIR
+		if (ft_valid_op_code_and_reg(data, cursor))
+			skip_op(data, cursor);
+		else
+			do_op(data, cursor, data->op);
+		(ft_bit_check(data->v_flag, 4) && !(cursor->carry == 1
+			&& cursor->op_code == 0x09)) ? flag_v16(&data->vm, cursor) : 1;
+		cursor->pc = (cursor->pc + cursor->byte_to_next_op) % MEM_SIZE;
+	}
+	else
+		cursor->pc = (cursor->pc + 1) % MEM_SIZE;
+	(data->web_flag) ? web_cur_after_do(data, cursor) : 0;
+}
+
+void		ft_cycle(t_data *data)
 {
 	t_cur	*cursor;
 	t_vm	*vm;
@@ -74,37 +91,7 @@ void		ft_cycle(t_data *data, uint8_t (**valid) (uint8_t, uint8_t), void (**op) (
 		if (cursor->cycles_to_do_op > 0)
 			--cursor->cycles_to_do_op;
 		if (cursor->cycles_to_do_op == 0)
-		{
-//			action();
-			(data->web_flag) ? web_cur_before_do(data, cursor) : 0;
-			if (cursor->op_code >= 0x01 && cursor->op_code <= 0x10)
-			{
-				vm->size[DIR_CODE] = (op_tab[cursor->op_code].dir_size) ? 2 : DIR_SIZE; //устанавливаем размер T_DIR
-				if (ft_valid_op_code_and_reg(vm, cursor, valid))
-					skip_op(data, cursor);
-				else
-					do_op(data, cursor, op);
-
-				int i;
-				if (ft_bit_check(data->v_flag, 4) && !(cursor->carry == 1 && cursor->op_code == 0x09))
-				{
-					ft_printf("ADV %d (0x%.4x -> 0x%.4x) ",
-							  cursor->byte_to_next_op,
-							  cursor->pc,
-							  (cursor->pc + cursor->byte_to_next_op)/* % MEM_SIZE*/);
-					i = -1;
-					while (++i < cursor->byte_to_next_op)
-						ft_printf("%.2hhx ", data->vm.arena[(cursor->pc + i) % MEM_SIZE]);
-					ft_printf("\n");
-				}
-
-
-				cursor->pc = (cursor->pc + cursor->byte_to_next_op) % MEM_SIZE;
-			}
-			else
-				cursor->pc = (cursor->pc + 1) % MEM_SIZE;
-			(data->web_flag) ? web_cur_after_do(data, cursor) : 0;
-		}
+			action(data, cursor);
 		cursor = cursor->next;
 	}
 }

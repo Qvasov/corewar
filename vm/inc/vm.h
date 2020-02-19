@@ -98,7 +98,6 @@ typedef struct	s_vm
 	int			last_player_id;
 	uint64_t	number_of_live;
 	int			number_of_check;
-	int8_t		size[4];
 	int			min_player_id;
 	int			num_of_players;
 }				t_vm;
@@ -107,6 +106,9 @@ typedef struct	s_data
 {
 	t_vm		vm;
 	t_champ		player[MAX_PLAYERS + 1];
+	int8_t		size[4];
+	uint8_t		(*valid[4])(uint8_t, uint8_t);
+	void		(*op[17])(struct s_data *, t_cur *);
 	int			v_flag;
 	int			web_flag;
 	int			nc_flag;
@@ -126,8 +128,8 @@ void	ft_init_cursors(t_vm *vm, t_champ *player);
 void	ft_init_valid_func(uint8_t (**type) (uint8_t, uint8_t));
 void	ft_init_op(void (**op) (t_data *, t_cur *cursor));
 void	ft_checkout(t_data *data);
-void	ft_cycle(t_data *data, uint8_t (**valid) (uint8_t, uint8_t), void (**op) (t_data *, t_cur *));
-int		ft_valid_op_code_and_reg(t_vm *vm, t_cur *cursor, uint8_t (**valid) (uint8_t, uint8_t));
+void	ft_cycle(t_data *data);
+int		ft_valid_op_code_and_reg(t_data *data, t_cur *cursor);
 void	live(t_data *data, t_cur *cursor);
 void	ld(t_data *data, t_cur *cursor);
 void	st(t_data *data, t_cur *cursor);
@@ -154,8 +156,9 @@ void	ft_error(char *str);
 void	ft_perror();
 
 //VERBOSITY
-//void 	ft_print_command(t_vm *vm, t_cur *cursor);
-void	ft_print_command(const t_int *args, t_types_code args_code, t_vm *vm, t_cur *cursor);
+//void 	ft_flag_v4(t_vm *vm, t_cur *cursor);
+void	ft_flag_v4(const t_int *args, t_types_code args_code, t_vm *vm, t_cur *cursor);
+void 	flag_v16(t_vm *vm, t_cur *cursor);
 //WEB
 void	web_init(t_data *data);
 void	web_cur_parse(t_data *data, t_cur *cursor);

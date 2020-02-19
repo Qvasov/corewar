@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_print_command.c                                :+:      :+:    :+:   */
+/*   cw_flag_v4.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dbennie <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/02/01 19:25:21 by dbennie           #+#    #+#             */
-/*   Updated: 2020/02/01 19:25:22 by dbennie          ###   ########.fr       */
+/*   Created: 2020/02/19 21:23:08 by dbennie           #+#    #+#             */
+/*   Updated: 2020/02/19 21:23:16 by dbennie          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ static void print_additional_info(t_int *arg, t_cur *cursor)
 		ft_printf("\n");
 }
 
-/*void ft_print_command(t_vm *vm, t_cur *cursor)
+/*void ft_flag_v4(t_vm *vm, t_cur *cursor)
 {
 	t_int			arg[3];
 	int8_t			args_size;
@@ -127,7 +127,7 @@ static void print_additional_info(t_int *arg, t_cur *cursor)
 	print_additional_info(arg, cursor);
 }*/
 
-void ft_print_command(const t_int *args, t_types_code args_code, t_vm *vm, t_cur *cursor)
+void ft_flag_v4(const t_int *args, t_types_code args_code, t_vm *vm, t_cur *cursor)
 {
 	t_int	arg[3];
 
