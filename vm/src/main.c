@@ -26,15 +26,14 @@ static void	init_data(t_data *data)
 	data->vm.cycles_to_die = 1536;
 	data->vm.number_of_live = 0;
 	data->vm.number_of_check = 0;
-	data->vm.size[0] = 0;
-	data->vm.size[REG_CODE] = 1;
-	data->vm.size[DIR_CODE] = DIR_SIZE;
-	data->vm.size[IND_CODE] = IND_SIZE;
 	data->vm.min_player_id = 1;
 	data->vm.num_of_players = 0;
+	data->size[0] = 0;
+	data->size[REG_CODE] = 1;
+	data->size[DIR_CODE] = DIR_SIZE;
+	data->size[IND_CODE] = IND_SIZE;
 	while (++i < MAX_PLAYERS)
 		data->player[i].path = NULL;
-
 	data->v_flag = 0;
 	data->web_flag = 0;
 	data->nc_flag = 0;
@@ -56,5 +55,5 @@ int main(int ac, char **av)
 	return (0);
 }
 
-//взаимодейтвие флагов
+//взаимодейтвие флагов (приоритет)
 //проверить printf заменить на ft_printf

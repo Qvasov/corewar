@@ -21,11 +21,11 @@ void	live(t_data *data, t_cur *cursor)
 	args_code.num = 0;
 	args_size = 1;
 	arg.num = get_arg(DIR_CODE, args_size, data->vm.arena, cursor);
-	args_size += data->vm.size[DIR_CODE];
+	args_size += data->size[DIR_CODE];
 	cursor->byte_to_next_op = args_size;
 
 	if (ft_bit_check(data->v_flag, 2) && data->web_flag == 0)
-		ft_print_command(&arg, args_code, &data->vm, cursor);
+		flag_v4(&arg, args_code, &data->vm, cursor);
 
 	++data->vm.number_of_live;
 	cursor->cycle_of_last_live = data->vm.cycle + data->vm.cycle_from_start;
@@ -49,7 +49,7 @@ void	zjmp(t_data *data, t_cur *cursor)
 	args_code.num = 0;
 	args_size = 1;
 	arg.num = get_arg(DIR_CODE, args_size, data->vm.arena, cursor);
-	args_size += data->vm.size[DIR_CODE];
+	args_size += data->size[DIR_CODE];
 	if (cursor->carry == 1)
 	{
 		cursor->byte_to_next_op = arg.num % IDX_MOD;
@@ -60,7 +60,7 @@ void	zjmp(t_data *data, t_cur *cursor)
 		cursor->byte_to_next_op = args_size;
 
 	if (ft_bit_check(data->v_flag, 2) && data->web_flag == 0)
-		ft_print_command(&arg, args_code, &data->vm, cursor);
+		flag_v4(&arg, args_code, &data->vm, cursor);
 }
 
 void	fork_cw(t_data *data, t_cur *cursor)
@@ -74,11 +74,11 @@ void	fork_cw(t_data *data, t_cur *cursor)
 	args_code.num = 0;
 	args_size = 1;
 	arg.num = get_arg(DIR_CODE, args_size, data->vm.arena, cursor);
-	args_size += data->vm.size[DIR_CODE];
+	args_size += data->size[DIR_CODE];
 	cursor->byte_to_next_op = args_size;
 
 	if (ft_bit_check(data->v_flag, 2) && data->web_flag == 0)
-		ft_print_command(&arg, args_code, &data->vm, cursor);
+		flag_v4(&arg, args_code, &data->vm, cursor);
 
 	new_cursor = ft_copy_cursor(&data->vm, cursor);
 	new_cursor->pc = (cursor->pc + (arg.num % IDX_MOD)) % MEM_SIZE;
@@ -104,11 +104,11 @@ void	lfork_cw(t_data *data, t_cur *cursor)
 	args_code.num = 0;
 	args_size = 1;
 	arg.num = get_arg(DIR_CODE, args_size, data->vm.arena, cursor);
-	args_size += data->vm.size[DIR_CODE];
+	args_size += data->size[DIR_CODE];
 	cursor->byte_to_next_op = args_size;
 
 	if (ft_bit_check(data->v_flag, 2) && data->web_flag == 0)
-		ft_print_command(&arg, args_code, &data->vm, cursor);
+		flag_v4(&arg, args_code, &data->vm, cursor);
 
 	new_cursor = ft_copy_cursor(&data->vm, cursor);
 	new_cursor->pc = (cursor->pc + arg.num) % MEM_SIZE;
@@ -133,11 +133,11 @@ void	aff(t_data *data, t_cur *cursor)
 	args_code.num = data->vm.arena[(cursor->pc + 1) % MEM_SIZE];
 	args_size = 2;
 	arg.num = get_arg(args_code.arg1, args_size, data->vm.arena, cursor);
-	args_size += data->vm.size[args_code.arg1];
+	args_size += data->size[args_code.arg1];
 	cursor->byte_to_next_op = args_size;
 
 //	if (ft_bit_check(data->v_flag, 2) && data->web_flag == 0)
-//		ft_print_command(&arg, args_code, &data->vm, cursor);
+//		flag_v4(&arg, args_code, &data->vm, cursor);
 
 	arg.num = cursor->reg[arg.num - 1];
 	str[0] = (char)arg.num;
