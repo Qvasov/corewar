@@ -16,52 +16,60 @@ static uint8_t	valid_zero(uint8_t i, uint8_t op)
 {
 	t_bits	arg_bits;
 
-	if (!(op_tab[op].arg_type[i]))
+	if (i < op_tab[op].args_count)
 	{
 		arg_bits.num = op_tab[op].arg_type[i];
-		if (!(arg_bits.bit3))
+		if (arg_bits.bit3)
 			return (0);
+		else
+			return (1);
 	}
-	return (1);
+	return (0);
 }
 
 static uint8_t	valid_reg(uint8_t i, uint8_t op /*в таблице*/)
 {
 	t_bits	arg_bits;
 
-	if (op_tab[op].arg_type[i])
+	if (i < op_tab[op].args_count)
 	{
 		arg_bits.num = op_tab[op].arg_type[i];
 		if (arg_bits.bit0)
 			return (0);
+		else
+			return (1);
 	}
-	return (1);
+	return (0);
 }
 
 static uint8_t	valid_dir(uint8_t i, uint8_t op)
 {
 	t_bits	arg_bits;
 
-	if (op_tab[op].arg_type[i])
+	if (i < op_tab[op].args_count)
 	{
 		arg_bits.num = op_tab[op].arg_type[i];
 		if (arg_bits.bit1)
 			return (0);
+		else
+			return (1);
 	}
-	return (1);
+	return (0);
 }
 
 static uint8_t	valid_ind(uint8_t i, uint8_t op)
 {
 	t_bits	arg_bits;
 
-	if (op_tab[op].arg_type[i])
+	if (i < op_tab[op].args_count)
 	{
 		arg_bits.num = op_tab[op].arg_type[i];
 		if (arg_bits.bit2)
 			return (0);
+		else
+			return (1);
 	}
-	return (1);
+	return (0);
 }
 
 void			ft_init_valid_func(uint8_t (**valid) (uint8_t, uint8_t))

@@ -12,6 +12,8 @@
 
 #include "vm.h"
 
+//static void act()
+
 static void	skip_op(t_data *data, t_cur *cursor)
 {
 	t_types_code	args_code;
@@ -31,30 +33,13 @@ static void	skip_op(t_data *data, t_cur *cursor)
 	}
 	else
 		cursor->byte_to_next_op = 1 + data->vm.size[DIR_CODE];
-
-	int i;
-	if (ft_bit_check(data->v_flag, 4) && !(cursor->carry == 1 && cursor->op_code == 0x09))
-	{
-		ft_printf("ADV %d (0x%.4x -> 0x%.4x) ",
-				  cursor->byte_to_next_op,
-				  cursor->pc,
-				  (cursor->pc + cursor->byte_to_next_op) % MEM_SIZE);
-		i = -1;
-		while (++i < cursor->byte_to_next_op)
-			ft_printf("%.2hhx ", data->vm.arena[cursor->pc + i]);
-		ft_printf("\n");
-	}
-
-	cursor->pc = (cursor->pc + cursor->byte_to_next_op) % MEM_SIZE;
 }
 
 static void	do_op(t_data *data, t_cur *cursor, void (**op) (t_data *, t_cur *))
 {
 	int				num_player;
 
-	/*if (data->v_flag.bit2 && data->web_flag == 0)
-		ft_print_command(&data->vm, cursor);
-	else*/ if (data->web_flag)
+	if (data->web_flag)
 	{
 		num_player = cursor->reg[0] * -1;
 		if (num_player > 0 && num_player <= data->vm.num_of_players)
@@ -63,24 +48,7 @@ static void	do_op(t_data *data, t_cur *cursor, void (**op) (t_data *, t_cur *))
 			++data->web.curs[num_player - 1][0];
 		}
 	}
-
 	op[cursor->op_code](data, cursor);
-
-	int i;
-	if (ft_bit_check(data->v_flag, 4) && !(cursor->carry == 1 && cursor->op_code == 0x09))
-	{
-		ft_printf("ADV %d (0x%.4x -> 0x%.4x) ",
-				  cursor->byte_to_next_op,
-				  cursor->pc,
-				  (cursor->pc + cursor->byte_to_next_op) % MEM_SIZE);
-		i = -1;
-		while (++i < cursor->byte_to_next_op)
-			ft_printf("%.2hhx ", data->vm.arena[cursor->pc + i]);
-		ft_printf("\n");
-	}
-
-	cursor->pc = (cursor->pc + cursor->byte_to_next_op) % MEM_SIZE;
-
 	if (data->web_flag)
 		cursor->op_code = 0;
 }
@@ -107,6 +75,7 @@ void		ft_cycle(t_data *data, uint8_t (**valid) (uint8_t, uint8_t), void (**op) (
 			--cursor->cycles_to_do_op;
 		if (cursor->cycles_to_do_op == 0)
 		{
+//			action();
 			(data->web_flag) ? web_cur_before_do(data, cursor) : 0;
 			if (cursor->op_code >= 0x01 && cursor->op_code <= 0x10)
 			{
@@ -115,6 +84,22 @@ void		ft_cycle(t_data *data, uint8_t (**valid) (uint8_t, uint8_t), void (**op) (
 					skip_op(data, cursor);
 				else
 					do_op(data, cursor, op);
+
+				int i;
+				if (ft_bit_check(data->v_flag, 4) && !(cursor->carry == 1 && cursor->op_code == 0x09))
+				{
+					ft_printf("ADV %d (0x%.4x -> 0x%.4x) ",
+							  cursor->byte_to_next_op,
+							  cursor->pc,
+							  (cursor->pc + cursor->byte_to_next_op)/* % MEM_SIZE*/);
+					i = -1;
+					while (++i < cursor->byte_to_next_op)
+						ft_printf("%.2hhx ", data->vm.arena[(cursor->pc + i) % MEM_SIZE]);
+					ft_printf("\n");
+				}
+
+
+				cursor->pc = (cursor->pc + cursor->byte_to_next_op) % MEM_SIZE;
 			}
 			else
 				cursor->pc = (cursor->pc + 1) % MEM_SIZE;

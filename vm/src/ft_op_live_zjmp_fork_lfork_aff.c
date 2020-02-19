@@ -136,11 +136,11 @@ void	aff(t_data *data, t_cur *cursor)
 	args_size += data->vm.size[args_code.arg1];
 	cursor->byte_to_next_op = args_size;
 
-	if (ft_bit_check(data->v_flag, 2) && data->web_flag == 0)
-		ft_print_command(&arg, args_code, &data->vm, cursor);
+//	if (ft_bit_check(data->v_flag, 2) && data->web_flag == 0)
+//		ft_print_command(&arg, args_code, &data->vm, cursor);
 
 	arg.num = cursor->reg[arg.num - 1];
 	str[0] = (char)arg.num;
 	str[1] = '\n';
-//	write(1, str, 2); // заклирить
+//	write(1, str, 2); // заклирить // aff отдельно прорабоатть
 }

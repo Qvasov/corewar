@@ -147,11 +147,12 @@ void ft_print_command(const t_int *args, t_types_code args_code, t_vm *vm, t_cur
 	if (op_tab[cursor->op_code].args_count >= 2)
 	{
 		arg[1] = args[1];
-		if (args_code.arg2 == REG_CODE &&
-			((cursor->op_code >= 0x06 && cursor->op_code <= 0x08) ||
-			 cursor->op_code == 0x0a || cursor->op_code == 0x0b))
+		if (args_code.arg2 == REG_CODE && (cursor->op_code == 0x03 ||
+			(cursor->op_code >= 0x06 && cursor->op_code <= 0x08) ||
+			cursor->op_code == 0x0a || cursor->op_code == 0x0b))
 		{
-			arg[1].num = cursor->reg[arg[1].num - 1];
+			if (cursor->op_code != 0x03) 					//обсудить для st rx,rx как выводить второе число. В оригинальной vm выводит просто номер регистра без r
+				arg[1].num = cursor->reg[arg[1].num - 1];
 			ft_printf(" %d", arg[1].num);
 		}
 		else
