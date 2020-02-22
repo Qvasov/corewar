@@ -33,11 +33,6 @@
 # define CW_BORDER_X	4
 # define CW_BORDER_Y	2
 
-/*
-** # define CW_INFO_X		CW_MEM_WIDTH + CW_BORDER_X
-** # define CW_BAR_Y		CW_MEM_HEIGHT + CW_BORDER_Y
-*/
-
 # define CW_INFO_X		201
 # define CW_BAR_Y		69
 # define CW_INFO2_Y		26
@@ -65,9 +60,10 @@ static const char		*g_oplist[] =
 void					render(t_vm *vm, t_champ *player);
 void					put_operation(void);
 void					put_cursor(t_vm *vm, t_cur *cursor, int32_t pl_cnt);
-void					handle_event(uint8_t *pause, uint8_t *speed);
+void					handle_event(uint8_t *pause, uint8_t *speed, t_vm *vm,
+						t_champ *pl);
 void					put_infobox(t_vm *vm, t_champ *pl, uint8_t speed,
-																uint8_t pause);
+						uint8_t pause);
 void					put_border(void);
 void					put_memory(t_vm *vm);
 void					visu_init(void);

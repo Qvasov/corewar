@@ -15,13 +15,15 @@
 
 void	ft_error(char *str)
 {
-	ft_printf("./corewar: %s\n", str); //ft_fprintf
+	ft_fprintf(2,"./corewar: %s\n", str);
 	exit(1);
 }
 
-void	ft_perror()
+void ft_perror(t_data *data)
 {
 //	ft_printf("%s\n", strerror(errno));
 	perror("corewar");
+	if (data != NULL)
+		ft_buf_print(&data->fstr);
 	exit(1);
 }

@@ -6,7 +6,7 @@
 /*   By: ddarell <ddarell@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/26 14:52:42 by ddarell           #+#    #+#             */
-/*   Updated: 2019/12/02 20:15:33 by ddarell          ###   ########.fr       */
+/*   Updated: 2020/02/21 13:38:23 by ddarell          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,11 +55,8 @@ static void	set_int_type_func(void (**f)(t_fstr *, va_list *))
 	f[28] = &ft_printf_x_hh;
 }
 
-void		ft_init_n_set(void (**f)(t_fstr *, va_list *), t_fstr *fstr)
+void		ft_init_f(void (**f)(t_fstr *, va_list *))
 {
-	fstr->prin = 0;
-	fstr->idx = 0;
-	fstr->sfd = 1;
 	f[0] = NULL;
 	f[1] = &ft_printf_char;
 	f[2] = &ft_printf_string;
@@ -77,4 +74,11 @@ void		ft_init_n_set(void (**f)(t_fstr *, va_list *), t_fstr *fstr)
 	f[38] = &ft_printf_e_ee_ll;
 	f[39] = &ft_printf_e_ee_l;
 	f[40] = &ft_printf_e_ee_ll;
+}
+
+void		ft_init_fstr(t_fstr *fstr)
+{
+	fstr->prin = 0;
+	fstr->idx = 0;
+	fstr->sfd = 1;
 }

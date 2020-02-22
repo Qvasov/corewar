@@ -18,7 +18,7 @@ t_cur	*ft_copy_cursor(t_vm *vm, t_cur *cursor)
 	int8_t	i;
 
 	i = -1;
-	!(cur = (t_cur *)malloc(sizeof(t_cur))) ? ft_perror() : 0;
+	!(cur = (t_cur *)malloc(sizeof(t_cur))) ? ft_perror(NULL) : 0;
 	cur->id = ++vm->cursor_id;
 	cur->carry = cursor->carry;
 	cur->op_code = 0;

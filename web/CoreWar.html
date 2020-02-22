@@ -1,0 +1,76 @@
+<!-- *********************************************************************** -->
+<!--                                                                         -->
+<!--                                                      :::      ::::::::  -->
+<!-- CoreWar.html                                       :+:      :+:    :+:  -->
+<!--                                                  +:+ +:+         +:+    -->
+<!-- By: laleta <marvin@42.fr>                      +#+  +:+       +#+       -->
+<!--                                              +#+#+#+#+#+   +#+          -->
+<!-- Created: 2020/02/24 16:49:24 by laleta            #+#    #+#            -->
+<!-- Updated: 2020/02/24 17:00:17 by laleta           ###   ########.fr      -->
+<!--                                                                         -->
+<!-- *********************************************************************** -->
+
+<!doctype html>
+<html lang="en">
+	<meta charset="utf-8">
+	<title>CoreWar</title>
+	<link rel="stylesheet" href="CoreWar.css">
+	<script src="CW_visual.js"></script>
+		<body>
+			<audio id="audio_main" src="audio/matrix1.mp3" autoplay loop></audio>
+			<audio id="audio_print" src="audio/print1.wav"></audio>
+			<div id="frame">
+				<div id="memory_frame">
+					<div id="memory"></div>
+					<div id="start">
+						<div id="str4" class="str"></div>
+					</div>
+					<div id="select">Are you ready to start CoreWar?
+						<div id="oval1" class="oval">Y</div>
+						<div id="oval2" class="oval">N</div>
+					</div>
+				</div>
+				<div class="title" id="title_state">⟜ STATE</div>
+                <div id="state"></div>
+                <div class="title" id="title_player">⟜ CHAMPIONS</div>
+                <div id="player"></div>
+                <div class="title" id="title_operation">⟜ OPERATIONS</div>
+				<div id="operation">
+                	<div id="operation_table"></div>
+					<div id="operation_list"></div>
+				</div>
+				<div class="title" id="title_cycle">⟜ CYCLE</div>
+                <div id = "cycles">
+					<div class="outer_circle" id="outer_circle1"></div>
+					<div class="outer_circle" id="outer_circle3"></div>
+					<div id="cycle_sector"></div>
+					<div class="outer_circle" id="outer_circle2"></div>
+					<div class="outer_circle" id="outer_circle4"></div>
+					<div id="cycleAll_sector"></div>
+                    <div class="inner_circle" id="inner_circle1">
+                        <div class="value" id="cycle_value">0</div>
+                    </div>
+                    <div class="inner_circle" id="inner_circle2">
+                        <div class="value" id="cyclePr_value">0</div>
+                    </div>
+                    <div id="cycle_info">∘ cycle_to_die:
+						<div class="value" id="cycle_to_die">1536</div>
+					</div>
+                    <div id="allCycle_info">∘ cycles:
+						<div class="value" id="allCycle_value">0</div>
+					</div>
+					<div id="process_info">∘ processes:
+						<div class="value" id="process_value">0</div>
+					</div>
+                </div>
+                <div class="title" id="title_speed">⟜ SPEED</div>
+                <div id="speed">
+					<div id ="speed_value">∘ 10 %</div> 
+                </div>
+            </div>
+			<div id="game_over">EXECUTION COMPLETE</div>
+		</body>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="CW_const.js"></script>
+	<script src="CoreWar.js"></script>
+</html>

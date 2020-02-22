@@ -15,24 +15,16 @@
 void	ld(t_data *data, t_cur *cursor)
 {
 	t_int			arg[2];
-	int8_t			args_size;
 	t_types_code	args_code;
 
 	args_code.num = data->vm.arena[(cursor->pc + 1) % MEM_SIZE];
-	args_size = 2;
-	arg[0].num = get_arg(args_code.arg1, args_size, data->vm.arena, cursor);
-	args_size += data->size[args_code.arg1];
-	arg[1].num = get_arg(args_code.arg2, args_size, data->vm.arena, cursor);
-	args_size += data->size[args_code.arg2];
-	cursor->byte_to_next_op = args_size;
-
+	get_args(arg, args_code, cursor, data);
 	if (ft_bit_check(data->v_flag, 2) && data->web_flag == 0)
-		flag_v4(arg, args_code, &data->vm, cursor);
-
-	if (args_code.arg1 == IND_CODE)
+		flag_v4(arg, args_code, data, cursor);
+	if (args_code.a.arg1 == IND_CODE)
 	{
 		arg[0].num %= IDX_MOD;
-		arg[0].num = get_ind_value(arg[0], cursor, data->vm.arena); // получение числа по адресу
+		arg[0].num = get_ind_value(arg[0], cursor, data); // получение числа по адресу
 	}
 	cursor->reg[arg[1].num - 1] = arg[0].num;
 	cursor->carry = (cursor->reg[arg[1].num - 1] == 0) ? 1 : 0;
@@ -41,88 +33,59 @@ void	ld(t_data *data, t_cur *cursor)
 void	ldi(t_data *data, t_cur *cursor)
 {
 	t_int			arg[3];
-	int8_t			args_size;
 	t_types_code	args_code;
 
 	args_code.num = data->vm.arena[(cursor->pc + 1) % MEM_SIZE];
-	args_size = 2;
-	arg[0].num = get_arg(args_code.arg1, args_size, data->vm.arena, cursor);
-	args_size += data->size[args_code.arg1];
-	arg[1].num = get_arg(args_code.arg2, args_size, data->vm.arena, cursor);
-	args_size += data->size[args_code.arg2];
-	arg[2].num = get_arg(args_code.arg3, args_size, data->vm.arena, cursor);
-	args_size += data->size[args_code.arg3];
-	cursor->byte_to_next_op = args_size;
-
+	get_args(arg, args_code, cursor, data);
 	if (ft_bit_check(data->v_flag, 2) && data->web_flag == 0)
-		flag_v4(arg, args_code, &data->vm, cursor);
-
-	if (args_code.arg1 == REG_CODE)
+		flag_v4(arg, args_code, data, cursor);
+	if (args_code.a.arg1 == REG_CODE)
 		arg[0].num = cursor->reg[arg[0].num - 1];
-	else if (args_code.arg1 == IND_CODE)
-		arg[0].num = get_ind_value(arg[0], cursor, data->vm.arena);
-	if (args_code.arg2 == REG_CODE)
+	else if (args_code.a.arg1 == IND_CODE)
+		arg[0].num = get_ind_value(arg[0], cursor, data);
+	if (args_code.a.arg2 == REG_CODE)
 		arg[1].num = cursor->reg[arg[1].num - 1];
-	else if (args_code.arg2 == IND_CODE)
-		arg[1].num = get_ind_value(arg[1], cursor, data->vm.arena);
+	else if (args_code.a.arg2 == IND_CODE)
+		arg[1].num = get_ind_value(arg[1], cursor, data);
 	arg[0].num = (arg[0].num + arg[1].num) % IDX_MOD;
-	arg[0].num = get_ind_value(arg[0], cursor, data->vm.arena);
+	arg[0].num = get_ind_value(arg[0], cursor, data);
 	cursor->reg[arg[2].num - 1] = arg[0].num;
 }
 
 void	lld(t_data *data, t_cur *cursor)
 {
-	t_int	arg[2];
-	int8_t	args_size;
+	t_int			arg[2];
 	t_types_code	args_code;
 
 	args_code.num = data->vm.arena[(cursor->pc + 1) % MEM_SIZE];
-	args_size = 2;
-	arg[0].num = get_arg(args_code.arg1, args_size, data->vm.arena, cursor);
-	args_size += data->size[args_code.arg1];
-	arg[1].num = get_arg(args_code.arg2, args_size, data->vm.arena, cursor);
-	args_size += data->size[args_code.arg2];
-	cursor->byte_to_next_op = args_size;
-
+	get_args(arg, args_code, cursor, data);
 	if (ft_bit_check(data->v_flag, 2) && data->web_flag == 0)
-		flag_v4(arg, args_code, &data->vm, cursor);
-
-	if (args_code.arg1 == IND_CODE) //получение числа по адресу
-		arg[0].num = get_ind_value(arg[0], cursor, data->vm.arena);
+		flag_v4(arg, args_code, data, cursor);
+	if (args_code.a.arg1 == IND_CODE) 							//получение числа по адресу
+		arg[0].num = get_ind_value(arg[0], cursor, data);
 	cursor->reg[arg[1].num - 1] = arg[0].num;
 	cursor->carry = (cursor->reg[arg[1].num - 1] == 0) ? 1 : 0;
-
 }
 
 void	lldi(t_data *data, t_cur *cursor)
 {
 	t_int			arg[3];
-	int8_t			args_size;
 	t_types_code	args_code;
 
 	args_code.num = data->vm.arena[(cursor->pc + 1) % MEM_SIZE];
-	args_size = 2;
-	arg[0].num = get_arg(args_code.arg1, args_size, data->vm.arena, cursor);
-	args_size += data->size[args_code.arg1];
-	arg[1].num = get_arg(args_code.arg2, args_size, data->vm.arena, cursor);
-	args_size += data->size[args_code.arg2];
-	arg[2].num = get_arg(args_code.arg3, args_size, data->vm.arena, cursor);
-	args_size += data->size[args_code.arg3];
-	cursor->byte_to_next_op = args_size;
-
+	get_args(arg, args_code, cursor, data);
 	if (ft_bit_check(data->v_flag, 2) && data->web_flag == 0)
-		flag_v4(arg, args_code, &data->vm, cursor);
-
-	if (args_code.arg1 == REG_CODE)
+		flag_v4(arg, args_code, data, cursor);
+	if (args_code.a.arg1 == REG_CODE)
 		arg[0].num = cursor->reg[arg[0].num - 1];
-	else if (args_code.arg1 == IND_CODE)
-		arg[0].num = get_ind_value(arg[0], cursor, data->vm.arena);
-	if (args_code.arg2 == REG_CODE)
+	else if (args_code.a.arg1 == IND_CODE)
+		arg[0].num = get_ind_value(arg[0], cursor, data);
+	if (args_code.a.arg2 == REG_CODE)
 		arg[1].num = cursor->reg[arg[1].num - 1];
-	else if (args_code.arg2 == IND_CODE)
-		arg[1].num = get_ind_value(arg[1], cursor, data->vm.arena);
+	else if (args_code.a.arg2 == IND_CODE)
+		arg[1].num = get_ind_value(arg[1], cursor, data);
 	arg[0].num = arg[0].num + arg[1].num;
-	arg[0].num = get_ind_value(arg[0], cursor, data->vm.arena);
+	arg[0].num = get_ind_value(arg[0], cursor, data);
 	cursor->reg[arg[2].num - 1] = arg[0].num;
 	cursor->carry = (cursor->reg[arg[2].num - 1] == 0) ? 1 : 0;
 }

@@ -16,10 +16,10 @@ static uint8_t	valid_zero(uint8_t i, uint8_t op)
 {
 	t_bits	arg_bits;
 
-	if (i < op_tab[op].args_count)
+	if (i < g_op[op].args_count)
 	{
-		arg_bits.num = op_tab[op].arg_type[i];
-		if (arg_bits.bit3)
+		arg_bits.num = g_op[op].arg_type[i];
+		if (arg_bits.b.bit3)
 			return (0);
 		else
 			return (1);
@@ -27,14 +27,14 @@ static uint8_t	valid_zero(uint8_t i, uint8_t op)
 	return (0);
 }
 
-static uint8_t	valid_reg(uint8_t i, uint8_t op /*в таблице*/)
+static uint8_t	valid_reg(uint8_t i, uint8_t op)
 {
 	t_bits	arg_bits;
 
-	if (i < op_tab[op].args_count)
+	if (i < g_op[op].args_count)
 	{
-		arg_bits.num = op_tab[op].arg_type[i];
-		if (arg_bits.bit0)
+		arg_bits.num = g_op[op].arg_type[i];
+		if (arg_bits.b.bit0)
 			return (0);
 		else
 			return (1);
@@ -46,10 +46,10 @@ static uint8_t	valid_dir(uint8_t i, uint8_t op)
 {
 	t_bits	arg_bits;
 
-	if (i < op_tab[op].args_count)
+	if (i < g_op[op].args_count)
 	{
-		arg_bits.num = op_tab[op].arg_type[i];
-		if (arg_bits.bit1)
+		arg_bits.num = g_op[op].arg_type[i];
+		if (arg_bits.b.bit1)
 			return (0);
 		else
 			return (1);
@@ -61,10 +61,10 @@ static uint8_t	valid_ind(uint8_t i, uint8_t op)
 {
 	t_bits	arg_bits;
 
-	if (i < op_tab[op].args_count)
+	if (i < g_op[op].args_count)
 	{
-		arg_bits.num = op_tab[op].arg_type[i];
-		if (arg_bits.bit2)
+		arg_bits.num = g_op[op].arg_type[i];
+		if (arg_bits.b.bit2)
 			return (0);
 		else
 			return (1);

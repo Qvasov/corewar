@@ -22,7 +22,7 @@ void	ft_init_cursors(t_vm *vm, t_champ *player)
 	i = -1;
 	while (++i < vm->num_of_players)
 	{
-		!(cur = (t_cur *)malloc(sizeof(t_cur))) ? ft_perror() : 0;
+		!(cur = (t_cur *)malloc(sizeof(t_cur))) ? ft_perror(NULL) : 0;
 		cur->id = ++vm->cursor_id;
 		cur->carry = 0;
 		cur->op_code = 0;

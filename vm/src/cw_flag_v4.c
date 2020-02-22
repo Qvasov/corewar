@@ -12,163 +12,104 @@
 
 #include "vm.h"
 
-static void	print_value(uint8_t arg_code, t_int arg, t_vm *vm, t_cur *cursor)
+static void print_additional_info(t_int *arg, t_cur *cursor, t_data *data)
 {
-	if (!(op_tab[cursor->op_code].args_type_code))
+	if (cursor->op_code == LDI)
+		ft_bprintf(&data->fstr, "\n %5s | -> load from %d + %d = %d (with pc and mod %d)\n",
+				  "", arg[0].num, arg[1].num, arg[0].num + arg[1].num,
+				  (cursor->pc + (arg[0].num + arg[1].num) % IDX_MOD));
+	else if (cursor->op_code == STI)
+		ft_bprintf(&data->fstr, "\n %5s | -> store to %d + %d = %d (with pc and mod %d)\n",
+				  "", arg[1].num, arg[2].num, arg[1].num + arg[2].num,
+				  cursor->pc + (arg[1].num + arg[2].num) % IDX_MOD);
+	else if (cursor->op_code == FORK)
+		ft_bprintf(&data->fstr, " (%d)\n", ((arg[0].num % IDX_MOD) + cursor->pc)/* % MEM_SIZE*/);
+	else if (cursor->op_code == LLDI)
+		ft_bprintf(&data->fstr, "\n %5s | -> load from %d + %d = %d (with pc %d)\n",
+				  "", arg[0].num, arg[1].num, arg[0].num + arg[1].num,
+				  cursor->pc + (arg[0].num + arg[1].num));
+	else if (cursor->op_code == LFORK)
+		ft_bprintf(&data->fstr, " (%d)\n", arg[0].num + cursor->pc);
+	else
+		ft_bprintf(&data->fstr, "\n");
+}
+
+static void	print_value(uint8_t arg_code, t_int *arg, t_data *data, t_cur *cursor)
+{
+	if (!(g_op[cursor->op_code].args_type_code))
 	{
-		if (cursor->op_code == 0x09)
-			(cursor->carry) ? ft_printf(" %d OK", arg.num) :
-			ft_printf(" %d FAILED", arg.num);
+		if (cursor->op_code == ZJMP)
+			(cursor->carry) ? ft_bprintf(&data->fstr, " %d OK", arg->num) :
+							ft_bprintf(&data->fstr, " %d FAILED", arg->num);
 		else
-			ft_printf(" %d", arg.num);
+			ft_bprintf(&data->fstr, " %d", arg->num);
 		return ;
 	}
 	if (arg_code == REG_CODE)
-		ft_printf(" r%d", arg.num);
+		ft_bprintf(&data->fstr, " r%d", arg->num);
 	else if (arg_code == DIR_CODE)
-		ft_printf(" %d", arg.num);
+		ft_bprintf(&data->fstr, " %d", arg->num);
 	else if (arg_code == IND_CODE)
 	{
-		if (cursor->op_code == 0x02 || cursor->op_code == 0x0b)
-			arg.num = get_ind_value(arg, cursor, vm->arena);
-		ft_printf(" %d", arg.num);
+		if (cursor->op_code == LD || cursor->op_code == LDI ||
+			cursor->op_code == LLD || cursor->op_code == LLDI ||
+			cursor->op_code == STI)
+			arg->num = get_ind_value(*arg, cursor, data);
+		ft_bprintf(&data->fstr, " %d", arg->num);
 	}
 }
 
-static void print_additional_info(t_int *arg, t_cur *cursor)
+static void flag_v4_arg2(t_int *arg, t_types_code args_code, t_data *data, t_cur *cursor)
 {
-	if (cursor->op_code == 0x0a)
+	if (args_code.a.arg2 == REG_CODE && (cursor->op_code == ST ||
+		(cursor->op_code >= AND && cursor->op_code <= XOR) ||
+		cursor->op_code == LDI || cursor->op_code == STI || cursor->op_code == LLDI))
 	{
-		ft_printf("\n %5s | -> load from %d + %d = %d (with pc and mod %d)\n",
-				  "", arg[0].num, arg[1].num, arg[0].num + arg[1].num,
-				  (cursor->pc + (arg[0].num + arg[1].num) % IDX_MOD));
-	}
-	else if (cursor->op_code == 0x0b)
-	{
-		ft_printf("\n %5s | -> store to %d + %d = %d (with pc and mod %d)\n",
-				  "", arg[1].num, arg[2].num, arg[1].num + arg[2].num,
-				  cursor->pc + (arg[1].num + arg[2].num) % IDX_MOD);
-	}
-	else if (cursor->op_code == 0x0c)
-	{
-		arg[0].num = ((arg[0].num % IDX_MOD) + cursor->pc) % MEM_SIZE;
-//		(arg[0].num < 0) ? arg[0].num += MEM_SIZE : 0;
-		ft_printf(" (%d)\n", arg[0].num);
-	}
-	else if (cursor->op_code == 0x0f)
-	{
-		arg[0].num = (arg[0].num + cursor->pc);
-//		(arg[0].num < 0) ? arg[0].num += MEM_SIZE : 0;
-		ft_printf(" (%d)\n", arg[0].num);
+		if (!(cursor->op_code == ST && data->o_flag == 1))				//обсудить для st rx,rx как выводить второе число. В оригинальной vm выводит просто номер регистра без r
+			arg->num = cursor->reg[arg->num - 1];
+		ft_bprintf(&data->fstr, " %d", arg->num);
 	}
 	else
-		ft_printf("\n");
+		print_value(args_code.a.arg2, arg, data, cursor);
 }
 
-/*void flag_v4(t_vm *vm, t_cur *cursor)
+static void flag_v4_arg3(t_int *arg, t_types_code args_code, t_data *data, t_cur *cursor)
 {
-	t_int			arg[3];
-	int8_t			args_size;
-	t_types_code	args_code;
-
-	args_code.num = 0;
-	args_size = 1;
-	if (op_tab[cursor->op_code].args_type_code)
+	if (args_code.a.arg3 == REG_CODE && (cursor->op_code == STI))
 	{
-		args_code.num = vm->arena[(cursor->pc + 1) % MEM_SIZE];
-		++args_size;
-		arg[0].num = get_arg(args_code.arg1, args_size, vm->arena, cursor);
+		arg->num = cursor->reg[arg->num - 1];
+		ft_bprintf(&data->fstr, " %d", arg->num);
 	}
 	else
-		arg[0].num = get_arg(op_tab[cursor->op_code].arg_type[0], args_size, vm->arena, cursor);
+		print_value(args_code.a.arg3, arg, data, cursor);
+}
 
-
-	if (op_tab[cursor->op_code].args_type_code && args_code.num == 0)
-		return ;
-	ft_printf("P %4d | %s", cursor->id, op_tab[cursor->op_code].name);
-	if (args_code.arg1 == REG_CODE &&
-		((cursor->op_code >= 0x06 && cursor->op_code <= 0x08) ||
-		cursor->op_code == 0x0a))
-	{
-		arg[0].num = cursor->reg[arg[0].num - 1];
-		ft_printf(" %d", arg[0].num);
-	}
-	else
-		print_value(args_code.arg1, arg[0], vm, cursor);
-
-	if (op_tab[cursor->op_code].args_count >= 2)
-	{
-		args_size += vm->size[args_code.arg1];
-		arg[1].num = get_arg(args_code.arg2, args_size, vm->arena, cursor);
-		if (args_code.arg2 == REG_CODE &&
-			((cursor->op_code >= 0x06 && cursor->op_code <= 0x08) ||
-			 cursor->op_code == 0x0a || cursor->op_code == 0x0b))
-		{
-			arg[1].num = cursor->reg[arg[1].num - 1];
-			ft_printf(" %d", arg[1].num);
-		}
-		else
-			print_value(args_code.arg2, arg[1], vm, cursor);
-	}
-
-	if (op_tab[cursor->op_code].args_count >= 3)
-	{
-		args_size += vm->size[args_code.arg2];
-		arg[2].num = get_arg(args_code.arg3, args_size, vm->arena, cursor);
-		if (args_code.arg3 == REG_CODE &&
-			(cursor->op_code == 0x0b))
-		{
-			arg[2].num = cursor->reg[arg[2].num - 1];
-			ft_printf(" %d", arg[2].num);
-		}
-		else
-			print_value(args_code.arg3, arg[2], vm, cursor);
-	}
-	print_additional_info(arg, cursor);
-}*/
-
-void flag_v4(const t_int *args, t_types_code args_code, t_vm *vm, t_cur *cursor)
+void		flag_v4(const t_int *args, t_types_code args_code, t_data *data, t_cur *cursor)
 {
 	t_int	arg[3];
 
-	if (op_tab[cursor->op_code].args_type_code && args_code.num == 0)
+	if (g_op[cursor->op_code].args_type_code && args_code.num == 0)
 		return ;
-	ft_printf("P %4d | %s", cursor->id, op_tab[cursor->op_code].name);
+	ft_bprintf(&data->fstr, "P %4d | %s", cursor->id, g_op[cursor->op_code].name);
 	arg[0] = args[0];
-	if (args_code.arg1 == REG_CODE && (cursor->op_code == 0x0a ||
-		(cursor->op_code >= 0x06 && cursor->op_code <= 0x08)))
+	if (args_code.a.arg1 == REG_CODE &&
+		(cursor->op_code == LDI || cursor->op_code == LLDI ||
+		(cursor->op_code >= AND && cursor->op_code <= XOR)))
 	{
 		arg[0].num = cursor->reg[arg[0].num - 1];
-		ft_printf(" %d", arg[0].num);
+		ft_bprintf(&data->fstr, " %d", arg[0].num);
 	}
 	else
-		print_value(args_code.arg1, arg[0], vm, cursor);
-
-	if (op_tab[cursor->op_code].args_count >= 2)
+		print_value(args_code.a.arg1, &arg[0], data, cursor);
+	if (g_op[cursor->op_code].args_count >= 2)
 	{
 		arg[1] = args[1];
-		if (args_code.arg2 == REG_CODE && (cursor->op_code == 0x03 ||
-			(cursor->op_code >= 0x06 && cursor->op_code <= 0x08) ||
-			cursor->op_code == 0x0a || cursor->op_code == 0x0b))
-		{
-			if (cursor->op_code != 0x03) 					//обсудить для st rx,rx как выводить второе число. В оригинальной vm выводит просто номер регистра без r
-				arg[1].num = cursor->reg[arg[1].num - 1];
-			ft_printf(" %d", arg[1].num);
-		}
-		else
-			print_value(args_code.arg2, args[1], vm, cursor);
+		flag_v4_arg2(&arg[1], args_code, data, cursor);
 	}
-
-	if (op_tab[cursor->op_code].args_count >= 3)
+	if (g_op[cursor->op_code].args_count >= 3)
 	{
 		arg[2] = args[2];
-		if (args_code.arg3 == REG_CODE && (cursor->op_code == 0x0b))
-		{
-			arg[2].num = cursor->reg[arg[2].num - 1];
-			ft_printf(" %d", arg[2].num);
-		}
-		else
-			print_value(args_code.arg3, arg[2], vm, cursor);
+		flag_v4_arg3(&arg[2], args_code, data, cursor);
 	}
-	print_additional_info(arg, cursor);
+	print_additional_info(arg, cursor, data);
 }

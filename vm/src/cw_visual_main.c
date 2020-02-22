@@ -88,7 +88,7 @@ void	put_border(void)
 	attroff(COLOR_PAIR(CW_BORDER));
 }
 
-void	handle_event(uint8_t *pause, uint8_t *speed)
+void handle_event(uint8_t *pause, uint8_t *speed, t_vm *vm, t_champ *pl)
 {
 	int32_t	event;
 
@@ -103,6 +103,14 @@ void	handle_event(uint8_t *pause, uint8_t *speed)
 	{
 		endwin();
 		exit(1);
+	}
+	if (vm->cursor == NULL)
+	{
+		*pause = 1;
+		attron(COLOR_PAIR(vm->last_player_id) | A_BOLD);
+		mvprintw(CW_INFO2_Y + 15, CW_INFO_X, "winner: [%d] %.28s",
+				vm->last_player_id, pl[vm->last_player_id - 1].name);
+		attroff(COLOR_PAIR(vm->last_player_id) | A_BOLD);
 	}
 }
 
@@ -122,8 +130,8 @@ void	render(t_vm *vm, t_champ *player)
 		put_cursor(vm, vm->cursor, vm->num_of_players);
 		put_infobox(vm, player, speed, pause);
 		put_border();
+		handle_event(&pause, &speed, vm, player);
 		refresh();
-		handle_event(&pause, &speed);
 		render_loop = pause;
 	}
 	usleep(g_delay[speed]);

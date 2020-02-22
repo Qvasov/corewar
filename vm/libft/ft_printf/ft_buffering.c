@@ -6,7 +6,7 @@
 /*   By: ddarell <ddarell@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/26 16:03:11 by ddarell           #+#    #+#             */
-/*   Updated: 2019/12/01 23:32:28 by ddarell          ###   ########.fr       */
+/*   Updated: 2020/02/21 17:04:11 by ddarell          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,6 @@ void	ft_buf_print(t_fstr *fstr)
 	}
 	fstr->prin += fstr->idx;
 	fstr->idx = 0;
-	if (fstr->prin < 0)
-	{
-		fstr->prin = -1;
-		exit(0);
-	}
 }
 
 void	ft_buf_str(char *str, int size, t_fstr *fstr)

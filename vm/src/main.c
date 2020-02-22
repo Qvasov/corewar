@@ -12,6 +12,17 @@
 
 #include "vm.h"
 
+static void	flags_analysis(t_data *data)
+{
+	if (data->nc_flag || data->web_flag)
+	{
+		data->v_flag = 0;
+		data->l_flag = 1;
+		data->vm.nbr_cycles = -1;
+	}
+
+}
+
 static void	init_data(t_data *data)
 {
 	int i;
@@ -32,11 +43,14 @@ static void	init_data(t_data *data)
 	data->size[REG_CODE] = 1;
 	data->size[DIR_CODE] = DIR_SIZE;
 	data->size[IND_CODE] = IND_SIZE;
-	while (++i < MAX_PLAYERS)
+	while (++i <= MAX_PLAYERS)
 		data->player[i].path = NULL;
 	data->v_flag = 0;
 	data->web_flag = 0;
 	data->nc_flag = 0;
+	data->o_flag = 0;
+	data->l_flag = 0;
+	ft_init_fstr(&data->fstr);
 }
 
 int main(int ac, char **av)
@@ -48,12 +62,20 @@ int main(int ac, char **av)
 	init_data(&data); // создание структуры players //создание и инициализация арены
 	ft_parse(ac, av, &data);
 	ft_read_valid_players(&data.vm, data.player); //считывание байт-кода и разбор на состоваляющие
+	flags_analysis(&data);
 	ft_introducing(&data);
 	ft_battle(&data);
 	ft_endgame(&data);
 	ft_free(&data);
 	return (0);
 }
-
+// usage
+// ft_bprintf
 //взаимодейтвие флагов (приоритет)
 //проверить printf заменить на ft_printf
+
+// -o
+// касяк с 0х1000
+// 32 байта вряд
+// lld 2 байта
+// касяк STI с номером регистра

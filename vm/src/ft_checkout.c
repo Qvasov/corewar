@@ -51,7 +51,7 @@ void		ft_checkout(t_data *data)
 	{
 		vm->cycles_to_die -= CYCLE_DELTA;
 		if (ft_bit_check(data->v_flag, 1))
-			ft_printf("Cycle to die is now %d\n", vm->cycles_to_die);
+			flag_v2_ctd(data);
 		vm->number_of_check = 0;
 	}
 	vm->number_of_live = 0;

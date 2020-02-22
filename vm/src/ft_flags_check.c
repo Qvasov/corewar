@@ -19,7 +19,7 @@ void	ft_check_v(char **av, t_data *data)
 
 	num = ft_satoi(av[1], &check);
 	if (!(check && av[1][check] == 0 && (num >= 0 && num <= 31)))
-		ft_error("-v_flag - argument error");
+		ft_error("-v - argument error");
 	data->v_flag = num;
 }
 

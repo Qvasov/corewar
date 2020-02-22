@@ -16,13 +16,16 @@ void	ft_introducing(t_data *data)
 {
 	int8_t	i;
 
-	i = -1;
-	ft_printf("Introducing contestants...\n");
-	while (++i < data->vm.num_of_players)
+	if (data->web_flag == 0 && data->nc_flag == 0)
 	{
-		ft_printf("* Player %d, weighing %d bytes, \"%s\" (\"%s\") !\n",
-				  data->player[i].id, data->player[i].exec_size,
-				  data->player[i].name, data->player[i].comment);
+		i = -1;
+		ft_bprintf(&data->fstr, "Introducing contestants...\n");
+		while (++i < data->vm.num_of_players)
+		{
+			ft_bprintf(&data->fstr, "* Player %d, weighing %d bytes, \"%s\" (\"%s\") !\n",
+					  data->player[i].id, data->player[i].exec_size,
+					  data->player[i].name, data->player[i].comment);
+		}
 	}
 	data->vm.last_player_id = data->vm.num_of_players;
 }

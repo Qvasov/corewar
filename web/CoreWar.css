@@ -1,0 +1,619 @@
+@import url('https://fonts.googleapis.com/css?family=Major+Mono+Display|Share+Tech+Mono|Roboto+Mono&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Courier+Prime&display=swap');
+@font-face {
+	font-family: Matrix_vs_Miltown;
+	src: url(font/Matrix_vs_Miltown.ttf);
+}
+
+@font-face {
+	font-family: MatrixCodeNFI;
+	src: url(font/MatrixCodeNFI.ttf);
+}
+
+:root {
+	--nbr-font2: 'Major Mono Display', monospace;
+	--nbr-font: 'MatrixCodeNFI';
+	--val-font: 'Roboto Mono', monospace;
+	--txt-font: 'Share Tech Mono', monospace;
+	--txt-size-xs: 14px;
+	--txt-size-s: 16px;
+	--txt-size-m: 18px;
+	--txt-size-l: 20px;
+	--txt-size-xl: 22px;
+	--main-color: lime;
+	--player1_color:var(--main-color); /*honeydew;*/
+	--player2_color:var(--main-color); /*yellow;*/
+	--player3_color:var(--main-color); /*cyan;*/
+	--player4_color:var(--main-color); /*greenyellow;*/
+}
+
+body {
+    background-color: black;
+	font-family:var(--txt-font);
+    text-align: center;
+}
+
+#frame {
+    width: 2170px;
+    height: 1320px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+    top: 10px;
+    background-color: black;
+}
+
+#memory_frame {
+	width: 1660px;
+	height: 1320px;
+    border-style: solid;
+    border-width: 2px;
+    border-color:var(--main-color);
+	position: absolute;
+	left: 22px;
+}
+
+#memory {
+	font-family:var(--nbr-font);
+    width: 1600px;
+    height: 1284px;
+    background-color:black;
+    position: absolute;
+	margin-left: 30px;
+	margin-top: 18px;
+    border-style: solid;
+    border-width: 1px;
+    border-color: green;
+}
+
+.char {
+    background-color: black;
+    width: 20px;
+    height: 20px;
+    color:var(--main-color);
+    display: block;
+    position: absolute;
+    text-align: center;
+    font-size: 18px;
+	padding-top: 3px;
+}
+
+.title {
+	font-size:var(--txt-size-m);
+	text-align: left;
+	color: honeydew;
+	width: 450px;
+	height: 35px;
+	display: block;
+	background-color: black;
+	border-style: solid;
+	border-width: 2px;
+	border-color:var(--main-color);
+	position: absolute;
+	right: 5px;
+	padding: 10px;
+}
+
+#title_player {
+	top: 224px;}
+
+#title_operation {
+	top: 643px;}
+
+#title_cycle {
+    top: 873px;}
+
+#title_speed {
+    top: 1156px;}
+
+#state {
+    font-size:var(--txt-size-l);
+    text-align: left;
+    color:var(--main-color);
+    width: 450px;
+    height: 150px;
+    display: block;
+    background-color: black;
+    border-style: solid;
+    border-width: 2px;
+    border-color:var(--main-color);
+    position: absolute;
+    right: 5px;
+	top: 45px;
+    padding: 10px;
+}
+
+.str {
+    width: 397px;
+    height: 40px;
+    background-color:black;
+    display: block;
+    position: relative;
+}
+
+.substr {
+    height: 40px;
+    display: inline-block;
+    margin-right: 5px;
+    background-color: black;
+}
+
+#player {
+    text-align: left;
+    color:var(--main-color);
+    width: 450px;
+    height: 345px;
+    display: block;
+    background-color: black;
+    border-style: solid;
+    border-width: 2px;
+    border-color:var(--main-color);
+    position: absolute;
+    right: 5px;
+    top: 269px;
+    padding: 10px;
+}
+
+.player_data {
+    text-align: left;
+    color:var(--main-color);
+    width: 447px;
+    height: 80px;
+    display: block;
+    background-color: black;
+    border-style: solid;
+    border-width: 1px;
+    border-color:var(--main-color);
+    position: relative;
+    margin-bottom: 5px;
+}
+
+.player_nbr {
+    padding-top: 3px;
+    font-size: 26px;
+	font-family:var(--nbr-font);
+/*	font-family:val(--val-font);*/
+    text-align: center;
+    width: 40px;
+    height: 36px;
+    display: block;
+    border-style: solid;
+    border-width: 1px;
+    border-color: green;
+    position: relative;
+    margin-top: 5px;
+    margin-left: 5px;
+	border-radius: 50%;
+}
+
+#player_nbr0 {
+	color:var(--player1_color);}
+
+#player_nbr1 {
+	color:var(--player2_color);}
+
+#player_nbr2 {
+	color:var(--player3_color);}
+
+#player_nbr3 {
+	color:var(--player4_color);}
+
+.player_name {
+    position: absolute;
+    top: 7px;
+    left: 63px;
+    width: 380px;
+    height: 30px;
+	font-size:var(--txt-size-l);
+}
+
+.player_comment {
+    position: absolute;
+    top: 30px;
+    left: 63px;
+    width: 380px;
+    height: 30px;
+	color: darkgreen;
+	font-size:var(--txt-size-xs);
+}
+
+.player_barBorder {
+    position: absolute;
+    top: 55px;
+    left: 5px;
+	color: black;
+    background-color: black;
+    border-style: solid;
+    border-width: 1px;
+    border-color: darkgreen;
+    width: 435px;
+    height: 13px;
+}
+
+.player_bar {
+	font-family:val(--val-font);
+    position: absolute;
+    top: 55px;
+    left: 5px;
+	color: black;
+    background-color:var(--main-color);
+    width: 1px;
+    height: 13px;
+    font-size: 12px;
+	padding-left: 2px;
+}
+
+#operation {
+    text-align: left;
+    color:var(--main-color);
+    width: 450px;
+    height: 155px;
+    display: block;
+    background-color: black;
+    border-style: solid;
+    border-width: 2px;
+    border-color:var(--main-color);
+    position: absolute;
+    right: 5px;
+    top: 690px;
+    padding: 10px;
+}
+
+#operation_list {
+    font-size:var(--txt-size-s);
+    text-align: left;
+    color:var(--main-color);
+    width: 80px;
+    height: 130px;
+    display: block;
+    background-color: black;
+    border-style: none;
+    position: absolute;
+    left: 15px;
+    top: 15px;
+    padding-top: 10px;
+}
+
+#operation_table {
+    font-size: 14px;
+	font-family:var(--nbr-font);
+    text-align: center;
+    color:var(--main-color);
+    width: 360px;
+    height: 160px;
+    display: block;
+    background-color: black;
+    border-style: solid;
+    border-width: 1px;
+    border-color: black;
+    position: absolute;
+    right: 0px;
+    top: 5px;
+    padding: none;
+    padding-top: none;
+}
+
+.operation_line {
+    width: 70px;
+    margin-bottom: 1px;
+    height: 30px;
+    background-color:black;
+    display: block;
+    position: relative;
+}
+
+.op_pl {
+    padding-top: none;
+    width: 19px;
+    height: 24px;
+    display: inline-block;
+    background-color: black;
+    border-style: solid;
+    border-width: 1px;
+    border-color: darkgreen;
+    position: relative;
+	top: 0px;
+    left: 0px;
+	padding-top: 10px;
+    margin-bottom: 1px;
+}
+
+#cycles {
+    font-size:var(--txt-size-s);
+    text-align: left;
+    color:var(--main-color);
+    width: 450px;
+    height: 210px;
+    display: block;
+    background-color: black;
+    border-style: solid;
+    border-width: 2px;
+    border-color:var(--main-color);
+    position: absolute;
+    right: 5px;
+    top: 918px;
+    padding: 10px;
+}
+
+#cycle_sector {
+	width: 0;
+	height: 0;
+	top: 65px;
+	left: 52px;
+	position: absolute;
+	border-left: 70px solid transparent;
+	border-right: 70px solid transparent;
+	border-bottom: 70px solid transparent;
+	border-top: 70px solid transparent;
+	border-radius: 50%;
+}
+
+#cycleAll_sector {
+	width: 0;
+	height: 0;
+	top: 65px;
+	left: 270px;
+	display: block;
+	position: absolute;
+	border-left: 70px solid transparent;
+	border-right: 70px solid transparent;
+	border-bottom: 70px solid transparent;
+	border-top: 70px solid transparent;
+	border-radius: 50%;
+}
+
+#cycle_info {
+    position: absolute;
+    top: 14px;
+	left: 30px;
+    display: block;
+    height: 20px;
+    width: 150px;
+}
+
+#allCycle_info {
+	text-align: left;
+    position: absolute;
+    top: 14px;
+	left: 270px;
+    display: block;
+    height: 20px;
+    width: 200px;
+}
+
+#process_info {
+    text-align: left;
+    position: absolute;
+    left: 270px;
+    top: 34px;
+    display: block;
+    font-size: 16px;
+    height: 20px;
+    width: 200px;
+}
+
+.inner_circle {
+    font-size: 16px;
+    width: 90px;
+    height: 90px;
+    display: block;
+    position: absolute;
+    border-radius: 50%;
+    background-color: black;
+    text-align: center;
+    border-style: solid;
+    border-width: 1px;
+    border-color: green;
+	opacity: 0.8;
+}
+
+#inner_circle1 {
+    left: 76px;
+    top: 86px;
+}
+
+#inner_circle2 {
+    left: 295px;
+    top: 86px;
+}
+
+#cycle_to_die {
+	top: 34px;
+    width: 100px;
+}
+
+#cycle_value {
+	position: absolute;
+	top: 35px;
+	left: 28px;
+}
+
+#cyclePr_value {
+	position: absolute;
+	top: 35px;
+	left: 30px;
+}
+
+.value {
+	font-family:var(--val-font);
+    display: inline-block;
+}
+
+#outer_circle1 {
+    left: 44px;
+    top: 56px;
+}
+
+#outer_circle3 {
+    left: 42px;
+    top: 54px;
+    width: 159px;
+    height: 159px;
+}
+
+#outer_circle2 {
+    left: 260px;
+    top: 56px;
+}
+
+#outer_circle4 {
+    left: 258px;
+    top: 54px;
+    width: 159px;
+    height: 159px;
+}
+
+.outer_circle {
+    width: 155px;
+    height: 155px;
+    display: block;
+    position: absolute;
+    border-radius: 50%;
+    border-style: solid;
+    border-width: 1px;
+    border-color: green;
+}
+
+#speed {
+    font-size:var(--txt-size-m);
+    color:var(--main-color);
+    width: 450px;
+    height: 95px;
+    display: block;
+    background-color: black;
+    border-style: solid;
+    border-width: 2px;
+    border-color:var(--main-color);
+    position: absolute;
+    right: 5px;
+    top: 1205px;
+    padding: 10px;
+}
+
+.speed_bar {
+    width: 40px;
+    display: inline-block;
+    background-color:var(--main-color);
+    position: relative;
+	margin-left: 5px;
+	margin-bottom;
+    opacity: 0.2;
+}
+
+#speed1 {
+    opacity: 1;
+	height: 5px;}
+
+#speed2 {
+	height: 15px;}
+
+#speed3 {
+	height: 25px;}
+
+#speed4 {
+	height: 35px;}
+
+#speed5 {
+	height: 45px;}
+
+#speed6 {
+	height: 55px;}
+
+#speed7 {
+	height: 65px;}
+
+#speed8 {
+	height: 75px;}
+
+#speed9 {
+	height: 85px;}
+
+#speed10 {
+	height: 95px;}
+
+#speed_value {
+	font-family:var(--val-font);
+    color:var(--main-color);
+    text-align: left;
+    width: 100px;
+    height: 100px;
+    left: 10px;
+    top: 15px;
+    position: absolute;
+}
+
+.cursor {
+    width: 14px;
+    height: 17px;
+    display: inline-block;
+    position: relative;
+    background-color:var(--main-color);
+}
+
+#start {
+    display: block;
+    font-size:var(--txt-size-xl);
+    color:var(--main-color);
+    width: 200px;
+    height: 100px;
+    background-color: black;
+    position: absolute;
+    left: 60px;
+    top: 50px;
+	text-align: left;
+}
+
+#select {
+    display: none;
+    padding-top: 30px;
+    text-align: center;
+    font-size:var(--txt-size-xl);
+    color:var(--main-color);
+    width: 400px;
+    height: 150px;
+    background-color: black;
+    border-style: solid;
+    border-width: 2px;
+    border-color:var(--main-color);
+    position: absolute;
+    left: 660px;
+    top: 400px;
+}
+
+.oval {
+	position: absolute;
+	width: 90px; 
+	height: 24px;
+	border-radius: 24px/12px;
+	top: 100px;
+	color: black;
+	padding-top: 5px;
+}
+
+#oval1 {
+	background: red;
+	left: 50px;
+}
+
+#oval2 {
+	background: blue;
+	left: 240px;
+}
+
+#game_over {
+    display: none;
+    padding-top: 30px;
+    text-align: center;
+    font-size:var(--txt-size-xl);
+    color:var(--main-color);
+    width: 250px;
+    height: 50px;
+    background-color: black;
+    border-style: solid;
+    border-width: 2px;
+    border-color:var(--main-color);
+    position: absolute;
+    left: 700px;
+    top: 600px;
+}

@@ -67,18 +67,18 @@ static void	read_data(t_champ *player, char *str, int max)
 	char	*ptr;
 
 	ret_total = 0;
-	(fd = open(player->path, O_RDONLY)) < 0 ? ft_perror() : 1;
+	(fd = open(player->path, O_RDONLY)) < 0 ? ft_perror(NULL) : 1;
 	ptr = str;
 	while (ret_total <= max && (ret = read(fd, ptr, max + 1 - ret_total)) > 0)
 	{
 		ptr += ret;
 		ret_total += ret;
 	}
-	(ret < 0) ? ft_perror() : 1;
+	(ret < 0) ? ft_perror(NULL) : 1;
 	player->exec_size = ret_total - (max - CHAMP_MAX_SIZE);
 	if (ret != 0 || player->exec_size > CHAMP_MAX_SIZE || player->exec_size < 0)//check
 		ft_error("invalid size of file");
-	(close(fd)) < 0 ? ft_perror() : 1;
+	(close(fd)) < 0 ? ft_perror(NULL) : 1;
 }
 
 void 		ft_read_valid_players(t_vm *vm, t_champ *player)
@@ -90,7 +90,7 @@ void 		ft_read_valid_players(t_vm *vm, t_champ *player)
 
 	delta = 0;
 	max_size = PROG_NAME_LENGTH + COMMENT_LENGTH + CHAMP_MAX_SIZE + 4 * 4;
-	(!(str = (char *)ft_memalloc(max_size + 1))) ? ft_perror() : 1;
+	(!(str = (char *)ft_memalloc(max_size + 1))) ? ft_perror(NULL) : 1;
 	i = -1;
 	while (++i < vm->num_of_players)
 	{
@@ -101,7 +101,8 @@ void 		ft_read_valid_players(t_vm *vm, t_champ *player)
 		valid_exec_size(&str[PROG_NAME_LENGTH + 4 * 2], player[i].exec_size);
 		ft_memcpy(player[i].comment, &str[PROG_NAME_LENGTH + 4 * 3], COMMENT_LENGTH + 4); //считывание коммента игрока
 		valid_str(player[i].comment, COMMENT_LENGTH);
-		ft_memcpy(&vm->arena[delta], &str[PROG_NAME_LENGTH + COMMENT_LENGTH + 4 * 4], player[i].exec_size); // сичтывание exec кода
+		ft_memcpy(&vm->arena[delta], &str[PROG_NAME_LENGTH + COMMENT_LENGTH + 4 * 4],
+				player[i].exec_size); // сичтывание exec кода
 		delta += ((MEM_SIZE) / vm->num_of_players);
 		player[i].id = i + 1;
 		ft_bzero(str, max_size);

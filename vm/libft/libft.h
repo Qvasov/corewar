@@ -16,6 +16,7 @@
 # include <string.h>
 # include <unistd.h>
 # include <stdlib.h>
+# include "ft_printf/ft_printf.h"
 
 # define GNL_BUFF_SIZE  4
 # define MAX_FD 10240
@@ -117,7 +118,5 @@ int					ft_strchr_count(const char *s, int c);
 void				ft_strrev(char *str);
 void				ft_swapptr(void **a, void **b);
 char				*ft_ulltoa(unsigned long long n);
-int					ft_printf(const char *format, ...);
-int					ft_fprintf(int fd, const char *format, ...);
 
 #endif

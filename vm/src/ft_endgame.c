@@ -14,13 +14,27 @@
 
 void	ft_endgame(t_data *data)
 {
-	ft_printf("Contestant %hhd, \"%s\", has won !\n",
-			data->vm.last_player_id, data->player[data->vm.last_player_id - 1].name);
 	if (data->web_flag)
-		ft_fprintf(data->web.fd, "];\nconst winner = \"%s\";\n", data->player[data->vm.last_player_id - 1].name);
+	{
+		ft_fprintf(data->web.fd, "];\nconst winner = \"%s\";\n",
+				   data->player[data->vm.last_player_id - 1].name);
+		system("open web/CoreWar.html");
+	}
 	if (data->nc_flag)
 	{
 		render(&data->vm, data->player);
 		endwin();
+	}
+	if (data->web_flag == 0 && data->nc_flag == 0)
+	{
+		if (data->o_flag == 1)
+			ft_bprintf(&data->fstr, "Contestant %hhd, \"%s\", has won !\n",
+					   data->vm.last_player_id,
+					   data->player[data->vm.last_player_id - 1].name);
+		else
+			ft_bprintf(&data->fstr, "Player %hhd, (%s), won\n",
+				   data->vm.last_player_id,
+				   data->player[data->vm.last_player_id - 1].name);
+		ft_buf_print(&data->fstr);
 	}
 }

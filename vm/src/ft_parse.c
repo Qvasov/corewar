@@ -47,39 +47,31 @@ static void	detect_champ(char **av, t_data *data, char **tmp_champ)
 
 static int	detect_flag(int ac, char **av, t_data *data)
 {
+	int		r;
+
+	r = 0;
 	if (ft_strcmp(*av, "-dump") == 0)
-	{
-		(ac >= 2) ? ft_check_dump(av, &data->vm) : ft_error("-dump - no argument");
-		return (2);
-	}
+		(ac >= 2 && (r = 2)) ? ft_check_dump(av, &data->vm) : ft_error("-dump - no argument");
 	else if (ft_strcmp(*av, "-n") == 0)
-	{
-		(ac >= 3) ? ft_check_num_player(av, data) :
-		ft_error("-n - no enough arguments");
-		return (3);
-	}
+		(ac >= 3 && (r = 3)) ? ft_check_num_player(av, data) : ft_error("-n - no enough arguments");
 	else if (ft_strcmp(*av, "-v") == 0)
-	{
-		(ac >= 2) ? ft_check_v(av, data) : ft_error("-v - no argument");
-		return (2);
-	}
+		(ac >= 2 && (r = 2)) ? ft_check_v(av, data) : ft_error("-v - no argument");
 	else if (ft_strcmp(*av, "-w") == 0)
-	{
-		(ac >= 1) ? data->web_flag = 1 : ft_error("-w - error");
-		return (1);
-	}
+		(ac >= 1 && (r = 1)) ? data->web_flag = 1 : ft_error("-w - error");
 	else if (ft_strcmp(*av, "-nc") == 0)
-	{
-		(ac >= 1) ? data->nc_flag = 1 : ft_error("-nc - error");
-		return (1);
-	}
-	ft_usage();
-	return (1); //
+		(ac >= 1 && (r = 1)) ? data->nc_flag = 1 : ft_error("-nc - error");
+	else if (ft_strcmp(*av, "-o") == 0)
+		(ac >= 1 && (r = 1)) ? data->o_flag = 1 : ft_error("-o - error");
+	else if (ft_strcmp(*av, "-l") == 0)
+		(ac >= 1 && (r = 1)) ? data->l_flag = 1 : ft_error("-l - error");
+	else if (r == 0)
+		ft_usage();
+	return (r);
 }
 
 static void	parse_input(int ac, char **av, t_data *data, char **tmp_champ)
 {
-	int jump;
+	int		jump;
 
 	while (ac > 0)
 	{

@@ -6,7 +6,7 @@
 /*   By: ddarell <ddarell@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/26 15:00:49 by ddarell           #+#    #+#             */
-/*   Updated: 2019/12/02 20:14:53 by ddarell          ###   ########.fr       */
+/*   Updated: 2020/02/21 14:14:31 by ddarell          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@
 # include "../libft.h"
 # include <stdarg.h>
 
-# define BUF_SIZE 2048
+# define BUF_SIZE 32786
+
 # define MINUS 0
 # define PLUS 1
 # define SPACE 2
@@ -110,17 +111,19 @@ typedef struct			s_fstr
 	int					sfd;
 	t_union				uni;
 	char				buf[BUF_SIZE];
-
 }						t_fstr;
 
 int						ft_printf(const char *format, ...);
 int						ft_fprintf(int fd, const char *format, ...);
+int						ft_bprintf(t_fstr *fstr, const char *format, ...);
 
 void					ft_set_fstr(t_fstr *fstr);
-void					ft_init_n_set(void (**f)(t_fstr *, va_list *),
-										t_fstr *fstr);
+void					ft_init_f(void (**f)(t_fstr *, va_list *));
+void					ft_init_fstr(t_fstr *fstr);
 
+int						ft_print_not_format(char *format, t_fstr *fstr);
 int						ft_fprint_not_format(char *format, t_fstr *fstr);
+
 int						ft_match_type(t_fstr *fstr, char *current);
 int						ft_match_flags(t_fstr *fstr, char *current);
 int						ft_match_width(t_fstr *fstr, char *current,
