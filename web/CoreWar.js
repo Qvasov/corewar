@@ -6,7 +6,7 @@
 //   By: laleta <marvin@42.fr>                      +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2020/02/24 16:48:31 by laleta            #+#    #+#             //
-//   Updated: 2020/02/24 16:58:47 by laleta           ###   ########.fr       //
+//   Updated: 2020/02/25 19:25:08 by laleta           ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -379,6 +379,8 @@ function war_cycle()
 		}
 		if (i == 1 || mem_prev[idx] != byte)
 		{
+			if (byte > 255)
+				byte %= 255;
 			document.getElementById("char" + idx).innerHTML = bytecode[byte];
 			$("#char" + idx).css("opacity", 1);
 			opacity[idx] = 1;
