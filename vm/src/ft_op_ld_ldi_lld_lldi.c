@@ -24,7 +24,7 @@ void	ld(t_data *data, t_cur *cursor)
 	if (args_code.a.arg1 == IND_CODE)
 	{
 		arg[0].num %= IDX_MOD;
-		arg[0].num = get_ind_value(arg[0], cursor, data); // получение числа по адресу
+		arg[0].num = get_ind_value(arg[0], cursor, data);
 	}
 	cursor->reg[arg[1].num - 1] = arg[0].num;
 	cursor->carry = (cursor->reg[arg[1].num - 1] == 0) ? 1 : 0;
@@ -61,7 +61,7 @@ void	lld(t_data *data, t_cur *cursor)
 	get_args(arg, args_code, cursor, data);
 	if (ft_bit_check(data->v_flag, 2) && data->web_flag == 0)
 		flag_v4(arg, args_code, data, cursor);
-	if (args_code.a.arg1 == IND_CODE) 							//получение числа по адресу
+	if (args_code.a.arg1 == IND_CODE)
 		arg[0].num = get_ind_value(arg[0], cursor, data);
 	cursor->reg[arg[1].num - 1] = arg[0].num;
 	cursor->carry = (cursor->reg[arg[1].num - 1] == 0) ? 1 : 0;

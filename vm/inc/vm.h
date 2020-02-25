@@ -34,7 +34,7 @@ typedef struct		s_cur
 {
 	int				id;
 	int8_t			carry;
-	uint8_t			op_code;
+	uint8_t			op;
 	int32_t			cycle_of_last_live;
 	int16_t			cycles_to_do_op;
 	int16_t			pc;
@@ -83,7 +83,8 @@ void				ft_parse(int ac, char **av, t_data *data);
 void				ft_check_dump(char **av, t_vm *vm);
 void				ft_check_num_player(char **av, t_data *data);
 void				ft_check_v(char **av, t_data *data);
-void				ft_read_valid_players(t_vm *vm, t_champ *player);
+void				ft_read_valid_players(t_vm *vm, t_champ *player,
+					int max_size);
 void				ft_introducing(t_data *data);
 void				ft_battle(t_data *data);
 void				ft_init_cursors(t_vm *vm, t_champ *player);
@@ -113,7 +114,7 @@ void				get_args(t_int *arg, t_types_code args_code, t_cur *cursor,
 int					get_arg(uint8_t arg_code, int8_t arg_pos, uint8_t *arena,
 					t_cur *cursor);
 int					get_ind_value(t_int arg, t_cur *cursor, t_data *data);
-t_cur				*ft_copy_cursor(t_vm *vm, t_cur *cursor);
+t_cur				*ft_copy_cursor(t_data *data, t_cur *cursor);
 void				ft_endgame(t_data *data);
 void				ft_free(t_data *data);
 void				ft_usage();
@@ -133,6 +134,7 @@ void				web_cur_parse(t_data *data, t_cur *cursor);
 void				web_cur_before_do(t_data *data, t_cur *cursor);
 void				web_cur_after_do(t_data *data, t_cur *cursor);
 void				web_cycle(t_data *data);
+void				ft_web_free(t_data *data);
 
 void				render(t_vm *vm, t_champ *player);
 void				visu_init(void);

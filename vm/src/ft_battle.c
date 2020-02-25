@@ -12,6 +12,25 @@
 
 #include "vm.h"
 
+void	change_name_comment(t_data *data)
+{
+	int		i;
+	int		j;
+
+	i = -1;
+	while (++i < data->vm.num_of_players)
+	{
+		j = 0;
+		while (data->player[i].comment[j] && data->player[i].comment[j] != '\n')
+			++j;
+		data->player[i].comment[j] = '\0';
+		j = 0;
+		while (data->player[i].name[j] && data->player[i].name[j] != '\n')
+			++j;
+		data->player[i].name[j] = '\0';
+	}
+}
+
 void	print_arena(t_data *data)
 {
 	int		i;
@@ -29,6 +48,7 @@ void	print_arena(t_data *data)
 		ft_bprintf(&data->fstr, "\n");
 		j += i;
 	}
+	ft_buf_print(&data->fstr);
 	exit(1);
 }
 
@@ -37,11 +57,12 @@ void	ft_battle(t_data *data)
 	t_vm	*vm;
 
 	vm = &data->vm;
-	ft_init_cursors(&data->vm, data->player); // создание и инициализация кареток
+	ft_init_cursors(&data->vm, data->player);
 	ft_init_valid_func(data->valid);
 	ft_init_op(data->op);
-	(data->web_flag) ? web_init(data) : 0;	//WEB
-	(data->nc_flag) ? visu_init() : 0;		//NCURSES
+	(data->web_flag || data->nc_flag) ? change_name_comment(data) : 0;
+	(data->web_flag) ? web_init(data) : 0;
+	(data->nc_flag) ? visu_init() : 0;
 	(vm->nbr_cycles == 0) ? print_arena(data) : 0;
 	while (1)
 	{

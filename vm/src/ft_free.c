@@ -12,6 +12,19 @@
 
 #include "vm.h"
 
+void	ft_web_free(t_data *data)
+{
+	int		i;
+
+	i = -1;
+	while (++i < data->vm.num_of_players)
+		free(data->web.curs[i]);
+	free(data->web.curs);
+	data->web.curs = NULL;
+	free(data->web.arena);
+	free(data->web.change);
+}
+
 void	ft_free(t_data *data)
 {
 	t_cur	*cur;

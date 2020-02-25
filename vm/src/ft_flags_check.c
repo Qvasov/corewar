@@ -49,6 +49,6 @@ void	ft_check_dump(char **av, t_vm *vm)
 	int check;
 
 	vm->nbr_cycles = ft_satoi(av[1], &check);
-	if (!(check && av[1][check] == 0)) //check -d behavior on orig corewar
-		ft_error("-dump - argument error"); //мб usage поставить
+	if (!(check && av[1][check] == 0))
+		ft_error("-dump - argument error");
 }

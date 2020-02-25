@@ -25,7 +25,7 @@ void	ft_init_cursors(t_vm *vm, t_champ *player)
 		!(cur = (t_cur *)malloc(sizeof(t_cur))) ? ft_perror(NULL) : 0;
 		cur->id = ++vm->cursor_id;
 		cur->carry = 0;
-		cur->op_code = 0;
+		cur->op = 0;
 		cur->cycle_of_last_live = 0;
 		cur->cycles_to_do_op = 0;
 		cur->pc = delta;

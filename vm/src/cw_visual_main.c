@@ -88,7 +88,7 @@ void	put_border(void)
 	attroff(COLOR_PAIR(CW_BORDER));
 }
 
-void handle_event(uint8_t *pause, uint8_t *speed, t_vm *vm, t_champ *pl)
+void	handle_event(uint8_t *pause, uint8_t *speed, t_vm *vm, t_champ *pl)
 {
 	int32_t	event;
 

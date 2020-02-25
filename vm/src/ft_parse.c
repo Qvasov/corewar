@@ -12,7 +12,8 @@
 
 #include "vm.h"
 
-static void	merge_champ_tabs(t_champ *player, char **tmp_champ, int num_of_champs)
+static void	merge_champ_tabs(t_champ *player, char **tmp_champ,
+		int num_of_champs)
 {
 	int i;
 
@@ -39,31 +40,35 @@ static void	detect_champ(char **av, t_data *data, char **tmp_champ)
 	if (data->vm.num_of_players > MAX_PLAYERS)
 		ft_error("too much players");
 	check = ft_strlen(*av);
-	if (check > 4 && ft_strcmp(*av + check - 4, ".cor") == 0) //check conditions
+	if (check > 4 && ft_strcmp(*av + check - 4, ".cor") == 0)
 		*tmp_champ = *av;
 	else
 		ft_error("champion name error");
 }
 
-static int	detect_flag(int ac, char **av, t_data *data)
+static int	detect_flag(int ac, char **av, t_data *data, int r)
 {
-	int		r;
-
-	r = 0;
 	if (ft_strcmp(*av, "-dump") == 0)
-		(ac >= 2 && (r = 2)) ? ft_check_dump(av, &data->vm) : ft_error("-dump - no argument");
+		(ac >= 2 && (r = 2)) ? ft_check_dump(av, &data->vm)
+		: ft_error("-dump - no argument");
 	else if (ft_strcmp(*av, "-n") == 0)
-		(ac >= 3 && (r = 3)) ? ft_check_num_player(av, data) : ft_error("-n - no enough arguments");
+		(ac >= 3 && (r = 3)) ? ft_check_num_player(av, data)
+		: ft_error("-n - no enough arguments");
 	else if (ft_strcmp(*av, "-v") == 0)
-		(ac >= 2 && (r = 2)) ? ft_check_v(av, data) : ft_error("-v - no argument");
+		(ac >= 2 && (r = 2)) ? ft_check_v(av, data)
+		: ft_error("-v - no argument");
 	else if (ft_strcmp(*av, "-w") == 0)
-		(ac >= 1 && (r = 1)) ? data->web_flag = 1 : ft_error("-w - error");
+		(ac >= 1 && (r = 1)) ?
+		data->web_flag = 1 : ft_error("-w - error");
 	else if (ft_strcmp(*av, "-nc") == 0)
-		(ac >= 1 && (r = 1)) ? data->nc_flag = 1 : ft_error("-nc - error");
+		(ac >= 1 && (r = 1)) ?
+		data->nc_flag = 1 : ft_error("-nc - error");
 	else if (ft_strcmp(*av, "-o") == 0)
-		(ac >= 1 && (r = 1)) ? data->o_flag = 1 : ft_error("-o - error");
+		(ac >= 1 && (r = 1)) ?
+		data->o_flag = 1 : ft_error("-o - error");
 	else if (ft_strcmp(*av, "-l") == 0)
-		(ac >= 1 && (r = 1)) ? data->l_flag = 1 : ft_error("-l - error");
+		(ac >= 1 && (r = 1)) ?
+		data->l_flag = 1 : ft_error("-l - error");
 	else if (r == 0)
 		ft_usage();
 	return (r);
@@ -77,7 +82,7 @@ static void	parse_input(int ac, char **av, t_data *data, char **tmp_champ)
 	{
 		if (**av == '-')
 		{
-			jump = detect_flag(ac, av, data);
+			jump = detect_flag(ac, av, data, 0);
 			ac -= jump;
 			av += jump;
 		}

@@ -48,7 +48,8 @@ static void	champions(t_data *data)
 	while (++i < data->vm.num_of_players)
 	{
 		ft_fprintf(data->web.fd, "[\"%s\", \"%s\", %d]",
-				   data->player[i].name, data->player[i].comment, data->player[i].id);
+				data->player[i].name, data->player[i].comment,
+				data->player[i].id);
 		if (i + 1 == data->vm.num_of_players)
 			ft_fprintf(data->web.fd, "];\n");
 		else
@@ -73,16 +74,17 @@ void		web_init(t_data *data)
 	int	i;
 
 	i = -1;
-	if ((data->web.fd = open("web/CW_visual.js", O_WRONLY | O_CREAT | O_TRUNC,
-			S_IRWXU | S_IRWXG | S_IRWXO)) < 0)
+	if ((data->web.fd = open("web/CW_visual.js",
+			O_WRONLY | O_CREAT | O_TRUNC, S_IRWXU | S_IRWXG | S_IRWXO)) < 0)
 		ft_perror(NULL);
-	if (!(data->web.curs = (int **)malloc(sizeof(int *) * data->vm.num_of_players)))
+	if (!(data->web.curs = (int **)malloc(sizeof(int *) *
+			data->vm.num_of_players)))
 		ft_perror(NULL);
 	while (++i < data->vm.num_of_players)
 	{
 		if (!(data->web.curs[i] = (int *)malloc(sizeof(int) * 17)))
 			ft_perror(NULL);
-		ft_bzero(&data->web.curs[i][1], sizeof(int) * 16);
+		ft_bzero(&data->web.curs[i][0], sizeof(int) * 17);
 		data->web.curs[i][0] = 1;
 	}
 	arena_dup(&data->web.arena, data->vm.arena);

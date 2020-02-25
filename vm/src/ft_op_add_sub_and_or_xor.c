@@ -52,11 +52,17 @@ void	and(t_data *data, t_cur *cursor)
 	if (args_code.a.arg1 == REG_CODE)
 		arg[0].num = cursor->reg[arg[0].num - 1];
 	else if (args_code.a.arg1 == IND_CODE)
-		arg[0].num = get_ind_value(arg[0], cursor, data) % IDX_MOD;
+	{
+		arg[0].num %= IDX_MOD;
+		arg[0].num = get_ind_value(arg[0], cursor, data);
+	}
 	if (args_code.a.arg2 == REG_CODE)
 		arg[1].num = cursor->reg[arg[1].num - 1];
 	else if (args_code.a.arg2 == IND_CODE)
-		arg[1].num = get_ind_value(arg[1], cursor, data) % IDX_MOD;
+	{
+		arg[1].num %= IDX_MOD;
+		arg[1].num = get_ind_value(arg[1], cursor, data);
+	}
 	cursor->reg[arg[2].num - 1] = arg[0].num & arg[1].num;
 	cursor->carry = (cursor->reg[arg[2].num - 1] == 0) ? 1 : 0;
 }
@@ -73,11 +79,17 @@ void	or(t_data *data, t_cur *cursor)
 	if (args_code.a.arg1 == REG_CODE)
 		arg[0].num = cursor->reg[arg[0].num - 1];
 	else if (args_code.a.arg1 == IND_CODE)
-		arg[0].num = get_ind_value(arg[0], cursor, data) % IDX_MOD;
+	{
+		arg[0].num %= IDX_MOD;
+		arg[0].num = get_ind_value(arg[0], cursor, data);
+	}
 	if (args_code.a.arg2 == REG_CODE)
 		arg[1].num = cursor->reg[arg[1].num - 1];
 	else if (args_code.a.arg2 == IND_CODE)
-		arg[1].num = get_ind_value(arg[1], cursor, data) % IDX_MOD;
+	{
+		arg[1].num %= IDX_MOD;
+		arg[1].num = get_ind_value(arg[1], cursor, data);
+	}
 	cursor->reg[arg[2].num - 1] = arg[0].num | arg[1].num;
 	cursor->carry = (cursor->reg[arg[2].num - 1] == 0) ? 1 : 0;
 }
@@ -94,11 +106,17 @@ void	xor(t_data *data, t_cur *cursor)
 	if (args_code.a.arg1 == REG_CODE)
 		arg[0].num = cursor->reg[arg[0].num - 1];
 	else if (args_code.a.arg1 == IND_CODE)
-		arg[0].num = get_ind_value(arg[0], cursor, data) % IDX_MOD;
+	{
+		arg[0].num %= IDX_MOD;
+		arg[0].num = get_ind_value(arg[0], cursor, data);
+	}
 	if (args_code.a.arg2 == REG_CODE)
 		arg[1].num = cursor->reg[arg[1].num - 1];
 	else if (args_code.a.arg2 == IND_CODE)
-		arg[1].num = get_ind_value(arg[1], cursor, data) % IDX_MOD;
+	{
+		arg[1].num %= IDX_MOD;
+		arg[1].num = get_ind_value(arg[1], cursor, data);
+	}
 	cursor->reg[arg[2].num - 1] = arg[0].num ^ arg[1].num;
 	cursor->carry = (cursor->reg[arg[2].num - 1] == 0) ? 1 : 0;
 }

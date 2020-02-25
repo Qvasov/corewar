@@ -34,7 +34,8 @@ void	live(t_data *data, t_cur *cursor)
 		if (ft_bit_check(data->v_flag, 0))
 			flag_v1(data, arg.num);
 		if (data->l_flag == 0 && data->o_flag == 0)
-			ft_bprintf(&data->fstr, "A process shows that player %d (%s) is alive\n",
+			ft_bprintf(&data->fstr,
+					"A process shows that player %d (%s) is alive\n",
 					arg.num, data->player[arg.num - 1].name);
 	}
 }
@@ -76,7 +77,7 @@ void	fork_cw(t_data *data, t_cur *cursor)
 	cursor->byte_to_next_op = args_size;
 	if (ft_bit_check(data->v_flag, 2) && data->web_flag == 0)
 		flag_v4(&arg, args_code, data, cursor);
-	new_cur = ft_copy_cursor(&data->vm, cursor);
+	new_cur = ft_copy_cursor(data, cursor);
 	new_cur->pc = (cursor->pc + (arg.num % IDX_MOD)) % MEM_SIZE;
 	if (new_cur->pc < 0)
 		new_cur->pc += MEM_SIZE;
@@ -104,7 +105,7 @@ void	lfork_cw(t_data *data, t_cur *cursor)
 	cursor->byte_to_next_op = args_size;
 	if (ft_bit_check(data->v_flag, 2) && data->web_flag == 0)
 		flag_v4(&arg, args_code, data, cursor);
-	new_cur = ft_copy_cursor(&data->vm, cursor);
+	new_cur = ft_copy_cursor(data, cursor);
 	new_cur->pc = (cursor->pc + arg.num) % MEM_SIZE;
 	if (new_cur->pc < 0)
 		new_cur->pc += MEM_SIZE;
@@ -129,5 +130,8 @@ void	aff(t_data *data, t_cur *cursor)
 	args_size += data->size[args_code.a.arg1];
 	cursor->byte_to_next_op = args_size;
 	arg.num = cursor->reg[arg.num - 1];
-	ft_bprintf(&data->fstr, "Aff: %c\n", (char)arg.num);
+	if ((char)arg.num == 0)
+		ft_bprintf(&data->fstr, "Aff: \n");
+	else
+		ft_bprintf(&data->fstr, "Aff: %c\n", (char)arg.num);
 }

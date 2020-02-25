@@ -1,25 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_usage.c                                      :+:      :+:    :+:   */
+/*   ft_usage.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dbennie <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/21 19:48:04 by dbennie           #+#    #+#             */
-/*   Updated: 2020/01/21 19:48:09 by dbennie          ###   ########.fr       */
+/*   Created: 2020/02/25 14:31:29 by dbennie           #+#    #+#             */
+/*   Updated: 2020/02/25 14:31:30 by dbennie          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vm.h"
 
-void	ft_usage()
+void	ft_usage(void)
 {
-	ft_printf("./corewar [-dump nbr_cycles -v N | -nc -w] [-o] [-l]"
-		   " [[-n number] champion1.cor] ...\n\n"
+	ft_printf("./corewar [-dump nbr_cycles -v N | -nc | -w] [-o] [-l]"
+		" [[-n number] champion1.cor] ...\n\n"
 	"\t-dump nbr_cycles\t: "
 		"Dump the memory on the standard output and quit the game\n"
 	"\t-n number\t\t\t: Sets the number of the next player\n"
-	"\t-v N\t\t\t\t: Verbosity levels, can be added together to enable several\n"
+	"\t-v N\t\t\t\t:"
+		" Verbosity levels, can be added together to enable several\n"
 	"\t\t\t\t\t\t - 0  Show only essentials\n"
 	"\t\t\t\t\t\t - 1   Show lives\n"
 	"\t\t\t\t\t\t - 2   Show cycles\n"

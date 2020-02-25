@@ -49,7 +49,7 @@ void		st(t_data *data, t_cur *cursor)
 		cursor->reg[arg[1].num - 1] = cursor->reg[arg[0].num - 1];
 	else if (args_code.a.arg2 == IND_CODE)
 	{
-		arg[0].num = cursor->reg[arg[0].num - 1]; //конвертация номера регистра в значение, которое находтся в регистре
+		arg[0].num = cursor->reg[arg[0].num - 1];
 		arg[1].num = arg[1].num % IDX_MOD;
 		addr = cursor->pc + arg[1].num;
 		if (addr < 0)

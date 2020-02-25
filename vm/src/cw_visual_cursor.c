@@ -49,7 +49,7 @@ static void	put_player_oper(int32_t pl_nbr, t_cur *cursor)
 {
 	int8_t	oper;
 
-	oper = cursor->op_code - 1;
+	oper = cursor->op - 1;
 	if (pl_nbr < 5 && oper >= 0 && oper < 16)
 		mvprintw(CW_INFO3_Y + oper, CW_INFO_X + (pl_nbr - 1) * 10, "%s",
 																g_oplist[oper]);

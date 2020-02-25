@@ -22,9 +22,10 @@ void	ft_introducing(t_data *data)
 		ft_bprintf(&data->fstr, "Introducing contestants...\n");
 		while (++i < data->vm.num_of_players)
 		{
-			ft_bprintf(&data->fstr, "* Player %d, weighing %d bytes, \"%s\" (\"%s\") !\n",
-					  data->player[i].id, data->player[i].exec_size,
-					  data->player[i].name, data->player[i].comment);
+			ft_bprintf(&data->fstr,
+					"* Player %d, weighing %d bytes, \"%s\" (\"%s\") !\n",
+					data->player[i].id, data->player[i].exec_size,
+					data->player[i].name, data->player[i].comment);
 		}
 	}
 	data->vm.last_player_id = data->vm.num_of_players;
