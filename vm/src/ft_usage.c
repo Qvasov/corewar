@@ -24,12 +24,12 @@ void	ft_usage(void)
 	"\t\t\t\t\t\t - 0  Show only essentials\n"
 	"\t\t\t\t\t\t - 1   Show lives\n"
 	"\t\t\t\t\t\t - 2   Show cycles\n"
-	"\t\t\t\t\t\t - 4   Show operations (Params are NOT litteral ...)\n"
+	"\t\t\t\t\t\t - 4   Show operations (Params are NOT literal ...)\n"
 	"\t\t\t\t\t\t - 8   Show deaths\n"
 	"\t\t\t\t\t\t - 16  Show PC movements (Except for jumps)\n"
 	"\t-nc\t\t\t\t\t: Ncurses output mode\n"
 	"\t-w\t\t\t\t\t: Web output mode\n"
 	"\t-l\t\t\t\t\t: Hide display live instruction\n"
-	"\t-o\t\t\t\t\t: Original behavior");
+	"\t-o\t\t\t\t\t: Original behavior\n");
 	exit(0);
 }
