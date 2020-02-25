@@ -11,17 +11,17 @@
 # **************************************************************************** #
 
 NAME = corewar
-FLAGS = -g
-#-Wall -Wextra -Werror
-SOURCE = ft_add_sub_and_or_xor.c ft_battle.c ft_checkout.c ft_copy_cursor.c\
-		ft_create_buf.c ft_cycle.c ft_endgame.c ft_error.c ft_flags_check.c\
-		ft_get.c ft_init_cursors.c ft_init_op.c ft_init_valid_func.c\
-		ft_introducing.c ft_ld_ldi_lld_lldi.c ft_live_zjmp_fork_lfork_aff.c\
-		ft_parse.c ft_print_commands.c ft_read_valid_players.c ft_st_sti.c\
-		ft_usage.c ft_valid_op_code_and_reg.c main.c op.c\
-		cw_visual_main.c cw_visual_cursor.c cw_visual_info.c\
-		ft_free.c ft_visu_cursor.c web_cycle.c ft_visu_op.c ft_visu_init.c
-HEADER = op.h vm.h cw_visual.h
+FLAGS = -g -Wall -Wextra -Werror
+SOURCE = cw_flag_v1_v2_v8_v16.c cw_flag_v4.c cw_visual_cursor.c \
+ 		cw_visual_info.c cw_visual_main.c cw_web_cur.c cw_web_cycle.c \
+ 		cw_web_init.c ft_battle.c ft_checkout.c ft_copy_cursor.c ft_cycle.c \
+ 		ft_endgame.c ft_error.c ft_flags_check.c ft_free.c ft_get.c \
+ 		ft_init_cursors.c ft_init_op.c ft_init_valid_func.c ft_introducing.c \
+ 		ft_op_add_sub_and_or_xor.c ft_op_ld_ldi_lld_lldi.c ft_op_st_sti.c\
+ 		ft_op_live_zjmp_fork_lfork_aff.c ft_parse.c ft_read_valid_players.c \
+ 		ft_usage.c ft_valid_op_code_and_reg.c main.c op.c
+
+HEADER = op.h vm.h cw_visual.h types.h
 
 INCLUDES = -Iinc -I$(LIBFT_DIR)
 
