@@ -6,7 +6,7 @@
 /*   By: laleta <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/24 01:41:28 by laleta            #+#    #+#             */
-/*   Updated: 2019/08/06 04:09:00 by laleta           ###   ########.fr       */
+/*   Updated: 2020/03/04 05:14:27 by laleta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 static t_file g_stream =
 {
-	0, 1, NULL, NULL, &g_stream.buf_1c, &g_stream.buf_1c, 0
+	0, 1, NULL, NULL, &g_stream.buf_1c, &g_stream.buf_1c, 0, {0}
 };
 
 static void	*ft_writer(void *str, const char *buf, size_t n)

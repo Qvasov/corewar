@@ -6,7 +6,7 @@
 /*   By: laleta <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/14 22:47:53 by laleta            #+#    #+#             */
-/*   Updated: 2020/02/25 15:10:48 by laleta           ###   ########.fr       */
+/*   Updated: 2020/03/04 00:31:50 by laleta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # define ERR_COMMENT_MISSING	"champion comment is missing"
 # define ERR_NAME_UNFINISH		"champion name is unfinished"
 # define ERR_COMMENT_UNFINISH	"champion comment is unfinished"
+# define ERR_HEADER_UNFINISH	"champion header is unfinished"
 # define ERR_NAME_LENGTH		"champion name is too long"
 # define ERR_COMMENT_LENGTH		"champion comment is too long"
 # define ERR_TOKEN_INVALID		"invalid or unexpected token"
@@ -40,6 +41,8 @@
 # define ERR_MAGIC_NUMBER		"wrong magic number"
 # define ERR_OPERATION_INVALID	"invalid operation code"
 # define ERR_EXTRA_SEPARATOR	"extra separator"
-# define ERR_HEADER_NULL		"invalid char in header"
+# define ERR_HEADER_EXTRA_CHAR	"invalid char in header"
+# define ERR_END_NEWLINE		"no end with a newline"
+# define ERR_EMPTY_FILE			"empty or invalid file"
 
 #endif

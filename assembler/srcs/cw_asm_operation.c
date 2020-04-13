@@ -32,7 +32,8 @@ uint8_t	get_byte_size(t_token **argument, uint8_t arg_cnt, uint8_t type)
 	return (size);
 }
 
-t_token	**get_argument(t_asm *assm, t_inline *iline, uint8_t arg_cnt)
+t_token	**get_argument(t_asm *assm, t_inline *iline, uint8_t arg_cnt,
+																t_token *token)
 {
 	t_token **argument;
 	uint8_t	i;
@@ -41,12 +42,19 @@ t_token	**get_argument(t_asm *assm, t_inline *iline, uint8_t arg_cnt)
 	argument = (t_token **)ft_memalloc(sizeof(t_token *) * (arg_cnt + 1));
 	while (i < arg_cnt)
 	{
+		if (i > 0)
+			iline->col_alt = 2;
 		argument[i] = get_token(assm, iline);
 		if (argument[i]->type != ASM_ARGUMENT)
-			error_handle_adv(assm, iline, ERR_ARGUMENT_INVALID,
-															argument[i]->raw);
+		{
+			error_handle_adv2(assm, iline, ERR_ARGUMENT_INVALID, &argument[i]);
+			token_arr_free(argument, i + 1);
+			token_free(&token);
+			exit(1);
+		}
 		i++;
 	}
+	iline->col_alt = 0;
 	argument[i] = NULL;
 	return (argument);
 }
@@ -75,29 +83,32 @@ uint8_t	set_argcode(t_token **argument, uint8_t arg_cnt)
 }
 
 void	asm_operation(t_asm *assm, t_inline *iline, t_oper_queue *queue,
-															uint8_t oper_type)
+																t_token *token)
 {
-	t_token			**argument;
+	t_token			**arg;
 	t_node_queue	*node_queue;
 	uint8_t			arg_code;
 	uint8_t			bytes;
 	uint8_t			i;
 
 	i = 0;
-	argument = get_argument(assm, iline, g_oper_tab[oper_type].arg_cnt);
-	while (i < g_oper_tab[oper_type].arg_cnt)
+	arg = get_argument(assm, iline, g_oper_tab[token->subtype].arg_cnt, token);
+	while (i < g_oper_tab[token->subtype].arg_cnt)
 	{
-		if (!(argument[i]->subtype & g_oper_tab[oper_type].arg_type[i]))
-			error_handle_adv(assm, iline, ERR_ARGTYPE_INVALID,
-															argument[i]->raw);
+		if (!(arg[i]->subtype & g_oper_tab[token->subtype].arg_type[i]))
+		{
+			error_handle_adv2(assm, iline, ERR_ARGTYPE_INVALID, &arg[i]);
+			token_arr_free(arg, g_oper_tab[token->subtype].arg_cnt);
+			token_free(&token);
+			exit(1);
+		}
 		i++;
 	}
-	if (!g_oper_tab[oper_type].is_arg_code)
-		arg_code = 0;
-	else
-		arg_code = set_argcode(argument, g_oper_tab[oper_type].arg_cnt);
-	bytes = get_byte_size(argument, g_oper_tab[oper_type].arg_cnt, oper_type);
-	node_queue = operqueue_create_node(oper_type, arg_code, bytes, argument);
+	arg_code = (!g_oper_tab[token->subtype].is_arg_code) ? 0 :
+						set_argcode(arg, g_oper_tab[token->subtype].arg_cnt);
+	bytes = get_byte_size(arg, g_oper_tab[token->subtype].arg_cnt,
+																token->subtype);
+	node_queue = operqueue_create_node(token->subtype, arg_code, bytes, arg);
 	operqueue_push(assm, queue, node_queue);
 }
 
@@ -118,8 +129,11 @@ void	operation_processing(t_asm *assm, t_token **token, t_inline *iline,
 		if (*label_str != NULL)
 			labelist_push_back(assm, &assm->labels, label_str,
 												assm->oper_queue->byte_total);
-		asm_operation(assm, iline, assm->oper_queue, (*token)->subtype);
+		asm_operation(assm, iline, assm->oper_queue, *token);
 	}
 	else if ((*token)->type != ASM_EMPTY)
-		error_handle_adv(assm, iline, ERR_TOKEN_INVALID, (*token)->raw);
+	{
+		ft_strdel(label_str);
+		error_handle_adv(assm, iline, ERR_TOKEN_INVALID, token);
+	}
 }

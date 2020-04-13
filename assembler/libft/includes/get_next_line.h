@@ -6,7 +6,7 @@
 /*   By: laleta <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/04 21:15:06 by laleta            #+#    #+#             */
-/*   Updated: 2019/09/04 21:15:08 by laleta           ###   ########.fr       */
+/*   Updated: 2020/03/03 22:55:07 by laleta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 # include <stdlib.h>
 # include <stdint.h>
 
-# define BUFF_SIZE 40
+# define BUFF_SIZE 512
 
 typedef struct		s_lists
 {
@@ -42,10 +42,9 @@ typedef struct		s_fileb
 int					ft_get_next_line(const int fd, char **line);
 char				*ft_strmerge(char *s1, const char *s2, size_t len);
 t_lists				*ft_clist_new(t_clist *clist, void *data);
-t_lists				*ft_clist_insert(t_clist *clist, t_lists *current,
-																	void *data);
-void				ft_clist_del_node(t_clist *clist, t_lists **node,
-														void (*del)(void**));
+t_lists				*ft_clist_insert(t_clist *clist, t_lists *curr, void *data);
+void				ft_clist_del_node(t_clist *clist, t_lists **node);
+int					ft_clist_free(t_clist *clist);
 t_lists				*ft_clist_find_prev(t_lists *wall);
 
 #endif

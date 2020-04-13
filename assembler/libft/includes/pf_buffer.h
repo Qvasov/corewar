@@ -6,7 +6,7 @@
 /*   By: laleta <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/21 03:51:19 by laleta            #+#    #+#             */
-/*   Updated: 2019/08/06 04:09:03 by laleta           ###   ########.fr       */
+/*   Updated: 2020/03/04 05:50:46 by laleta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ typedef struct		s_file
 	unsigned char	*next;
 	unsigned char	*end;
 	unsigned char	buf_1c;
+	unsigned char	buf_st[FW_BUFSIZ];
 }					t_file;
 
 size_t				ft_fwrite(const void *ptr, size_t s, size_t nel, t_file *f);

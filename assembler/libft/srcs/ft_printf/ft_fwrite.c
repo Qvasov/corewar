@@ -6,7 +6,7 @@
 /*   By: laleta <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/24 01:34:07 by laleta            #+#    #+#             */
-/*   Updated: 2019/08/06 04:08:39 by laleta           ###   ########.fr       */
+/*   Updated: 2020/03/14 21:22:51 by laleta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,13 +45,11 @@ static inline int32_t	ft_get_buf(t_file *str)
 		return (ft_fflush(str));
 	if (str->buf)
 		;
-	else if ((str->buf = (unsigned char *)malloc(FW_BUFSIZ)) == NULL)
-	{
-		str->buf = &str->buf_1c;
-		str->buf_end = str->buf + 1;
-	}
 	else
+	{
+		str->buf = str->buf_st;
 		str->buf_end = str->buf + FW_BUFSIZ;
+	}
 	str->next = str->buf;
 	str->end = str->buf_end;
 	str->mode |= FW_WRITE;

@@ -6,7 +6,7 @@
 /*   By: laleta <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/14 21:09:37 by laleta            #+#    #+#             */
-/*   Updated: 2020/02/03 20:00:44 by laleta           ###   ########.fr       */
+/*   Updated: 2020/03/14 16:37:31 by laleta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,19 +69,19 @@ int8_t	is_operation(t_token *token)
 	return (0);
 }
 
-int8_t	is_argument(t_asm *assm, t_token *token, t_inline *iline)
+int8_t	is_argument(t_token *token)
 {
-	if (is_register(assm, token->raw, iline))
+	if (is_register(token))
 	{
 		token->subtype = T_REG;
 		return (1);
 	}
-	else if (is_direct(assm, token->raw, iline))
+	else if (is_direct(token))
 	{
 		token->subtype = T_DIR;
 		return (1);
 	}
-	else if (is_indirect(assm, token->raw, iline))
+	else if (is_indirect(token))
 	{
 		token->subtype = T_IND;
 		return (1);

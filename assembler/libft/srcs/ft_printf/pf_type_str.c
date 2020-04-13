@@ -6,7 +6,7 @@
 /*   By: laleta <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/21 00:55:50 by laleta            #+#    #+#             */
-/*   Updated: 2019/06/24 02:23:35 by laleta           ###   ########.fr       */
+/*   Updated: 2020/03/03 20:56:10 by laleta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ void				ft_type_s_r(char type, char *buf, t_prnf *pf, va_list *ap)
 {
 	uint32_t		*wc;
 
+	wc = NULL;
 	if (type == 'S' || pf->size == 'l' || type == 'R')
 		wc = (unsigned int*)va_arg(*ap, wchar_t *);
 	else

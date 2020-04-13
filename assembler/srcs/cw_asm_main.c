@@ -6,7 +6,7 @@
 /*   By: laleta <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/19 04:43:03 by laleta            #+#    #+#             */
-/*   Updated: 2020/02/25 17:17:42 by laleta           ###   ########.fr       */
+/*   Updated: 2020/03/04 03:45:50 by laleta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,7 @@ void			disassembler(int32_t fd, char *file_name)
 	disasm_file_handle(disassm, fd);
 	close(fd);
 	translate_to_source(disassm);
-	ft_printf(B_GREEN);
-	ft_printf(F_WHITE);
-	ft_printf(BOLD " %scor " NONE, disassm->file_name);
+	ft_printf(CL_OK " %scor " NONE, disassm->file_name);
 	ft_printf(F_GREEN "\tWriting output code to %ss\n\n" NONE,
 													disassm->path_file_name);
 	disasm_free(disassm);
@@ -57,9 +55,7 @@ void			assembler(int32_t fd, char *file_name)
 	file_handle(assm);
 	close(fd);
 	translate_to_bytecode(assm);
-	ft_printf(B_GREEN);
-	ft_printf(F_WHITE);
-	ft_printf(BOLD " %ss " NONE, assm->file_name);
+	ft_printf(CL_OK " %ss " NONE, assm->file_name);
 	ft_printf(F_GREEN "\tWriting output program to %scor\n\n" NONE,
 														assm->path_file_name);
 	close(assm->fd_out);
@@ -90,9 +86,7 @@ int32_t			main(int32_t argc, char **argv)
 		{
 			if (errno)
 			{
-				ft_printf(B_RED);
-				ft_printf(F_WHITE);
-				ft_printf(BOLD " %s " NONE, argv[i]);
+				ft_printf(CL_ER " %s " NONE, argv[i]);
 				ft_printf(F_RED "\tERROR: %s\n\n" NONE, strerror(errno));
 			}
 			continue ;

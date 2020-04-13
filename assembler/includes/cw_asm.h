@@ -6,7 +6,7 @@
 /*   By: laleta <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/19 04:17:43 by laleta            #+#    #+#             */
-/*   Updated: 2020/02/24 13:01:53 by laleta           ###   ########.fr       */
+/*   Updated: 2020/03/14 16:38:35 by laleta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,10 @@
 # define OPER_SIZE			1
 # define ARGCODE_SIZE		1
 
+# define CL_ER				"\033[37;41;1m"
+# define CL_OK				"\033[37;42;1m"
+# define CL_INFO			"\033[34;1m"
+
 extern uint8_t			g_disasm;
 
 typedef	struct			s_token
@@ -46,6 +50,7 @@ typedef	struct			s_inline
 {
 	uint64_t			len;
 	uint64_t			col;
+	uint64_t			col_alt;
 	uint64_t			row;
 	char				*str;
 }						t_inline;
@@ -101,13 +106,15 @@ void					asm_free(t_asm *assm);
 char					*del_comment(char **str, uint8_t pos);
 t_token					*get_token(t_asm *assm, t_inline *iline);
 void					token_free(t_token **token);
+void					token_arr_free(t_token **token_arr, uint8_t cnt);
+void					node_queue_free(t_node_queue *node);
 int8_t					is_header(t_token *token);
 int8_t					is_label(t_token *token);
 int8_t					is_operation(t_token *token);
-int8_t					is_argument(t_asm *assm, t_token *token, t_inline *il);
-int8_t					is_register(t_asm *assm, char *str, t_inline *iline);
-int8_t					is_direct(t_asm *assm, char *str, t_inline *iline);
-int8_t					is_indirect(t_asm *assm, char *str, t_inline *iline);
+int8_t					is_argument(t_token *token);
+int8_t					is_register(t_token *token);
+int8_t					is_direct(t_token *token);
+int8_t					is_indirect(t_token *token);
 int8_t					is_insignificant(int32_t c);
 void					header_processing(t_asm *assm, t_token **token,
 													t_inline *iline, char **s);
@@ -117,7 +124,8 @@ void					labelist_push_back(t_asm *assm, t_label **labelist,
 											char **str, uint32_t byte_start);
 void					labelist_free(t_label **labelist);
 uint16_t				labelist_search(t_asm *assm, t_label *labelist,
-															const char *str);
+										t_node_queue *node, const char *str);
+uint64_t				get_hash(const char *str);
 t_node_queue			*operqueue_create_node(uint8_t oper_type,
 							uint8_t arg_code, uint8_t byte_size, t_token **arg);
 void					operqueue_push(t_asm *assm, t_oper_queue *queue,
@@ -131,6 +139,7 @@ void					error_handle(const char *name, const char *err_str,
 void					error_handle2(const char *name, const char *err_str,
 											t_asm *assm, t_disasm *disassm);
 void					error_handle_adv(t_asm *assm, t_inline *iline,
-									const char *err_str, const char *token_str);
-
+										const char *err_str, t_token **token);
+void					error_handle_adv2(t_asm *assm, t_inline *iline,
+										const char *err_str, t_token **token);
 #endif

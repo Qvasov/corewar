@@ -6,7 +6,7 @@
 /*   By: laleta <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/03 19:53:10 by laleta            #+#    #+#             */
-/*   Updated: 2020/02/14 23:25:53 by laleta           ###   ########.fr       */
+/*   Updated: 2020/03/03 20:41:06 by laleta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void			write_bytes(int fd, uint64_t nbr, uint8_t bytes)
 	}
 }
 
-static uint32_t	set_arg_nbr(t_asm *assm, t_token *argument, t_label *labels,
+static uint32_t	set_arg_nbr(t_asm *assm, t_token *argument, t_node_queue *node,
 														uint32_t bytes_added)
 {
 	uint8_t		offset;
@@ -32,20 +32,21 @@ static uint32_t	set_arg_nbr(t_asm *assm, t_token *argument, t_label *labels,
 	if (argument->subtype == T_REG)
 		return (ft_atoi(&(argument->raw[1])));
 	offset = argument->subtype == T_DIR ? 1 : 0;
-	if (argument->raw[0 + offset] == LABEL_CHAR)
+	if (argument->raw[offset] == LABEL_CHAR)
 	{
-		nbr = labelist_search(assm, labels, &(argument->raw[0 + offset + 1]));
+		nbr = labelist_search(assm, assm->labels, node,
+												&(argument->raw[offset + 1]));
 		if (nbr > bytes_added)
 			nbr -= bytes_added;
 		else
-			nbr = (0xFFFF - (bytes_added - nbr - 1));
+			nbr = (0xFFFFFFFF - (bytes_added - nbr - 1));
 	}
 	else
-		nbr = ft_atoi(&(argument->raw[0 + offset]));
+		nbr = ft_atoi(&(argument->raw[offset]));
 	return (nbr);
 }
 
-static void		write_argument(t_asm *assm, t_node_queue *node, t_label *labels,
+static void		write_argument(t_asm *assm, t_node_queue *node,
 														uint32_t bytes_added)
 {
 	int8_t		i;
@@ -55,15 +56,14 @@ static void		write_argument(t_asm *assm, t_node_queue *node, t_label *labels,
 	i = 0;
 	while (i < g_oper_tab[node->oper_id].arg_cnt)
 	{
-		nbr = set_arg_nbr(assm, node->argument[i], labels, bytes_added);
+		nbr = set_arg_nbr(assm, node->argument[i], node, bytes_added);
 		if (node->argument[i]->subtype == T_REG)
 			byte = REGNBR_SIZE;
 		else if (node->argument[i]->subtype == T_IND)
 			byte = IND_SIZE;
 		else
 			byte = g_oper_tab[node->oper_id].dir_size;
-		free(node->argument[i]->raw);
-		free(node->argument[i]);
+		token_free(&node->argument[i]);
 		write_bytes(assm->fd_out, nbr, byte);
 		i++;
 	}
@@ -71,7 +71,7 @@ static void		write_argument(t_asm *assm, t_node_queue *node, t_label *labels,
 }
 
 void			write_bytecode(t_asm *assm, t_header *header,
-										t_oper_queue *queue, t_label *labels)
+															t_oper_queue *queue)
 {
 	t_node_queue	*node;
 	uint32_t		bytes_added;
@@ -87,7 +87,7 @@ void			write_bytecode(t_asm *assm, t_header *header,
 		write_bytes(assm->fd_out, node->oper_id, 1);
 		if (node->arg_code)
 			write_bytes(assm->fd_out, node->arg_code, 1);
-		write_argument(assm, node, labels, bytes_added);
+		write_argument(assm, node, bytes_added);
 		bytes_added += node->bytes;
 		free(node);
 	}
@@ -103,5 +103,5 @@ void			translate_to_bytecode(t_asm *assm)
 	if ((assm->fd_out = open(str, O_WRONLY | O_CREAT | O_TRUNC, 0666)) == -1)
 		error_handle2(str, strerror(errno), assm, NULL);
 	free(str);
-	write_bytecode(assm, assm->header, assm->oper_queue, assm->labels);
+	write_bytecode(assm, assm->header, assm->oper_queue);
 }

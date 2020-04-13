@@ -6,7 +6,7 @@
 /*   By: laleta <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/15 00:17:29 by laleta            #+#    #+#             */
-/*   Updated: 2020/02/25 14:28:25 by laleta           ###   ########.fr       */
+/*   Updated: 2020/03/04 06:29:57 by laleta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,17 +74,47 @@ static char	*file_parse(t_asm *assm, t_inline *iline, t_token *token)
 		token = get_token(assm, iline);
 		header_processing(assm, &token, iline, &label_str);
 		if (iline->str[iline->col] == ',')
-			error_handle_adv(assm, iline, ERR_EXTRA_CHAR, NULL);
+			error_handle_adv(assm, iline, ERR_EXTRA_CHAR, &token);
 		token_free(&token);
 		token = get_token(assm, iline);
 		if (token->type != ASM_EMPTY)
-			error_handle_adv(assm, iline, ERR_EXTRA_TOKEN, token->raw);
+			error_handle_adv(assm, iline, ERR_EXTRA_TOKEN, &token);
 		token_free(&token);
 		ft_strdel(&iline->str);
 		iline->row++;
 		iline->col = 0;
+		iline->col_alt = 0;
 	}
 	return (label_str);
+}
+
+void		check_file_end(t_asm *assm, int32_t c, int32_t i)
+{
+	char		*str;
+	t_token		*token;
+	t_inline	iline;
+
+	str = NULL;
+	iline.row = 1;
+	iline.col = 0;
+	while (lseek(assm->fd_in, -(++i), SEEK_END) != -1L)
+	{
+		c = 0;
+		read(assm->fd_in, &c, 1);
+		if (c == '\n')
+			break ;
+	}
+	if (!(str = ft_strnew(i + 1)))
+		error_handle(assm->file_name, ERR_MALLOC, assm, NULL);
+	read(assm->fd_in, str, i);
+	iline.str = del_comment(&str, 1);
+	iline.len = ft_strlen(iline.str);
+	token = get_token(assm, &iline);
+	i = token->type;
+	token_free(&token);
+	ft_strdel(&iline.str);
+	if (i == ASM_OPERATION || i == ASM_LABEL)
+		error_handle(assm->file_name, ERR_END_NEWLINE, assm, NULL);
 }
 
 void		file_handle(t_asm *assm)
@@ -92,11 +122,21 @@ void		file_handle(t_asm *assm)
 	char		*label_str;
 	t_inline	iline;
 	t_token		*token;
+	int32_t		end;
 
+	end = 0;
 	token = NULL;
-	iline.col = 0;
-	iline.row = 1;
 	label_str = NULL;
+	iline.col = 0;
+	iline.col_alt = 0;
+	iline.row = 1;
+	if (lseek(assm->fd_in, -1, SEEK_END) == -1L)
+		error_handle(assm->file_name, ERR_EMPTY_FILE, assm, NULL);
+	read(assm->fd_in, &end, 1);
+	if (end != '\n')
+		check_file_end(assm, end, 0);
+	if (lseek(assm->fd_in, 0, SEEK_SET) == -1L)
+		exit(0);
 	label_str = file_parse(assm, &iline, token);
 	if (label_str)
 		labelist_push_back(assm, &assm->labels, &label_str,

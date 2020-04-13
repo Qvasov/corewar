@@ -11,21 +11,17 @@
 /* ************************************************************************** */
 
 #include "cw_asm.h"
-#include "cw_asm_hash.h"
+#include "cw_asm_operation.h"
 
-uint64_t	get_hash(const char *str)
+void		node_queue_free(t_node_queue *node)
 {
-	uint64_t	hash;
-	uint32_t	i;
+	uint8_t	cnt;
 
-	i = 0;
-	hash = 0;
-	while (str[i])
-	{
-		hash += (str[i] - 'a' + 1) * g_hash_pow[i % 1024];
-		i++;
-	}
-	return (hash);
+	if (!node)
+		return ;
+	cnt = g_oper_tab[node->oper_id].arg_cnt;
+	token_arr_free(node->argument, cnt);
+	free(node);
 }
 
 t_label		*labelist_create_node(t_asm *assm, char **label_str,
@@ -61,7 +57,8 @@ void		labelist_push_back(t_asm *assm, t_label **labelist,
 	}
 }
 
-uint16_t	labelist_search(t_asm *assm, t_label *labelist, const char *str)
+uint16_t	labelist_search(t_asm *assm, t_label *labelist, t_node_queue *node,
+																const char *str)
 {
 	uint64_t	hash;
 	char		str_err[32];
@@ -83,6 +80,7 @@ uint16_t	labelist_search(t_asm *assm, t_label *labelist, const char *str)
 		free(file_name);
 	}
 	ft_sprintf(str_err, "undefined label %s\n", str);
+	node_queue_free(node);
 	error_handle(assm->file_name, str_err, assm, NULL);
 	return (0);
 }

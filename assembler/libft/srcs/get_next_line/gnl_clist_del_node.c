@@ -12,10 +12,11 @@
 
 #include "get_next_line.h"
 
-void	ft_clist_del_node(t_clist *clist, t_lists **node, void (*del)(void**))
+void	ft_clist_del_node(t_clist *clist, t_lists **node)
 {
 	t_lists	*prev;
 	t_lists	*tmp;
+	t_fileb	*file_data;
 
 	if (!node || !*node || !clist)
 		return ;
@@ -23,8 +24,9 @@ void	ft_clist_del_node(t_clist *clist, t_lists **node, void (*del)(void**))
 	tmp = (*node)->next;
 	if (*node == clist->parent_node)
 		clist->parent_node = tmp;
-	if (del)
-		del(&(*node)->data);
+	file_data = (*node)->data;
+	ft_strdel(&file_data->buffer);
+	ft_memdel(&(*node)->data);
 	free(*node);
 	*node = NULL;
 	--(clist->list_size);
@@ -32,4 +34,25 @@ void	ft_clist_del_node(t_clist *clist, t_lists **node, void (*del)(void**))
 		prev->next = tmp;
 	if (tmp == clist->parent_node)
 		clist->list = tmp;
+}
+
+int		ft_clist_free(t_clist *clist)
+{
+	t_fileb	*file_data;
+	t_lists	*list;
+	t_lists	*node;
+
+	if (!clist)
+		return (0);
+	list = clist->list;
+	while (list)
+	{
+		node = list->next;
+		file_data = list->data;
+		ft_strdel(&file_data->buffer);
+		ft_memdel(&list->data);
+		free(list);
+		list = node;
+	}
+	return (0);
 }

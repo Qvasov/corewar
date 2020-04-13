@@ -6,7 +6,7 @@
 /*   By: laleta <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/03 19:55:20 by laleta            #+#    #+#             */
-/*   Updated: 2020/02/04 05:26:14 by laleta           ###   ########.fr       */
+/*   Updated: 2020/03/03 23:22:27 by laleta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ void		asm_free(t_asm *assm)
 			operqueue_free(assm->oper_queue);
 		free(assm);
 	}
+	get_next_line(-2, NULL);
 }
 
 void		token_free(t_token **token)
@@ -73,8 +74,22 @@ void		token_free(t_token **token)
 	if (*token)
 	{
 		if ((*token)->raw)
-			free((*token)->raw);
+			ft_strdel(&(*token)->raw);
 		free(*token);
 		*token = NULL;
 	}
+}
+
+void		token_arr_free(t_token **token_arr, uint8_t cnt)
+{
+	uint8_t	i;
+
+	i = 0;
+	while (i < cnt)
+	{
+		if (token_arr[i])
+			token_free(&token_arr[i]);
+		i++;
+	}
+	free(token_arr);
 }

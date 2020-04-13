@@ -6,7 +6,7 @@
 /*   By: laleta <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/04 21:16:37 by laleta            #+#    #+#             */
-/*   Updated: 2019/09/04 21:16:39 by laleta           ###   ########.fr       */
+/*   Updated: 2020/03/04 06:29:56 by laleta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ static int		ft_last_line(char **line, char **buffer, t_clist *clist,
 			if (!(*line = ft_strdup(*buffer)))
 				return (-1);
 			ft_strdel(buffer);
-			ft_clist_del_node(clist, node, ft_memdel);
+			ft_clist_del_node(clist, node);
 			return (1);
 		}
 	return (0);
@@ -98,6 +98,8 @@ int				get_next_line(const int fd, char **line)
 	char			*tmp[2];
 	int				ret;
 
+	if (fd == -2)
+		return (ft_clist_free(&clist));
 	if (!line || !(node = ft_search_file(&clist, fd)))
 		return (-1);
 	file_set = node->data;
